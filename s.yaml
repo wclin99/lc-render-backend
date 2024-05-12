@@ -14,7 +14,8 @@ resources:
     actions: 
       pre-deploy: 
         - run: >-
-            export PATH=/usr/local/envs/py310/bin:$PATH && pipenv install --deploy --system
+            export PATH=/usr/local/envs/py310/bin:$PATH && pip3 install -r
+            requirements.txt -t .
           path: ./code
     props: 
       region: ${vars.region} 
