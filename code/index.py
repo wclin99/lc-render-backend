@@ -5,8 +5,8 @@ from typing import Annotated, Union, Optional
 from fastapi import FastAPI,Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
-from .db import create_db_and_tables, DbEngine
-from .config import AppConfigs, DatabaseConfigs, app_configs, db_configs
+from db import create_db_and_tables, DbEngine
+from config import AppConfigs, DatabaseConfigs, app_configs, db_configs
 def get_engine():
     return DbEngine.get_instance(db_configs, "dev")
 
