@@ -3,13 +3,13 @@ url = "https://mirrors.aliyun.com/pypi/simple"
 verify_ssl = true
 name = "pypi"
 
-
-
 [packages]
 fastapi = "*"
 langchain-openai = "*"
 langchain-community = "*"
 uvicorn = {extras = ["standard"], version = "*"}
+sqlmodel = "*"
+pydantic-settings = "*"
 
 [dev-packages]
 
