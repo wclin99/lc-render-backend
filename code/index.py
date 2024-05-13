@@ -5,10 +5,13 @@ from typing import Annotated, Union, Optional
 from fastapi import FastAPI,Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
-from db import create_db_and_tables, DbEngine
-from config import AppConfigs, DatabaseConfigs, app_configs, db_configs
+from sqlmodel import Field, Session, SQLModel, create_engine, select
+from .db import create_db_and_tables, DbEngine,Todo
+from .config import AppConfigs, DatabaseConfigs, app_configs, db_configs
+
+
 def get_engine():
-    return DbEngine.get_instance(db_configs, "dev")
+    return DbEngine.get_instance()
 
 # 定义一个异步上下文管理器，用于在 FastAPI 应用的生命周期内执行数据库初始化
 @asynccontextmanager
@@ -28,7 +31,7 @@ async def lifespan(app: FastAPI):
 
 
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 
 # 允许跨域请求
@@ -80,6 +83,22 @@ async def info(settings: Annotated[AppConfigs, Depends(get_configs)]):
         # "database_url_dev": app_configs.database_url_dev,  # 示例，实际应用中可能需要根据环境变量动态获取
         "db_url": db_configs.get_database_url("dev"),
     }
+
+
+# 读取所有待办事项
+@app.get("/todos/")
+def read_todos():
+    """
+    从数据库中读取所有待办事项。
+
+    返回:
+    - 所有待办事项的列表。
+    """
+    with Session(get_engine()) as session:
+        # 执行SQL查询所有待办事项，并获取结果
+        todos = session.exec(select(Todo)).all()
+        # 返回所有待办事项的列表
+        return todos
 
 
 

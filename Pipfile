@@ -12,6 +12,7 @@ sqlmodel = "*"
 pydantic-settings = "*"
 
 [dev-packages]
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.9"
