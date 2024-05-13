@@ -4,13 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "*"
 langchain-openai = "*"
 langchain-community = "*"
-uvicorn = {extras = ["standard"], version = "*"}
 sqlmodel = "*"
 pydantic-settings = "*"
 psycopg2 = "*"
+fastapi = {extras = ["all"], version = "*"}
 
 [dev-packages]
 psycopg2-binary = "*"
