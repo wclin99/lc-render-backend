@@ -10,6 +10,7 @@ langchain-community = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 sqlmodel = "*"
 pydantic-settings = "*"
+psycopg2 = "*"
 
 [dev-packages]
 psycopg2-binary = "*"
