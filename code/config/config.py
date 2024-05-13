@@ -12,7 +12,7 @@ class LoadEnvConfigs(BaseSettings):
 class AppConfigs(LoadEnvConfigs):
     # 环境变量
     app_name: str = "Awesome API"
-    admin_email: str
+    admin_email: str="0"
     items_per_user: int = 50
 
 
