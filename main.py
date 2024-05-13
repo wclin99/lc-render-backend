@@ -31,7 +31,7 @@ async def lifespan(app: FastAPI):
 
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI()
 
 
 # 允许跨域请求
