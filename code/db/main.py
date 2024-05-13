@@ -16,7 +16,7 @@ class DbEngine:
             if cls._instance is None:
 
                 eng = create_engine(
-                    "postgresql://dev:Ab4w0gMRCLiH@ep-cold-fog-a1g5sf87.ap-southeast-1.aws.neon.tech/dev?sslmode=require",
+                    "postgresql://dev:Ab4w0gMRCLiH@ep-cold-fog-a1g5sf87.ap-southeast-1.aws.neon.tech/dev",
                     connect_args={"sslmode": "require"},
                     pool_recycle=300,
                     echo=True,
