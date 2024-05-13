@@ -6,8 +6,8 @@ from fastapi import FastAPI,Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from sqlmodel import Field, Session, SQLModel, create_engine, select
-from .db import create_db_and_tables, DbEngine,Todo
-from .config import AppConfigs, DatabaseConfigs, app_configs, db_configs
+from db import create_db_and_tables, DbEngine,Todo
+from config import AppConfigs, DatabaseConfigs, app_configs, db_configs
 
 
 def get_engine():
