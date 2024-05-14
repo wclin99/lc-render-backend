@@ -6,7 +6,7 @@ from fastapi import FastAPI,Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from sqlmodel import Field, Session, SQLModel, create_engine, select
-from db import create_db_and_tables, DbEngine,Todo
+from db import create_db_and_tables, DbEngine
 from config import AppConfigs, DatabaseConfigs, app_configs, db_configs
 
 
@@ -93,19 +93,19 @@ def create_engine():
 
 
 # 读取所有待办事项
-@app.get("/todos/")
-def read_todos():
-    """
-    从数据库中读取所有待办事项。
+# @app.get("/todos/")
+# def read_todos():
+#     """
+#     从数据库中读取所有待办事项。
 
-    返回:
-    - 所有待办事项的列表。
-    """
-    with Session(get_engine()) as session:
-        # 执行SQL查询所有待办事项，并获取结果
-        todos = session.exec(select(Todo)).all()
-        # 返回所有待办事项的列表
-        return todos
+#     返回:
+#     - 所有待办事项的列表。
+#     """
+#     with Session(get_engine()) as session:
+#         # 执行SQL查询所有待办事项，并获取结果
+#         todos = session.exec(select(Todo)).all()
+#         # 返回所有待办事项的列表
+#         return todos
 
 
 

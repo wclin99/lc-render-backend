@@ -1,6 +1,6 @@
 import threading
 from typing import Literal, Union
-from sqlalchemy import Engine
+from sqlalchemy import Engine, true
 from sqlmodel import SQLModel, create_engine
 
 
@@ -17,7 +17,7 @@ class DbEngine:
 
                 eng = create_engine(
                     "postgresql://dev:Ab4w0gMRCLiH@ep-cold-fog-a1g5sf87.ap-southeast-1.aws.neon.tech/dev",
-                    connect_args={"sslmode": "require"},
+                    connect_args={"sslmode": "require", "check_same_thread": False},
                     pool_recycle=300,
                     echo=True,
                 )
