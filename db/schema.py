@@ -24,4 +24,4 @@ class ChatHistory(SQLModel, table=True):
     # 聊天消息内容，以JSONB格式存储，可以包含丰富的信息
     message: str
     # 消息创建时间，使用DateTime类型以确保时间和数据库的一致性和查询效率
-    created_at: DateTime = Field(default=datetime.now)
+    # created_at: DateTime = Field(default=datetime.now)
