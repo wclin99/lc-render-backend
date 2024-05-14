@@ -47,7 +47,7 @@ app.add_middleware(
 
 @app.get("/")
 async def read_root():
-    return {"message": "backend connected"}
+    return {"message": "update backend connected"}
 
 
 # 使用 lru_cache 装饰器缓存 get_configs 函数的返回结果
