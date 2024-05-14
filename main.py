@@ -86,6 +86,13 @@ async def info(settings: Annotated[AppConfigs, Depends(get_configs)]):
 
 
 # 读取所有待办事项
+@app.get("/create/")
+def create_engine():
+    SQLModel.metadata.create_all(get_engine())
+    return "create"
+
+
+# 读取所有待办事项
 @app.get("/todos/")
 def read_todos():
     """
