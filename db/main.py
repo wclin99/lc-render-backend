@@ -1,13 +1,18 @@
 import threading
 from typing import Literal, Union
 from sqlalchemy import Engine, true
-from sqlmodel import SQLModel, create_engine
+from sqlmodel import SQLModel, Session, create_engine
 
 
 class DbEngine:
 
     _instance = None
     _lock = threading.Lock()
+
+
+    @classmethod
+    def init_db(cls):
+       SQLModel.metadata.create_all(cls.get_instance())
 
     @classmethod
     def get_instance(cls) -> Engine:
@@ -17,16 +22,21 @@ class DbEngine:
 
                 eng = create_engine(
                     "postgresql://dev:Ab4w0gMRCLiH@ep-cold-fog-a1g5sf87.ap-southeast-1.aws.neon.tech/dev",
-                    connect_args={"sslmode": "require", "check_same_thread": False},
+                    connect_args={
+                        "sslmode": "require",
+                    },
                     pool_recycle=300,
-                    echo=True,
+                    # echo=True,
                 )
                 cls._instance = eng
             return cls._instance
+        
+    @classmethod
+    def get_session(cls):
+        with Session(cls.get_instance()) as session:
+            yield session  
 
 
-def create_db_and_tables(e: Engine):
-    """
-    创建数据库表。该函数会根据 Todo 类的定义，在数据库中创建相应的表。
-    """
-    SQLModel.metadata.create_all(e)
+
+
+
