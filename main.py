@@ -31,7 +31,7 @@ async def lifespan(app: FastAPI):
 
 
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 
 # 允许跨域请求
@@ -47,7 +47,7 @@ app.add_middleware(
 
 @app.get("/")
 async def read_root():
-    return {"message": "update backend connected"}
+    return {"branch": "development"}
 
 
 # 使用 lru_cache 装饰器缓存 get_configs 函数的返回结果
