@@ -9,7 +9,6 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select
 from db import DbEngine, Todo
 from config import AppConfigs, DatabaseConfigs, app_configs, db_configs
 from langchain_postgres import PostgresChatMessageHistory
-from sqlalchemy import Connection
 from psycopg import Connection as PsycopgConnection
 
 # 定义一个异步上下文管理器，用于在 FastAPI 应用的生命周期内执行数据库初始化
@@ -93,7 +92,7 @@ def read_todos(*, session: Session = Depends(DbEngine.get_session)):
 @app.get("/test/")
 def create_chat_history_table():
     table_name = "chat_history_lc"
-    PostgresChatMessageHistory.create_tables(Connection(DbEngine.get_instance()), table_name)
+    PostgresChatMessageHistory.create_tables(PsycopgConnection.connect(DbEngine.get_connection_id()), table_name)
     return {"done"}
 
 if __name__ == "__main__":
