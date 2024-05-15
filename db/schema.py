@@ -22,7 +22,7 @@ class ChatHistory(SQLModel, table=True):
     # 会话ID，用于区分不同的数据库通信会话
     session_id: str
     # 用户ID，用于区分不同的用户
-    user_id: str
+    # user_id: str
     # 聊天消息内容，以JSONB格式存储，可以包含丰富的信息
     message: str
     # 消息创建时间，使用DateTime类型以确保时间和数据库的一致性和查询效率

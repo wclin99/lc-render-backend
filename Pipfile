@@ -10,9 +10,11 @@ sqlmodel = "*"
 pydantic-settings = "*"
 psycopg2 = "*"
 fastapi = {extras = ["all"], version = "*"}
+langchain-postgres = "*"
 
 [dev-packages]
 psycopg2-binary = "*"
+psycopg = {extras = ["binary", "pool"], version = "*"}
 
 [requires]
 python_version = "3.9"
