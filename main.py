@@ -1,4 +1,5 @@
 from functools import lru_cache
+from regex import D
 import uvicorn
 from contextlib import asynccontextmanager
 from typing import Annotated, Union, Optional
@@ -9,7 +10,8 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select
 from db import DbEngine, Todo
 from config import AppConfigs, DatabaseConfigs, app_configs, db_configs
 from langchain_postgres import PostgresChatMessageHistory
-from psycopg import Connection as PsycopgConnection
+from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
+
 
 # 定义一个异步上下文管理器，用于在 FastAPI 应用的生命周期内执行数据库初始化
 @asynccontextmanager
@@ -88,12 +90,28 @@ def read_todos(*, session: Session = Depends(DbEngine.get_session)):
     return todos
 
 
-
 @app.get("/test/")
 def create_chat_history_table():
     table_name = "chat_history_lc"
-    PostgresChatMessageHistory.create_tables(PsycopgConnection.connect(DbEngine.get_connection_id()), table_name)
+    PostgresChatMessageHistory.create_tables(DbEngine.get_psycopg_conn(), table_name)
+
+    # Initialize the chat history manager
+    chat_history = PostgresChatMessageHistory(
+        table_name,
+        DbEngine.get_session_id(),
+        sync_connection=DbEngine.get_psycopg_conn(),
+    )
+    # Add messages to the chat history
+    chat_history.add_messages(
+        [
+            SystemMessage(content="Meow"),
+            AIMessage(content="woof"),
+            HumanMessage(content="bark"),
+        ]
+    )
+
     return {"done"}
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000)

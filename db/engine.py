@@ -3,7 +3,7 @@ from typing import Literal, Union
 from sqlalchemy import Engine, true
 from sqlmodel import SQLModel, Session, create_engine
 import uuid
-
+from psycopg import Connection as PsycopgConnection
 
 class DbEngine:
 
@@ -11,6 +11,7 @@ class DbEngine:
     _lock = threading.Lock()
     _conn_str = None
     _session_id = None
+    _psycopg_conn = None
 
     @classmethod
     def init_db(cls):
@@ -34,6 +35,13 @@ class DbEngine:
                 )
                 cls._instance = eng
             return cls._instance
+        
+
+    @classmethod
+    def get_psycopg_conn(cls) -> PsycopgConnection:
+        if cls._psycopg_conn is None:
+            cls._psycopg_conn = PsycopgConnection.connect(cls.get_connection_id())
+        return cls._psycopg_conn
 
     @classmethod
     def get_session_id(cls):

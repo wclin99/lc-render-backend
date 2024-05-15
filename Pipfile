@@ -11,6 +11,7 @@ pydantic-settings = "*"
 psycopg2 = "*"
 fastapi = {extras = ["all"], version = "*"}
 langchain-postgres = "*"
+langchain-core = "*"
 
 [dev-packages]
 psycopg2-binary = "*"
