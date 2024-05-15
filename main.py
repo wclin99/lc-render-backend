@@ -42,7 +42,7 @@ app.add_middleware(
 
 @app.get("/")
 async def read_root():
-    return {"branch": "development"}
+    return {"branch": "development", "session_id": DbEngine.get_session_id()}
 
 
 # 使用 lru_cache 装饰器缓存 get_configs 函数的返回结果
@@ -82,7 +82,7 @@ async def info(settings: Annotated[AppConfigs, Depends(get_configs)]):
 
 # 读取所有待办事项
 @app.get("/todos/")
-def read_todos(*,session: Session = Depends(DbEngine.get_session)):
+def read_todos(*, session: Session = Depends(DbEngine.get_session)):
     todos = session.exec(select(Todo)).all()
     return todos
 

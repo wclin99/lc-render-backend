@@ -2,12 +2,14 @@ import threading
 from typing import Literal, Union
 from sqlalchemy import Engine, true
 from sqlmodel import SQLModel, Session, create_engine
+import uuid
 
 
 class DbEngine:
 
     _instance = None
     _lock = threading.Lock()
+    _session_id=None
 
 
     @classmethod
@@ -31,8 +33,16 @@ class DbEngine:
                 cls._instance = eng
             return cls._instance
         
+
+    @classmethod
+    def get_session_id(cls):
+        if cls._session_id is None:
+            cls._session_id = str(uuid.uuid4())
+        return cls._session_id
+        
     @classmethod
     def get_session(cls):
+        cls.get_session_id()
         with Session(cls.get_instance()) as session:
             yield session  
 
