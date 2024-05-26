@@ -7,10 +7,13 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from sqlmodel import Field, Session, SQLModel, create_engine, select
-from db import DbEngine, Todo
-from config import AppConfigs, DatabaseConfigs, app_configs, db_configs
+from lib.db import DbEngine, Todo
+from lib.config import AppConfigs, DatabaseConfigs, app_configs, db_configs
+from lib.chat import create_chat_session, get_chat_session
 from langchain_postgres import PostgresChatMessageHistory
 from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
+
+from lib.db.schema import User_chat_session
 
 
 # 定义一个异步上下文管理器，用于在 FastAPI 应用的生命周期内执行数据库初始化
@@ -111,6 +114,23 @@ def create_chat_history_table():
     )
 
     return {"done"}
+
+
+@app.get("/create_session/")
+async def test_create_chat_session(
+    session: Session = Depends(DbEngine.get_session),
+):
+    res = create_chat_session("test", session)
+    return res
+
+
+@app.get("/get_session/")
+async def test_get_chat_session(
+    session: Session = Depends(DbEngine.get_session),
+):
+   
+    res =  get_chat_session("test", session)
+    return res
 
 
 if __name__ == "__main__":

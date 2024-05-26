@@ -15,7 +15,8 @@ langchain-core = "*"
 
 [dev-packages]
 psycopg2-binary = "*"
-psycopg = {extras = ["binary", "pool"], version = "*"}
+psycopg = {extras = ["binary"], version = "*"}
+langchain-cli = "*"
 
 [requires]
 python_version = "3.9"
