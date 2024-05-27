@@ -7,9 +7,10 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from sqlmodel import Field, Session, SQLModel, create_engine, select
+from lib.chat.session import delete_chat_session
 from lib.db import DbEngine, Todo
 from lib.config import AppConfigs, DatabaseConfigs, app_configs, db_configs
-from lib.chat import create_chat_session, get_chat_session
+from lib.chat import create_chat_session, get_all_chat_session
 from langchain_postgres import PostgresChatMessageHistory
 from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
 
@@ -116,7 +117,7 @@ def create_chat_history_table():
     return {"done"}
 
 
-@app.get("/create_session/")
+@app.post("/create_chat_session/", response_model=User_chat_session)
 async def test_create_chat_session(
     session: Session = Depends(DbEngine.get_session),
 ):
@@ -124,12 +125,23 @@ async def test_create_chat_session(
     return res
 
 
-@app.get("/get_session/")
-async def test_get_chat_session(
+@app.get("/get_all_chat_session/", response_model=list[User_chat_session])
+async def test_get_all_chat_session(
     session: Session = Depends(DbEngine.get_session),
 ):
-   
-    res =  get_chat_session("test", session)
+
+    res = get_all_chat_session("test", session)
+    return res
+
+
+@app.delete("/delete_chat_session/")
+async def test_delete_chat_session(
+    user_id: str,
+    chat_session_id: str,
+    session: Session = Depends(DbEngine.get_session),
+):
+    
+    res = delete_chat_session(user_id, chat_session_id, session)
     return res
 
 

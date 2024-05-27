@@ -1,6 +1,7 @@
-from sqlmodel import  Session,  select
+from fastapi import HTTPException
+from sqlmodel import Session, select
 import uuid
-from lib.db import  User_chat_session
+from lib.db import User_chat_session
 
 
 def create_chat_session(user_id: str, session: Session):
@@ -16,23 +17,40 @@ def create_chat_session(user_id: str, session: Session):
     session.commit()
     session.refresh(user_chat_session)
 
-    return chat_session_id
+    return user_chat_session
 
 
-def get_chat_session(user_id: str, session: Session):
+def get_all_chat_session(user_id: str, session: Session):
 
     query_statement = select(User_chat_session).where(
         User_chat_session.user_id == user_id
     )
 
-    results =  session.exec(query_statement).all()
+    results = session.exec(query_statement).all()
 
     return results
 
-    
 
+def delete_chat_session(user_id: str, chat_session_id: str, session: Session):
 
+    query_statement = select(User_chat_session).where(
+        User_chat_session.user_id == user_id,
+        User_chat_session.chat_session_id == chat_session_id,
+    )
 
-# def delete_chat_session():
-# 删除指定会话
-# 返回更新结果及更新后的回话id列表
+    results = session.exec(query_statement).all()
+
+    record_count = len(results)
+    if record_count == 0:
+        raise HTTPException(status_code=404, detail="User_chat_session not found")
+
+    message = f"{record_count} row(s) deleted."
+
+    for result in results:
+        session.delete(result)
+
+    session.commit()
+
+    return {"status": "success", "message": message}
+
+    # return message
