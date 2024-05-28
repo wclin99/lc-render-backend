@@ -81,22 +81,22 @@ class ChatHistory:
                 cls._instance = cls.init(chat_session_id)  # 初始化实例
             return cls._instance
 
-    @classmethod
-    def get_chat_message(cls):
-        """
-        获取聊天历史消息。
+    
+    # def get_chat_message(cls):
+    #     """
+    #     获取聊天历史消息。
 
-        返回:
-            聊天历史消息。
-        """
-        return cls._instance.get_messages()
+    #     返回:
+    #         聊天历史消息。
+    #     """
+    #     return cls._instance.get_messages()
 
-    @classmethod
-    def add_chat_message(cls, messages: Sequence[BaseMessage]):
-        """
-        添加消息到聊天历史记录。
+    
+    # def add_chat_message(cls, messages: Sequence[BaseMessage]):
+    #     """
+    #     添加消息到聊天历史记录。
 
-        参数:
-            messages (Sequence[BaseMessage]): 要添加的消息序列。
-        """
-        cls._instance.add_messages(messages)  # 添加消息
+    #     参数:
+    #         messages (Sequence[BaseMessage]): 要添加的消息序列。
+    #     """
+    #     cls._instance.add_messages(messages)  # 添加消息
