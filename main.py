@@ -121,8 +121,8 @@ def get_chat_history(
     session: Session = Depends(DbEngine.get_session),
 ):
     chat_history = PostgresChatMessageHistory(
-        table_name="chat_history_lc",
-        session_id="5cc22949-e0f2-40c3-ac0a-889315a195a0",
+        "chat_history_lc",
+        "5cc22949-e0f2-40c3-ac0a-889315a195a0",
         sync_connection=DbEngine.get_psycopg_conn()
         )
     # Add messages to the chat history
