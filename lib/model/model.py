@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from typing import Optional
 
 
-
 class ResponseModel(BaseModel):
     success: bool
     status_code: int

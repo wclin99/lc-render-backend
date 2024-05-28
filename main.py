@@ -6,7 +6,7 @@ from typing import Annotated, Union, Optional
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Field, Session, SQLModel, create_engine, select
-from lib.chat.session import delete_chat_session
+from lib.chat.chat_session import delete_chat_session
 from lib.db import DbEngine, Todo
 from lib.config import AppConfigs, DatabaseConfigs, app_configs, db_configs
 from lib.chat import create_chat_session, get_all_chat_session
@@ -101,7 +101,7 @@ def create_chat_history_table():
     # Initialize the chat history manager
     chat_history = PostgresChatMessageHistory(
         table_name,
-        DbEngine.get_session_id(),
+        "5cc22949-e0f2-40c3-ac0a-889315a195a0",
         sync_connection=DbEngine.get_psycopg_conn(),
     )
     # Add messages to the chat history
@@ -114,6 +114,30 @@ def create_chat_history_table():
     )
 
     return {"done"}
+
+
+@app.get("/get_chat_history/")
+def get_chat_history(
+    session: Session = Depends(DbEngine.get_session),
+):
+    chat_history = PostgresChatMessageHistory(
+        table_name="chat_history_lc",
+        session_id="5cc22949-e0f2-40c3-ac0a-889315a195a0",
+        sync_connection=DbEngine.get_psycopg_conn()
+        )
+    # Add messages to the chat history
+    chat_history.add_messages(
+        [
+            SystemMessage(content="Meow"),
+            AIMessage(content="woof"),
+            HumanMessage(content="bark"),
+        ]
+    )
+
+    return chat_history.get_messages()
+    
+
+
 
 
 @app.post("/create_chat_session/", response_model=ResponseModel)

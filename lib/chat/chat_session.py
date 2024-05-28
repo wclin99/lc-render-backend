@@ -5,7 +5,6 @@ from lib.db import User_chat_session
 from sqlalchemy.exc import SQLAlchemyError
 from fastapi import HTTPException, status
 from lib.model import ResponseModel
-from fastapi.responses import JSONResponse
 
 
 def create_chat_session(user_id: str, session: Session):

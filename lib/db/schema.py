@@ -21,7 +21,7 @@ class Chat_history(SQLModel, table=True):
     # 使用Integer类型并去掉Optional，因为这是主键，SQLAlchemy会处理自增
     id: Optional[int] = Field(default=None, primary_key=True)
     # 会话ID，用于区分不同的数据库通信会话
-    session_id: str
+    chat_session_id: str
     # 用户ID，用于区分不同的用户
     # user_id: str
     # 聊天消息内容，以JSONB格式存储，可以包含丰富的信息
