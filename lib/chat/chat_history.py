@@ -10,6 +10,8 @@ from lib.model import ResponseModel
 from lib.db import Chat_history, DbEngine
 import threading
 from langchain_core.messages import BaseMessage
+from psycopg2 import errors as pg_errors
+
 
 
 class ChatHistory:
@@ -41,17 +43,22 @@ class ChatHistory:
         # 验证chat_session_id是否为字符串类型
         if not isinstance(chat_session_id, str):
             raise ValueError("chat_session_id must be a string")
+        
 
-        cls._chat_session_id = chat_session_id  # 存储会话ID
-
-        # 初始化PostgresChatMessageHistory实例
-        cls._instance = PostgresChatMessageHistory(
-            ChatHistoryTable.__name__.lower(),
-            cls._chat_session_id,
-            sync_connection=DbEngine.get_psycopg_conn(),
-        )
+        # 使用try-except来处理数据库连接异常
+        try:
+            cls._chat_session_id = chat_session_id # 存储会话ID
+            cls._instance = PostgresChatMessageHistory(
+                ChatHistoryTable.__name__.lower(),
+                cls._chat_session_id,
+                sync_connection=DbEngine.get_psycopg_conn(),
+            )
+        except pg_errors.OperationalError as e:
+            # 处理数据库连接异常
+            raise ValueError("Failed to connect to the database.") from e       
 
         return cls._instance
+    
 
     @classmethod
     def get_instance(
