@@ -56,9 +56,7 @@ def create_chat_session(user_id: str, session: Session):
             error=str(e),
         )
 
-    finally:
-        # 确保数据库会话关闭
-        session.close()
+
 
     # 返回响应
     return response_model
@@ -185,9 +183,6 @@ def delete_chat_session(user_id: str, chat_session_id: str, session: Session):
             error=str(e),
         )
 
-    finally:
-        # 确保在函数结束时关闭数据库会话
-        session.close()
 
     # 返回响应数据
     return response_model

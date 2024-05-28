@@ -1,17 +1,17 @@
+from datetime import datetime
 from typing import Union, Sequence
 from langchain_postgres import PostgresChatMessageHistory
 from sqlmodel import Session, select
 import uuid
-from lib.db import Chat_history as ChatHistoryTable
+from lib.db import Chat_history_new as ChatHistoryTable
 
 from sqlalchemy.exc import SQLAlchemyError
 from fastapi import HTTPException, status
 from lib.model import ResponseModel
-from lib.db import Chat_history, DbEngine
+from lib.db import Chat_history_new, DbEngine
 import threading
 from langchain_core.messages import BaseMessage
 from psycopg2 import errors as pg_errors
-
 
 
 class ChatHistory:
@@ -30,7 +30,7 @@ class ChatHistory:
     _chat_session_id = None
 
     @classmethod
-    def init(cls, chat_session_id:str) -> PostgresChatMessageHistory:
+    def init(cls, chat_session_id: str) -> PostgresChatMessageHistory:
         """
         初始化ChatHistory单例。
 
@@ -43,11 +43,10 @@ class ChatHistory:
         # 验证chat_session_id是否为字符串类型
         if not isinstance(chat_session_id, str):
             raise ValueError("chat_session_id must be a string")
-        
 
         # 使用try-except来处理数据库连接异常
         try:
-            cls._chat_session_id = chat_session_id # 存储会话ID
+            cls._chat_session_id = chat_session_id  # 存储会话ID
             cls._instance = PostgresChatMessageHistory(
                 ChatHistoryTable.__name__.lower(),
                 cls._chat_session_id,
@@ -55,49 +54,86 @@ class ChatHistory:
             )
         except pg_errors.OperationalError as e:
             # 处理数据库连接异常
-            raise ValueError("Failed to connect to the database.") from e       
+            raise ValueError("Failed to connect to the database.") from e
 
         return cls._instance
-    
 
     @classmethod
-    def get_instance(
-        cls, chat_session_id: Union[str, None]
-    ) -> PostgresChatMessageHistory:
-        """
-        获取ChatHistory的实例。如果实例不存在，则通过init方法初始化。
-
+    def has_instance(cls, chat_session_id: Union[str, None] = None) -> bool:
+        """判断ChatHistory的实例是否已创建。如果实例不存在，则通过init方法初始化。
         参数:
             chat_session_id (str): 聊天会话的唯一标识符。
-
         返回:
-            PostgresChatMessageHistory: ChatHistory的实例。
+            如果实例存在返回True，否则返回False。
         """
         with cls._lock:  # 确保线程安全地获取或初始化实例
-
-            if cls._instance is None:
-                # 如果chat_session_id为空，则抛出异常
+            if cls._instance is None:  # 如果chat_session_id为空，则抛出异常
                 if chat_session_id is None:
-                    raise ValueError("chat_session_id is required")
-
+                    return False
                 cls._instance = cls.init(chat_session_id)  # 初始化实例
+            return bool(cls._instance)
 
-            return cls._instance
+    @classmethod
+    def get_chat_message(cls):
+        """
+        获取聊天历史消息。
 
-    # def get_chat_message(cls):
-    #     """
-    #     获取聊天历史消息。
+        返回:
+            聊天历史消息。
+        """
+        return cls._instance.get_messages()
 
-    #     返回:
-    #         聊天历史消息。
-    #     """
-    #     return cls._instance.get_messages()
+    @classmethod
+    def add_chat_messages(cls, messages: Sequence[BaseMessage], session: Session):
+        """
+        添加消息到聊天历史记录。
 
-    # def add_chat_message(cls, messages: Sequence[BaseMessage]):
-    #     """
-    #     添加消息到聊天历史记录。
+        参数:
+            messages (Sequence[BaseMessage]): 要添加的消息序列。
+        """
 
-    #     参数:
-    #         messages (Sequence[BaseMessage]): 要添加的消息序列。
-    #     """
-    #     cls._instance.add_messages(messages)  # 添加消息
+        try:
+
+            cls._instance.add_messages(messages)  # 添加消息
+
+
+            # 查询表中所有创建时间为空的记录
+            query_statement = select(Chat_history_new).where(
+                Chat_history_new.created_at == None
+            )
+            # 获取所有时间为空的记录
+            results = session.exec(query_statement).all()
+
+            for result in results:
+                # 使用sqlmodel，为这些记录的created_at更新为当前时间datetime.now()
+                result.created_at = datetime.now()
+
+
+            session.commit()
+
+            # 操作成功，构造成功响应数据
+            message = "success."
+            response_data = {"message": message, "data": results}
+            response_model = ResponseModel(
+                success=True, status_code=status.HTTP_200_OK, data=response_data
+            )
+
+        except HTTPException as http_exception:
+            # 捕获HTTP异常，构造失败响应数据
+            response_model = ResponseModel(
+                success=False,
+                status_code=http_exception.status_code,
+                error=http_exception.detail,
+            )
+
+        except SQLAlchemyError as e:
+            # 捕获数据库操作异常，构造失败响应数据
+            response_model = ResponseModel(
+                success=False,
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                error=str(e),
+            )
+
+
+        # 返回响应
+        return response_model

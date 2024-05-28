@@ -119,7 +119,7 @@ def create_chat_history_table():
 
 @app.post("/add_chat_history/")
 def add_chat_history():
-    ChatHistory.get_instance("5cc22949-e0f2-40c3-ac0a-889315a195a0").add_messages(
+    ChatHistory.has_instance("5cc22949-e0f2-40c3-ac0a-889315a195a0").add_messages(
         [
             SystemMessage(content="666"),
             AIMessage(content="666"),
@@ -130,9 +130,24 @@ def add_chat_history():
 
 @app.get("/get_chat_history/")
 def get_chat_history():
-    return ChatHistory.get_instance(
+    return ChatHistory.has_instance(
         "5cc22949-e0f2-40c3-ac0a-889315a195a0"
     ).get_messages()
+
+
+@app.get("/get_instance/")
+def get_instance(session: Session = Depends(DbEngine.get_session)):
+
+    if ChatHistory.has_instance("5cc22949-e0f2-40c3-ac0a-889315a195a0"):
+
+        return ChatHistory.add_chat_messages(
+            [
+                SystemMessage(content="666"),
+                AIMessage(content="666"),
+                HumanMessage(content="666"),
+            ],
+            session,
+        )
 
 
 @app.post("/create_chat_session/", response_model=ResponseModel)
@@ -163,10 +178,12 @@ async def test_delete_chat_session(
     return res
 
 
-
 @app.get("/debug/")
 async def debug(request: Request):
-    return HTMLResponse(content=open("templates/index.html", "rb").read(), status_code=200)
+    return HTMLResponse(
+        content=open("templates/index.html", "rb").read(), status_code=200
+    )
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000)
