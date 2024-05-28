@@ -1,65 +1,102 @@
+from typing import Union, Sequence
+from langchain_postgres import PostgresChatMessageHistory
 from sqlmodel import Session, select
 import uuid
-from lib.db import Chat_history
+from lib.db import Chat_history as ChatHistoryTable
 
 from sqlalchemy.exc import SQLAlchemyError
 from fastapi import HTTPException, status
 from lib.model import ResponseModel
+from lib.db import Chat_history, DbEngine
+import threading
+from langchain_core.messages import BaseMessage
 
 
 
-def add_chat_session(user_id: str, session: Session):
+
+class ChatHistory:
     """
-    创建一个新的聊天会话。
-
-    参数:
-    user_id (str): 用户的唯一标识符。
-    session (Session): 数据库会话实例。
-
-    返回:
-    JSONResponse: 包含操作结果的JSON响应对象。
+    聊天历史记录类，用于管理和存储聊天会话的历史消息。
+    本类实现为单例模式，确保在整个应用中只有一个实例。
     """
 
-    # 生成唯一的会话ID
-    chat_session_id = str(uuid.uuid4())
+    # 存储ChatHistory的实例
+    _instance = Union[PostgresChatMessageHistory, None]  
+    
+    # 用于确保线程安全地初始化单例
+    _lock = threading.Lock()  
+    
+    # 存储当前聊天会话的ID
+    _chat_session_id = None  
 
-    # 创建用户聊天会话对象
-    user_chat_session = User_chat_session(
-        user_id=user_id, chat_session_id=chat_session_id
-    )
+    @classmethod
+    def init(
+        cls, chat_session_id: str
+    ) -> PostgresChatMessageHistory:
+        """
+        初始化ChatHistory单例。
 
-    try:
+        参数:
+            chat_session_id (str): 聊天会话的唯一标识符。
 
-        session.add(user_chat_session)
-        session.commit()
-        session.refresh(user_chat_session)
+        返回:
+            PostgresChatMessageHistory: 初始化后的ChatHistory实例。
+        """
+        # 验证chat_session_id是否为字符串类型
+        if not isinstance(chat_session_id, str):
+            raise ValueError("chat_session_id must be a string")
 
-        # 操作成功，构造成功响应数据
-        message = "success."
-        response_data = {"message": message, "data": user_chat_session}
-        response_model = ResponseModel(
-            success=True, status_code=status.HTTP_200_OK, data=response_data
-        )
+        cls._chat_session_id = chat_session_id  # 存储会话ID
 
-    except HTTPException as http_exception:
-        # 捕获HTTP异常，构造失败响应数据
-        response_model = ResponseModel(
-            success=False,
-            status_code=http_exception.status_code,
-            error=http_exception.detail,
-        )
+        # 初始化PostgresChatMessageHistory实例
+        chat_history = PostgresChatMessageHistory(
+                    ChatHistoryTable.__name__.lower(),
+                    cls._chat_session_id,
+                    sync_connection=DbEngine.get_psycopg_conn(),
+                )
+        
+        cls._instance = chat_history  # 存储实例
 
-    except SQLAlchemyError as e:
-        # 捕获数据库操作异常，构造失败响应数据
-        response_model = ResponseModel(
-            success=False,
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            error=str(e),
-        )
+        return cls._instance
 
-    finally:
-        # 确保数据库会话关闭
-        session.close()
+    @classmethod
+    def get_instance(
+        cls, chat_session_id: Union[str, None]
+    ) -> PostgresChatMessageHistory:
+        """
+        获取ChatHistory的实例。如果实例不存在，则通过init方法初始化。
 
-    # 返回响应
-    return response_model
+        参数:
+            chat_session_id (str): 聊天会话的唯一标识符。
+
+        返回:
+            PostgresChatMessageHistory: ChatHistory的实例。
+        """
+        with cls._lock:  # 确保线程安全地获取或初始化实例
+            if cls._instance is None:
+                # 如果chat_session_id为空，则抛出异常
+                if not chat_session_id:
+                    raise ValueError("chat_session_id is required")
+
+                cls._instance = cls.init(chat_session_id)  # 初始化实例
+            return cls._instance
+
+    @classmethod
+    def get_message(cls):
+        """
+        获取聊天历史消息。
+
+        返回:
+            聊天历史消息。
+        """
+        return cls._instance.get_messages()
+
+    @classmethod
+    def add_message(cls, messages: Sequence[BaseMessage]):
+        """
+        添加消息到聊天历史记录。
+
+        参数:
+            messages (Sequence[BaseMessage]): 要添加的消息序列。
+        """
+        cls._instance.add_message(messages)  # 添加消息

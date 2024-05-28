@@ -9,12 +9,13 @@ from sqlmodel import Field, Session, SQLModel, create_engine, select
 from lib.chat.chat_session import delete_chat_session
 from lib.db import DbEngine, Todo
 from lib.config import AppConfigs, DatabaseConfigs, app_configs, db_configs
-from lib.chat import create_chat_session, get_all_chat_session
+from lib.chat import create_chat_session, get_all_chat_session, ChatHistory
 from langchain_postgres import PostgresChatMessageHistory
 from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
 
 from lib.db.schema import User_chat_session
 from lib.model import ResponseModel
+
 
 # 定义一个异步上下文管理器，用于在 FastAPI 应用的生命周期内执行数据库初始化
 @asynccontextmanager
@@ -116,28 +117,22 @@ def create_chat_history_table():
     return {"done"}
 
 
-@app.get("/get_chat_history/")
-def get_chat_history(
-    session: Session = Depends(DbEngine.get_session),
-):
-    chat_history = PostgresChatMessageHistory(
-        "chat_history_lc",
-        "5cc22949-e0f2-40c3-ac0a-889315a195a0",
-        sync_connection=DbEngine.get_psycopg_conn()
-        )
-    # Add messages to the chat history
-    chat_history.add_messages(
+@app.post("/add_chat_history/")
+def add_chat_history():
+    ChatHistory.get_instance("5cc22949-e0f2-40c3-ac0a-889315a195a0").add_messages(
         [
-            SystemMessage(content="Meow"),
-            AIMessage(content="woof"),
-            HumanMessage(content="bark"),
+            SystemMessage(content="666"),
+            AIMessage(content="666"),
+            HumanMessage(content="666"),
         ]
     )
 
-    return chat_history.get_messages()
-    
 
-
+@app.get("/get_chat_history/")
+def get_chat_history():
+    return ChatHistory.get_instance(
+        "5cc22949-e0f2-40c3-ac0a-889315a195a0"
+    ).get_messages()
 
 
 @app.post("/create_chat_session/", response_model=ResponseModel)
@@ -163,7 +158,7 @@ async def test_delete_chat_session(
     chat_session_id: str,
     session: Session = Depends(DbEngine.get_session),
 ):
-    
+
     res = delete_chat_session(user_id, chat_session_id, session)
     return res
 
