@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FastAPI Web Interface</title>
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('/api/hello');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                alert(data.message);
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while fetching data');
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Welcome to FastAPI Web Interface</h1>
+    <button onclick="fetchData()">Click me to fetch data</button>
+</body>
+</html>

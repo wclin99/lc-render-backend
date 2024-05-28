@@ -3,7 +3,7 @@ from regex import D
 import uvicorn
 from contextlib import asynccontextmanager
 from typing import Annotated, Union, Optional
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from lib.chat.chat_session import delete_chat_session
@@ -12,7 +12,7 @@ from lib.config import AppConfigs, DatabaseConfigs, app_configs, db_configs
 from lib.chat import create_chat_session, get_all_chat_session, ChatHistory
 from langchain_postgres import PostgresChatMessageHistory
 from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
-
+from fastapi.responses import HTMLResponse
 from lib.db.schema import User_chat_session
 from lib.model import ResponseModel
 
@@ -162,6 +162,11 @@ async def test_delete_chat_session(
     res = delete_chat_session(user_id, chat_session_id, session)
     return res
 
+
+
+@app.get("/debug/")
+async def debug(request: Request):
+    return HTMLResponse(content=open("templates/index.html", "rb").read(), status_code=200)
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000)

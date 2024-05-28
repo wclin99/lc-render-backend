@@ -12,8 +12,6 @@ import threading
 from langchain_core.messages import BaseMessage
 
 
-
-
 class ChatHistory:
     """
     聊天历史记录类，用于管理和存储聊天会话的历史消息。
@@ -21,18 +19,16 @@ class ChatHistory:
     """
 
     # 存储ChatHistory的实例
-    _instance = Union[PostgresChatMessageHistory, None]  
-    
+    _instance: PostgresChatMessageHistory = None
+
     # 用于确保线程安全地初始化单例
-    _lock = threading.Lock()  
-    
+    _lock = threading.Lock()
+
     # 存储当前聊天会话的ID
-    _chat_session_id = None  
+    _chat_session_id = None
 
     @classmethod
-    def init(
-        cls, chat_session_id: str
-    ) -> PostgresChatMessageHistory:
+    def init(cls, chat_session_id:str) -> PostgresChatMessageHistory:
         """
         初始化ChatHistory单例。
 
@@ -49,13 +45,11 @@ class ChatHistory:
         cls._chat_session_id = chat_session_id  # 存储会话ID
 
         # 初始化PostgresChatMessageHistory实例
-        chat_history = PostgresChatMessageHistory(
-                    ChatHistoryTable.__name__.lower(),
-                    cls._chat_session_id,
-                    sync_connection=DbEngine.get_psycopg_conn(),
-                )
-        
-        cls._instance = chat_history  # 存储实例
+        cls._instance = PostgresChatMessageHistory(
+            ChatHistoryTable.__name__.lower(),
+            cls._chat_session_id,
+            sync_connection=DbEngine.get_psycopg_conn(),
+        )
 
         return cls._instance
 
@@ -73,15 +67,16 @@ class ChatHistory:
             PostgresChatMessageHistory: ChatHistory的实例。
         """
         with cls._lock:  # 确保线程安全地获取或初始化实例
+
             if cls._instance is None:
                 # 如果chat_session_id为空，则抛出异常
-                if not chat_session_id:
+                if chat_session_id is None:
                     raise ValueError("chat_session_id is required")
 
                 cls._instance = cls.init(chat_session_id)  # 初始化实例
+
             return cls._instance
 
-    
     # def get_chat_message(cls):
     #     """
     #     获取聊天历史消息。
@@ -91,7 +86,6 @@ class ChatHistory:
     #     """
     #     return cls._instance.get_messages()
 
-    
     # def add_chat_message(cls, messages: Sequence[BaseMessage]):
     #     """
     #     添加消息到聊天历史记录。
