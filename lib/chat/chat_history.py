@@ -82,7 +82,7 @@ class ChatHistory:
             return cls._instance
 
     @classmethod
-    def get_message(cls):
+    def get_chat_message(cls):
         """
         获取聊天历史消息。
 
@@ -92,11 +92,11 @@ class ChatHistory:
         return cls._instance.get_messages()
 
     @classmethod
-    def add_message(cls, messages: Sequence[BaseMessage]):
+    def add_chat_message(cls, messages: Sequence[BaseMessage]):
         """
         添加消息到聊天历史记录。
 
         参数:
             messages (Sequence[BaseMessage]): 要添加的消息序列。
         """
-        cls._instance.add_message(messages)  # 添加消息
+        cls._instance.add_messages(messages)  # 添加消息
