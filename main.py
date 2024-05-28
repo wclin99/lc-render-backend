@@ -5,7 +5,6 @@ from contextlib import asynccontextmanager
 from typing import Annotated, Union, Optional
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from lib.chat.session import delete_chat_session
 from lib.db import DbEngine, Todo
@@ -15,7 +14,7 @@ from langchain_postgres import PostgresChatMessageHistory
 from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
 
 from lib.db.schema import User_chat_session
-
+from lib.model import ResponseModel
 
 # 定义一个异步上下文管理器，用于在 FastAPI 应用的生命周期内执行数据库初始化
 @asynccontextmanager
@@ -117,7 +116,7 @@ def create_chat_history_table():
     return {"done"}
 
 
-@app.post("/create_chat_session/", response_model=JSONResponse)
+@app.post("/create_chat_session/", response_model=ResponseModel)
 async def test_create_chat_session(
     session: Session = Depends(DbEngine.get_session),
 ):
@@ -125,7 +124,7 @@ async def test_create_chat_session(
     return res
 
 
-@app.get("/get_all_chat_session/", response_model=JSONResponse)
+@app.get("/get_all_chat_session/", response_model=ResponseModel)
 async def test_get_all_chat_session(
     session: Session = Depends(DbEngine.get_session),
 ):
@@ -134,7 +133,7 @@ async def test_get_all_chat_session(
     return res
 
 
-@app.delete("/delete_chat_session/", response_model=JSONResponse)
+@app.delete("/delete_chat_session/", response_model=ResponseModel)
 async def test_delete_chat_session(
     user_id: str,
     chat_session_id: str,

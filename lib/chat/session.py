@@ -62,9 +62,7 @@ def create_chat_session(user_id: str, session: Session):
         session.close()
 
     # 返回响应
-    return JSONResponse(
-        content=response_model.model_dump(), status_code=response_model.status_code
-    )
+    return response_model
 
 
 def get_all_chat_session(user_id: str, session: Session):
@@ -120,9 +118,7 @@ def get_all_chat_session(user_id: str, session: Session):
         )
 
     # 返回响应数据
-    return JSONResponse(
-        content=response_model.model_dump(), status_code=response_model.status_code
-    )
+    return response_model
 
 
 def delete_chat_session(user_id: str, chat_session_id: str, session: Session):
@@ -195,6 +191,4 @@ def delete_chat_session(user_id: str, chat_session_id: str, session: Session):
         session.close()
 
     # 返回响应数据
-    return JSONResponse(
-        content=response_model.model_dump(), status_code=response_model.status_code
-    )
+    return response_model
