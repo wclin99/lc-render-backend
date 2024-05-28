@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 from typing import Annotated, Union, Optional
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from lib.chat.session import delete_chat_session
 from lib.db import DbEngine, Todo
@@ -117,7 +117,7 @@ def create_chat_history_table():
     return {"done"}
 
 
-@app.post("/create_chat_session/", response_model=User_chat_session)
+@app.post("/create_chat_session/", response_model=JSONResponse)
 async def test_create_chat_session(
     session: Session = Depends(DbEngine.get_session),
 ):
@@ -125,7 +125,7 @@ async def test_create_chat_session(
     return res
 
 
-@app.get("/get_all_chat_session/", response_model=list[User_chat_session])
+@app.get("/get_all_chat_session/", response_model=JSONResponse)
 async def test_get_all_chat_session(
     session: Session = Depends(DbEngine.get_session),
 ):
@@ -134,7 +134,7 @@ async def test_get_all_chat_session(
     return res
 
 
-@app.delete("/delete_chat_session/")
+@app.delete("/delete_chat_session/", response_model=JSONResponse)
 async def test_delete_chat_session(
     user_id: str,
     chat_session_id: str,
