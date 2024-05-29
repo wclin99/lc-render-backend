@@ -143,12 +143,7 @@ def post_chat_history(
 
 @app.get("/get_chat_history/", response_model=ResponseModel)
 def get_chat_history(
-    chat_session: Annotated[
-        str,
-        Query(
-            pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
-        ),
-    ] = None
+    chat_session:str
 ):
     if ChatHistory.has_instance(chat_session):
 
