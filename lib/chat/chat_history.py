@@ -76,11 +76,11 @@ class ChatHistory:
                 if chat_session_id is None:
                     return False
                 # 初始化实例
-                cls._instance = cls.__init_ch(chat_session_id)
+                cls._instance = cls.__init_ch(str(chat_session_id))
 
             # 如果传入的chat_session_id与当前实例的chat_session_id不一致，重新初始化实例
             if chat_session_id is not cls._chat_session_id:
-                cls._instance = cls.__init_ch(chat_session_id)
+                cls._instance = cls.__init_ch(str(chat_session_id))
 
             return bool(cls._instance)
 
@@ -96,7 +96,7 @@ class ChatHistory:
         """
         try:
 
-            if not cls.__has_instance(chat_session_id):
+            if not cls.__has_instance(str(chat_session_id)):
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
                     detail="Chat session not found",
@@ -105,7 +105,7 @@ class ChatHistory:
             results = cls._instance.get_messages()
 
             # 构造查询语句，获取指定用户的所有聊天会话
-            query_statement = select(Chat_history_new).where(
+            query_statement = select(Chat_history_new.message).where(
                 Chat_history_new.session_id == cls._chat_session_id
             )
             # 执行查询并获取结果
@@ -153,7 +153,7 @@ class ChatHistory:
 
         try:
 
-            if not cls.__has_instance(chat_session_id):
+            if not cls.__has_instance(str(chat_session_id)):
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
                     detail="Chat session not found",
