@@ -143,10 +143,15 @@ def post_chat_history(
 
 @app.get("/get_chat_history/")
 def get_chat_history(
-    chat_session:str
+    chat_session: Annotated[
+        Union[str, None],
+        Query(
+            pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        ),
+    ] = None
 ):
-    
-    return {"chat_session":chat_session}
+
+    return {"chat_session": chat_session}
     # if ChatHistory.has_instance("5cc22949-e0f2-40c3-ac0a-889315a195a0"):
 
     #     return ChatHistory.get_chat_message()
