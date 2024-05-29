@@ -74,17 +74,44 @@ class ChatHistory:
             return bool(cls._instance)
 
     @classmethod
-    def get_chat_message(cls):
+    def get_chat_message(cls)-> ResponseModel:
         """
         获取聊天历史消息。
 
         返回:
             聊天历史消息。
         """
-        return cls._instance.get_messages()
+        try:
+            results= cls._instance.get_messages()
+        
+             # 操作成功，构造成功响应数据
+            message = "success."
+            response_data = {"message": message, "data": results}
+            response_model = ResponseModel(
+                success=True, status_code=status.HTTP_200_OK, data=response_data
+            )
+        
+        except HTTPException as http_exception:
+            # 捕获HTTP异常，构造失败响应数据
+            response_model = ResponseModel(
+                success=False,
+                status_code=http_exception.status_code,
+                error=http_exception.detail,
+            )
+
+        except SQLAlchemyError as e:
+            # 捕获数据库操作异常，构造失败响应数据
+            response_model = ResponseModel(
+                success=False,
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                error=str(e),
+            )
+
+        # 返回响应
+        return response_model
 
     @classmethod
-    def add_chat_messages(cls, messages: Sequence[BaseMessage], session: Session):
+    def add_chat_messages(cls, messages: Sequence[BaseMessage], session: Session)-> ResponseModel:
         """
         添加消息到聊天历史记录。
 

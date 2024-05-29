@@ -3,7 +3,7 @@ from regex import D
 import uvicorn
 from contextlib import asynccontextmanager
 from typing import Annotated, Union, Optional
-from fastapi import FastAPI, Depends, Request
+from fastapi import FastAPI, Depends, Request, Body, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from lib.chat.chat_session import delete_chat_session
@@ -117,28 +117,12 @@ def create_chat_history_table():
     return {"done"}
 
 
-@app.post("/add_chat_history/")
-def add_chat_history():
-    ChatHistory.has_instance("5cc22949-e0f2-40c3-ac0a-889315a195a0").add_messages(
-        [
-            SystemMessage(content="666"),
-            AIMessage(content="666"),
-            HumanMessage(content="666"),
-        ]
-    )
-
-
-@app.get("/get_chat_history/")
-def get_chat_history():
-    return ChatHistory.has_instance(
-        "5cc22949-e0f2-40c3-ac0a-889315a195a0"
-    ).get_messages()
-
-
-@app.get("/get_instance/")
-def get_instance(session: Session = Depends(DbEngine.get_session)):
-
-    if ChatHistory.has_instance("5cc22949-e0f2-40c3-ac0a-889315a195a0"):
+@app.post("/post_chat_history/", response_model=ResponseModel)
+def post_chat_history(
+    chat_session: Annotated[str, Body(examples="5cc22949-e0f2-40c3-ac0a-889315a195a0")],
+    session: Session = Depends(DbEngine.get_session),
+):
+    if ChatHistory.has_instance(chat_session):
 
         return ChatHistory.add_chat_messages(
             [
@@ -147,6 +131,28 @@ def get_instance(session: Session = Depends(DbEngine.get_session)):
                 HumanMessage(content="666"),
             ],
             session,
+        )
+    else:
+        return ResponseModel(
+            success=False,
+            status_code=status.HTTP_404_NOT_FOUND,
+            error="Chat session not found",
+        )
+
+
+@app.get("/get_chat_history/", response_model=ResponseModel)
+def get_chat_history(
+    chat_session: Annotated[str, Body(examples="5cc22949-e0f2-40c3-ac0a-889315a195a0")]
+):
+    if ChatHistory.has_instance(chat_session):
+
+        return ChatHistory.get_chat_message()
+
+    else:
+        return ResponseModel(
+            success=False,
+            status_code=status.HTTP_404_NOT_FOUND,
+            error="Chat session not found",
         )
 
 
