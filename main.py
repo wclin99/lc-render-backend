@@ -146,22 +146,23 @@ def get_chat_history(
     chat_session: Annotated[
         Union[str, None],
         Query(
-            pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+            description="uuid like: 5cc22949-e0f2-40c3-ac0a-889315a195a0"
         ),
     ] = None
 ):
 
-    return {"chat_session": chat_session}
-    # if ChatHistory.has_instance("5cc22949-e0f2-40c3-ac0a-889315a195a0"):
+    # return {"chat_session": chat_session}
+    if ChatHistory.has_instance(str(chat_session)):
 
-    #     return ChatHistory.get_chat_message()
+        return ChatHistory.get_chat_message()
 
-    # else:
-    #     return ResponseModel(
-    #         success=False,
-    #         status_code=status.HTTP_404_NOT_FOUND,
-    #         error="Chat session not found",
-    #     )
+    else:
+        return ResponseModel(
+            success=False,
+            status_code=status.HTTP_404_NOT_FOUND,
+            error="Chat session not found",
+        )
 
 
 @app.post("/create_chat_session/", response_model=ResponseModel)
