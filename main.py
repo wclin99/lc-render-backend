@@ -123,22 +123,16 @@ def post_chat_history(
     chat_session: str = Body(example="5cc22949-e0f2-40c3-ac0a-889315a195a0"),
     session: Session = Depends(DbEngine.get_session),
 ):
-    if ChatHistory.has_instance(chat_session):
 
-        return ChatHistory.add_chat_messages(
-            [
-                SystemMessage(content="666"),
-                AIMessage(content="666"),
-                HumanMessage(content="666"),
-            ],
-            session,
-        )
-    else:
-        return ResponseModel(
-            success=False,
-            status_code=status.HTTP_404_NOT_FOUND,
-            error="Chat session not found",
-        )
+    return ChatHistory.add_chat_messages(
+        [
+            SystemMessage(content="666"),
+            AIMessage(content="666"),
+            HumanMessage(content="666"),
+        ],
+        session,
+        chat_session,
+    )
 
 
 @app.get("/get_chat_history/")
@@ -147,23 +141,12 @@ def get_chat_history(
         Union[str, None],
         Query(
             pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
-            description="uuid like: 5cc22949-e0f2-40c3-ac0a-889315a195a0"
+            description="uuid like: 5cc22949-e0f2-40c3-ac0a-889315a195a0",
         ),
     ] = None
 ):
 
-    cs=str(chat_session)
-
-    if ChatHistory.has_instance(cs):
-
-        return ChatHistory.get_chat_message()
-
-    else:
-        return ResponseModel(
-            success=False,
-            status_code=status.HTTP_404_NOT_FOUND,
-            error="Chat session not found",
-        )
+    return ChatHistory.get_chat_message(str(chat_session))
 
 
 @app.post("/create_chat_session/", response_model=ResponseModel)

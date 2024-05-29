@@ -30,7 +30,7 @@ class ChatHistory:
     _chat_session_id = None
 
     @classmethod
-    def init(cls, chat_session_id: str) -> PostgresChatMessageHistory:
+    def __init_ch(cls, chat_session_id: str) -> PostgresChatMessageHistory:
         """
         初始化ChatHistory单例。
 
@@ -57,24 +57,42 @@ class ChatHistory:
             raise ValueError("Failed to connect to the database.") from e
 
         return cls._instance
+    
+
+
 
     @classmethod
-    def has_instance(cls, chat_session_id: Union[str, None] = None) -> bool:
-        """判断ChatHistory的实例是否已创建。如果实例不存在，则通过init方法初始化。
+    def __has_instance(cls, chat_session_id: Union[str, None] = None) -> bool:
+        """
+        判断ChatHistory的实例是否已创建。如果实例不存在，则通过init方法初始化。
+        
         参数:
-            chat_session_id (str): 聊天会话的唯一标识符。
+            chat_session_id (str): 聊天会话的唯一标识符。如果为None，并且当前没有实例存在，函数将返回False。
+        
         返回:
-            如果实例存在返回True，否则返回False。
+            bool: 如果实例存在返回True，否则返回False。
         """
         with cls._lock:  # 确保线程安全地获取或初始化实例
-            if cls._instance is None:  # 如果chat_session_id为空，则抛出异常
+            # 检查当前是否有实例存在
+            if cls._instance is None:  
+                # 如果chat_session_id为空，则直接返回False
                 if chat_session_id is None:
                     return False
-                cls._instance = cls.init(chat_session_id)  # 初始化实例
+                # 初始化实例
+                cls._instance = cls.__init_ch(chat_session_id)  
+            
+            # 如果传入的chat_session_id与当前实例的chat_session_id不一致，重新初始化实例
+            if chat_session_id is not cls._chat_session_id:
+                cls._instance = cls.__init_ch(chat_session_id)
+            
             return bool(cls._instance)
+        
+
 
     @classmethod
-    def get_chat_message(cls)-> ResponseModel:
+    def get_chat_message(
+        cls, chat_session_id: Union[str, None] = None
+    ) -> ResponseModel:
         """
         获取聊天历史消息。
 
@@ -82,15 +100,21 @@ class ChatHistory:
             聊天历史消息。
         """
         try:
-            results= cls._instance.get_messages()
-        
-             # 操作成功，构造成功响应数据
+            
+            if not cls.__has_instance(chat_session_id):
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND, detail="Chat session not found"
+                )
+            
+            results = cls._instance.get_messages()
+
+            # 操作成功，构造成功响应数据
             message = "success."
             response_data = {"message": message, "data": results}
             response_model = ResponseModel(
                 success=True, status_code=status.HTTP_200_OK, data=response_data
             )
-        
+
         except HTTPException as http_exception:
             # 捕获HTTP异常，构造失败响应数据
             response_model = ResponseModel(
@@ -109,9 +133,15 @@ class ChatHistory:
 
         # 返回响应
         return response_model
+    
+
+
+
 
     @classmethod
-    def add_chat_messages(cls, messages: Sequence[BaseMessage], session: Session)-> ResponseModel:
+    def add_chat_messages(
+        cls, messages: Sequence[BaseMessage], session: Session,chat_session_id: Union[str, None] = None
+    ) -> ResponseModel:
         """
         添加消息到聊天历史记录。
 
@@ -120,9 +150,13 @@ class ChatHistory:
         """
 
         try:
+            
+            if not cls.__has_instance(chat_session_id):
+              raise HTTPException(
+                  status_code=status.HTTP_404_NOT_FOUND, detail="Chat session not found"
+              )
 
             cls._instance.add_messages(messages)  # 添加消息
-
 
             # 查询表中所有创建时间为空的记录
             query_statement = select(Chat_history_new).where(
@@ -134,7 +168,6 @@ class ChatHistory:
             for result in results:
                 # 使用sqlmodel，为这些记录的created_at更新为当前时间datetime.now()
                 result.created_at = datetime.now()
-
 
             session.commit()
 
@@ -160,7 +193,6 @@ class ChatHistory:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 error=str(e),
             )
-
 
         # 返回响应
         return response_model
