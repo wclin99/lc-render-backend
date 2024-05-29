@@ -152,8 +152,9 @@ def get_chat_history(
     ] = None
 ):
 
-    # return {"chat_session": chat_session}
-    if ChatHistory.has_instance(str(chat_session)):
+    cs=str(chat_session)
+
+    if ChatHistory.has_instance(cs):
 
         return ChatHistory.get_chat_message()
 
