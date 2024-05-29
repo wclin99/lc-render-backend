@@ -76,11 +76,11 @@ class ChatHistory:
                 if chat_session_id is None:
                     return False
                 # 初始化实例
-                cls._instance = cls.__init_ch(str(chat_session_id))
+                cls._instance = cls.__init_ch(chat_session_id)
 
             # 如果传入的chat_session_id与当前实例的chat_session_id不一致，重新初始化实例
             if chat_session_id is not cls._chat_session_id:
-                cls._instance = cls.__init_ch(str(chat_session_id))
+                cls._instance = cls.__init_ch(chat_session_id)
 
             return bool(cls._instance)
 
@@ -96,7 +96,7 @@ class ChatHistory:
         """
         try:
 
-            if not cls.__has_instance(str(chat_session_id)):
+            if not cls.__has_instance(chat_session_id):
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
                     detail="Chat session not found",
@@ -151,7 +151,7 @@ class ChatHistory:
 
         try:
 
-            if not cls.__has_instance(str(chat_session_id)):
+            if not cls.__has_instance(chat_session_id):
                 raise HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND,
                     detail="Chat session not found",
