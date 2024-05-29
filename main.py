@@ -141,20 +141,22 @@ def post_chat_history(
         )
 
 
-@app.get("/get_chat_history/", response_model=ResponseModel)
+@app.get("/get_chat_history/")
 def get_chat_history(
-    # chat_session:str
+    chat_session:str
 ):
-    if ChatHistory.has_instance("5cc22949-e0f2-40c3-ac0a-889315a195a0"):
+    
+    return {"chat_session":chat_session}
+    # if ChatHistory.has_instance("5cc22949-e0f2-40c3-ac0a-889315a195a0"):
 
-        return ChatHistory.get_chat_message()
+    #     return ChatHistory.get_chat_message()
 
-    else:
-        return ResponseModel(
-            success=False,
-            status_code=status.HTTP_404_NOT_FOUND,
-            error="Chat session not found",
-        )
+    # else:
+    #     return ResponseModel(
+    #         success=False,
+    #         status_code=status.HTTP_404_NOT_FOUND,
+    #         error="Chat session not found",
+    #     )
 
 
 @app.post("/create_chat_session/", response_model=ResponseModel)
