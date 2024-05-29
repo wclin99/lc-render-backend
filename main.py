@@ -119,7 +119,7 @@ def create_chat_history_table():
 
 @app.post("/post_chat_history/", response_model=ResponseModel)
 def post_chat_history(
-    chat_session: Annotated[str, Body(examples="5cc22949-e0f2-40c3-ac0a-889315a195a0")],
+    chat_session: str = Body(examples="5cc22949-e0f2-40c3-ac0a-889315a195a0"),
     session: Session = Depends(DbEngine.get_session),
 ):
     if ChatHistory.has_instance(chat_session):
@@ -142,7 +142,7 @@ def post_chat_history(
 
 @app.get("/get_chat_history/", response_model=ResponseModel)
 def get_chat_history(
-    chat_session: Annotated[str, Body(examples="5cc22949-e0f2-40c3-ac0a-889315a195a0")]
+    chat_session: str = Body(examples="5cc22949-e0f2-40c3-ac0a-889315a195a0"),
 ):
     if ChatHistory.has_instance(chat_session):
 
