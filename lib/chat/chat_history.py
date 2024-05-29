@@ -73,8 +73,12 @@ class ChatHistory:
             # 检查当前是否有实例存在
             if cls._instance is None:
                 # 如果chat_session_id为空，则直接返回False
+
+                print({"__has_instance":"chat_session_id is"+chat_session_id+", "+bool(chat_session_id)})
+
                 if chat_session_id is None:
                     return False
+                
                 # 初始化实例
                 cls._instance = cls.__init_ch(chat_session_id)
 
@@ -150,6 +154,9 @@ class ChatHistory:
         """
 
         try:
+
+
+            print({"add_chat_messages":chat_session_id})
 
             if not cls.__has_instance(chat_session_id):
                 raise HTTPException(

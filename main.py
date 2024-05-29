@@ -146,7 +146,7 @@ def get_chat_history(
     ] = None
 ):
 
-    return ChatHistory.get_chat_message(str(chat_session))
+    return ChatHistory.get_chat_message(chat_session)
 
 
 @app.post("/create_chat_session/", response_model=ResponseModel)
