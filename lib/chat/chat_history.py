@@ -102,14 +102,12 @@ class ChatHistory:
                     detail="Chat session not found",
                 )
 
-            results = cls._instance.get_messages()
-
-            # 构造查询语句，获取指定用户的所有聊天会话
-            query_statement = select(Chat_history_new.message).where(
-                Chat_history_new.session_id == cls._chat_session_id
-            )
             # 执行查询并获取结果
-            results = session.exec(query_statement).all()
+            results = session.exec(
+                select(Chat_history_new.message).where(
+                    Chat_history_new.session_id == cls._chat_session_id
+                )
+            ).all()
 
             # 操作成功，构造成功响应数据
             message = "success."
