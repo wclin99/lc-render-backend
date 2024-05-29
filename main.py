@@ -3,7 +3,7 @@ from regex import D
 import uvicorn
 from contextlib import asynccontextmanager
 from typing import Annotated, Union, Optional
-from fastapi import FastAPI, Depends, Request, Body, status
+from fastapi import FastAPI, Depends, Query, Request, Body, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from lib.chat.chat_session import delete_chat_session
@@ -34,8 +34,8 @@ async def lifespan(app: FastAPI):
     yield
 
 
+# app = FastAPI()
 app = FastAPI(lifespan=lifespan)
-
 
 # 允许跨域请求
 app.add_middleware(
@@ -49,6 +49,7 @@ app.add_middleware(
 
 @app.get("/")
 async def read_root():
+    # return {"branch": "development"}
     return {"branch": "development", "session_id": DbEngine.get_session_id()}
 
 
@@ -142,7 +143,12 @@ def post_chat_history(
 
 @app.get("/get_chat_history/", response_model=ResponseModel)
 def get_chat_history(
-    chat_session: str = Body(example="5cc22949-e0f2-40c3-ac0a-889315a195a0"),
+    chat_session: Annotated[
+        str,
+        Query(
+            pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        ),
+    ] = None
 ):
     if ChatHistory.has_instance(chat_session):
 
