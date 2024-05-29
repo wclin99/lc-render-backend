@@ -74,11 +74,9 @@ class ChatHistory:
             if cls._instance is None:
                 # 如果chat_session_id为空，则直接返回False
 
-                print({"__has_instance":"chat_session_id is"+chat_session_id+", "+bool(chat_session_id)})
-
                 if chat_session_id is None:
                     return False
-                
+
                 # 初始化实例
                 cls._instance = cls.__init_ch(chat_session_id)
 
@@ -90,7 +88,7 @@ class ChatHistory:
 
     @classmethod
     def get_chat_message(
-        cls, session: Session, chat_session_id: Union[str, None] = None
+        cls, *, chat_session_id: Union[str, None] = None, session: Session
     ) -> ResponseModel:
         """
         获取聊天历史消息。
@@ -106,16 +104,15 @@ class ChatHistory:
                     detail="Chat session not found",
                 )
 
+            # results = cls._instance.get_messages()
             # 执行查询并获取结果
-            results = session.exec(
-                select(Chat_history_new.message).where(
-                    Chat_history_new.session_id == cls._chat_session_id
-                )
-            ).all()
+            # results = session.exec(
+            #     select(Chat_history_new.message).where(
+            #         Chat_history_new.session_id == cls._chat_session_id
+            #     )
+            # ).all()
 
-            # 操作成功，构造成功响应数据
-            message = "success."
-            response_data = {"message": message, "data": results}
+            response_data = "ok"
             response_model = ResponseModel(
                 success=True, status_code=status.HTTP_200_OK, data=response_data
             )
@@ -155,8 +152,7 @@ class ChatHistory:
 
         try:
 
-
-            print({"add_chat_messages":chat_session_id})
+            print({"add_chat_messages": chat_session_id})
 
             if not cls.__has_instance(chat_session_id):
                 raise HTTPException(
@@ -179,9 +175,7 @@ class ChatHistory:
 
             session.commit()
 
-            # 操作成功，构造成功响应数据
-            message = "success."
-            response_data = {"message": message, "data": results}
+            response_data = results
             response_model = ResponseModel(
                 success=True, status_code=status.HTTP_200_OK, data=response_data
             )

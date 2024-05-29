@@ -1,20 +1,18 @@
 from functools import lru_cache
-from regex import D
+from sqlmodel import Session, distinct, select
 import uvicorn
 from contextlib import asynccontextmanager
-from typing import Annotated, Union, Optional
+from typing import Annotated, List, Union, Optional
 from fastapi import FastAPI, Depends, Query, Request, Body, status
 from fastapi.middleware.cors import CORSMiddleware
-from sqlmodel import Field, Session, SQLModel, create_engine, select
-from lib.chat.chat_session import delete_chat_session
 from lib.db import DbEngine, Todo
 from lib.config import AppConfigs, DatabaseConfigs, app_configs, db_configs
-from lib.chat import create_chat_session, get_all_chat_session, ChatHistory
 from langchain_postgres import PostgresChatMessageHistory
 from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
 from fastapi.responses import HTMLResponse
 from lib.db.schema import User_chat_session
-from lib.model import ResponseModel
+from lib.model import ResponseModel, ApiDocTags, ChatRole
+from routers import router_chat_history, router_chat_session
 
 
 # 定义一个异步上下文管理器，用于在 FastAPI 应用的生命周期内执行数据库初始化
@@ -36,6 +34,18 @@ async def lifespan(app: FastAPI):
 
 # app = FastAPI()
 app = FastAPI(lifespan=lifespan)
+
+app.include_router(
+    router_chat_session.router,
+    prefix="/chat_session",  # 路由前缀
+    tags=[ApiDocTags.chat_session],
+)
+app.include_router(
+    router_chat_history.router,
+    prefix="/chat_history",  # 路由前缀
+    tags=[ApiDocTags.Chat_history],
+)
+
 
 # 允许跨域请求
 app.add_middleware(
@@ -66,7 +76,7 @@ def get_configs():
     return AppConfigs()
 
 
-@app.get("/info")
+@app.get("/app/info/", tags=[ApiDocTags.app])
 async def info(settings: Annotated[AppConfigs, Depends(get_configs)]):
     """
     提供应用信息的接口。
@@ -88,11 +98,11 @@ async def info(settings: Annotated[AppConfigs, Depends(get_configs)]):
     }
 
 
-# 读取所有待办事项
-@app.get("/todos/")
-def read_todos(*, session: Session = Depends(DbEngine.get_session)):
-    todos = session.exec(select(Todo)).all()
-    return todos
+@app.get("/demo/")
+async def debug(request: Request):
+    return HTMLResponse(
+        content=open("templates/index.html", "rb").read(), status_code=200
+    )
 
 
 @app.get("/test/")
@@ -117,72 +127,23 @@ def create_chat_history_table():
 
     return {"done"}
 
-
-@app.post("/post_chat_history/", response_model=ResponseModel)
-def post_chat_history(
-    chat_session: str = Body(example="5cc22949-e0f2-40c3-ac0a-889315a195a0"),
-    session: Session = Depends(DbEngine.get_session),
-):
-
-    return ChatHistory.add_chat_messages(
-        [
-            SystemMessage(content="666"),
-            AIMessage(content="666"),
-            HumanMessage(content="666"),
-        ],
-        session,
-        chat_session,
-    )
+@app.get("/fetch_all_user_ids/")
+async def fetch_all_user_ids(session: Session = Depends(DbEngine.get_session)):
+    
+    statement = select(distinct(User_chat_session.user_id))
+    result = session.exec(statement)
+    unique_user_ids = result.all()
+    return unique_user_ids
 
 
-@app.get("/get_chat_history/")
-def get_chat_history(
-    chat_session: Annotated[
-        Union[str, None],
-        Query(
-            pattern="^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
-            description="uuid like: 5cc22949-e0f2-40c3-ac0a-889315a195a0",
-        ),
-    ] = None
-):
 
-    return ChatHistory.get_chat_message(chat_session)
-
-
-@app.post("/create_chat_session/", response_model=ResponseModel)
-async def test_create_chat_session(
-    session: Session = Depends(DbEngine.get_session),
-):
-    res = create_chat_session("test", session)
-    return res
-
-
-@app.get("/get_all_chat_session/", response_model=ResponseModel)
-async def test_get_all_chat_session(
-    session: Session = Depends(DbEngine.get_session),
-):
-
-    res = get_all_chat_session("test", session)
-    return res
-
-
-@app.delete("/delete_chat_session/", response_model=ResponseModel)
-async def test_delete_chat_session(
-    user_id: str,
-    chat_session_id: str,
-    session: Session = Depends(DbEngine.get_session),
-):
-
-    res = delete_chat_session(user_id, chat_session_id, session)
-    return res
-
-
-@app.get("/debug/")
-async def debug(request: Request):
-    return HTMLResponse(
-        content=open("templates/index.html", "rb").read(), status_code=200
-    )
-
+@app.get('/fetch_sessions_by_user_id')
+def fetch_sessions_by_user_id(user_id: str, session: Session = Depends(DbEngine.get_session)):
+  
+    statement = select(User_chat_session.chat_session_id).where(User_chat_session.user_id == user_id)
+    result = session.exec(statement).all()
+    session_ids = [row[0] for row in result]
+    return result
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000)

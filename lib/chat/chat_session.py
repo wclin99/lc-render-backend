@@ -118,7 +118,7 @@ def get_all_chat_session(user_id: str, session: Session):
     return response_model
 
 
-def delete_chat_session(user_id: str, chat_session_id: str, session: Session):
+def delete_chat_session(*,user_id: str, chat_session_id: str, session: Session):
     """
     删除指定用户的聊天会话记录。
 

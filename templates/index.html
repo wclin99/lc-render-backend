@@ -1,26 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FastAPI Web Interface</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetch Data</title>
     <script>
-        async function fetchData() {
-            try {
-                const response = await fetch('/api/hello');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                alert(data.message);
-            } catch (error) {
-                console.error(error);
-                alert('An error occurred while fetching data');
+     document.addEventListener('DOMContentLoaded', async function () {
+            const userIdSelect = document.getElementById('user-id');
+            const sessionIdSelect = document.getElementById('session-id');
+
+            // 初始化 user-id 下拉框
+            const allUserIds = await fetch('/fetch_all_user_ids')
+                .then(response => response.json());
+
+            allUserIds.forEach(userId => {
+                const option = document.createElement('option');
+                option.value = userId;
+                option.textContent = userId;
+                userIdSelect.appendChild(option);
+            });
+
+            // 定义一个函数来更新 session-id 下拉框
+            const updateSessionIds = async (userId) => {
+                // 获取对应的 session-id
+                const sessionIds = await fetch(`/fetch_sessions_by_user_id?user_id=${userId}`)
+                    .then(response => response.json());
+
+                // 清空 session-id 下拉框
+                sessionIdSelect.innerHTML = '';
+
+                // 填充 session-id 下拉框
+                sessionIds.forEach(sessionId => {
+                    const option = document.createElement('option');
+                    option.value = sessionId;
+                    option.textContent = sessionId;
+                    sessionIdSelect.appendChild(option);
+                });
+            };
+
+            // 监听 user-id 下拉框的变化
+            userIdSelect.addEventListener('change', async function () {
+                const selectedUserId = userIdSelect.value;
+                await updateSessionIds(selectedUserId);
+            });
+
+            // 初始加载时，选择第一个用户并更新 session-id 下拉框
+            if (allUserIds.length > 0) {
+                userIdSelect.value = allUserIds[0];
+                await updateSessionIds(allUserIds[0]);
             }
-        }
+        });
     </script>
-</head>
-<body>
-    <h1>Welcome to FastAPI Web Interface</h1>
-    <button onclick="fetchData()">Click me to fetch data</button>
-</body>
+  </head>
+  <body>
+    <h1>Fetch Data</h1>
+
+    <label for="user-id">User ID:</label>
+    <select id="user-id"></select>
+
+    <label for="session-id">Session ID:</label>
+    <select id="session-id"></select>
+  </body>
 </html>
