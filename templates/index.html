@@ -44,6 +44,7 @@
           }
         };
 
+        // 定义一个函数来更新 message area
         const updateMessage = async (sessionId) => {
           const messages = await fetch(
             `/demo/fetch_messages_by_session_id?session_id=${sessionId}`
@@ -87,14 +88,19 @@
   </head>
   <body>
     <h1>Fetch Data</h1>
+    <br>
 
     <label for="user-id">User ID:</label>
     <select id="user-id"></select>
+    <br>
 
     <label for="session-id">Session ID:</label>
     <select id="session-id"></select>
+    <br>
 
     <label for="message-area">Messages:</label>
     <textarea id="message-area" readonly></textarea>
+    <br>
+    
   </body>
 </html>
