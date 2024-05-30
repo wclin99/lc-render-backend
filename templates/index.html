@@ -108,7 +108,7 @@
             const result = await response.json();
 
             // 检查success和status_code
-            if (result.success && response.ok && result.status_code === 200) {
+            if (result.success) {
               resultMessage.textContent = 'Message sent successfully!';
               [...roleRadioGroup].forEach(radio => { radio.checked = false; });
               messageInput.value = '';
