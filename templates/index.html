@@ -52,7 +52,7 @@
             let messageText = messages.map(message => {
               try {
                 let parsedMessage = JSON.parse(message);
-                return parsedMessage.data.content;
+                return parsedMessage.type+": "+parsedMessage.data.content;
               } catch (error) {
                 console.error("Error parsing message: ", message, error);
                 return '';
@@ -103,16 +103,19 @@
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify(payload)
-            }).then(response => response.json());
+            });
 
-            if (response.success) {
+            const result = await response.json();
+
+            // 检查success和status_code
+            if (result.success && response.ok && result.status_code === 200) {
               resultMessage.textContent = 'Message sent successfully!';
-              messageTextarea.value = '';
               [...roleRadioGroup].forEach(radio => { radio.checked = false; });
               messageInput.value = '';
               await updateMessage(sessionIdSelect.value);  // 刷新消息
             } else {
-              resultMessage.textContent = 'Failed to send message!';
+              resultMessage.textContent = `Failed to send message: ${result.error || 'Unknown error'}`;
+              console.error("Failed response: ", result);
             }
           } catch (error) {
             resultMessage.textContent = 'Error occurred while sending message!';
