@@ -44,20 +44,26 @@
           }
         };
 
-       
-
-        // 定义一个函数来更新textarea的内容
         const updateMessage = async (sessionId) => {
-                const messages = await fetch(`/demo/fetch_messages_by_session_id?session_id=${sessionId}`)
-                    .then(response => response.json());
-                
-                let messageText = messages.map(message => {
-                    let parsedMessage = JSON.parse(message);
-                    return parsedMessage.data.content;
-                }).join('\n');
+          const messages = await fetch(
+            `/demo/fetch_messages_by_session_id?session_id=${sessionId}`
+          ).then((response) => response.json());
 
-                messageTextarea.value = messageText;
-            };
+          // 解析每个消息并提取内容
+          let messageText = messages
+            .map((message) => {
+              try {
+                let parsedMessage = JSON.parse(message);
+                return parsedMessage.data.content;
+              } catch (error) {
+                console.error("Error parsing message: ", message, error);
+                return "";
+              }
+            })
+            .join("\n");
+
+          messageTextarea.value = messageText;
+        };
 
         // 监听 user-id 下拉框的变化
         userIdSelect.addEventListener("change", async function () {
