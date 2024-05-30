@@ -44,13 +44,20 @@
           }
         };
 
+       
+
         // 定义一个函数来更新textarea的内容
         const updateMessage = async (sessionId) => {
-          const message = await fetch(
-            `/demo/fetch_messages_by_session_id?session_id=${sessionId}`
-          ).then((response) => response.json());
-          messageTextarea.value = message;
-        };
+                const messages = await fetch(`/demo/fetch_messages_by_session_id?session_id=${sessionId}`)
+                    .then(response => response.json());
+                
+                let messageText = messages.map(message => {
+                    let parsedMessage = JSON.parse(message);
+                    return parsedMessage.data.content;
+                }).join('\n');
+
+                messageTextarea.value = messageText;
+            };
 
         // 监听 user-id 下拉框的变化
         userIdSelect.addEventListener("change", async function () {
