@@ -9,10 +9,9 @@ from lib.db import DbEngine, Todo
 from lib.config import AppConfigs, DatabaseConfigs, app_configs, db_configs
 from langchain_postgres import PostgresChatMessageHistory
 from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
-from fastapi.responses import HTMLResponse
-from lib.db.schema import User_chat_session
+from lib.db import User_chat_session
 from lib.model import ResponseModel, ApiDocTags, ChatRole
-from routers import router_chat_history, router_chat_session
+from routers import router_chat_history, router_chat_session,router_demo
 
 
 # 定义一个异步上下文管理器，用于在 FastAPI 应用的生命周期内执行数据库初始化
@@ -45,7 +44,11 @@ app.include_router(
     prefix="/chat_history",  # 路由前缀
     tags=[ApiDocTags.Chat_history],
 )
-
+app.include_router(
+    router_demo.router,
+    prefix="/demo",
+    tags=[ApiDocTags.demo],
+)
 
 # 允许跨域请求
 app.add_middleware(
@@ -98,12 +101,6 @@ async def info(settings: Annotated[AppConfigs, Depends(get_configs)]):
     }
 
 
-@app.get("/demo/")
-async def debug(request: Request):
-    return HTMLResponse(
-        content=open("templates/index.html", "rb").read(), status_code=200
-    )
-
 
 @app.get("/test/")
 def create_chat_history_table():
@@ -127,23 +124,6 @@ def create_chat_history_table():
 
     return {"done"}
 
-@app.get("/fetch_all_user_ids/")
-async def fetch_all_user_ids(session: Session = Depends(DbEngine.get_session)):
-    
-    statement = select(distinct(User_chat_session.user_id))
-    result = session.exec(statement)
-    unique_user_ids = result.all()
-    return unique_user_ids
-
-
-
-@app.get('/fetch_sessions_by_user_id')
-def fetch_sessions_by_user_id(user_id: str, session: Session = Depends(DbEngine.get_session)):
-  
-    statement = select(User_chat_session.chat_session_id).where(User_chat_session.user_id == user_id)
-    result = session.exec(statement).all()
-    session_ids = [row[0] for row in result]
-    return result
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000)

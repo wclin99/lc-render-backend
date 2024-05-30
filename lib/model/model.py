@@ -4,6 +4,7 @@ from enum import Enum, IntEnum
 
 class ApiDocTags(str, Enum):
     app = 'Application'
+    demo='Demo'
     chat_session="Chat session"
     Chat_history="Chat history"
 

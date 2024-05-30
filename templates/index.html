@@ -5,51 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fetch Data</title>
     <script>
-     document.addEventListener('DOMContentLoaded', async function () {
-            const userIdSelect = document.getElementById('user-id');
-            const sessionIdSelect = document.getElementById('session-id');
+      document.addEventListener("DOMContentLoaded", async function () {
+        const userIdSelect = document.getElementById("user-id");
+        const sessionIdSelect = document.getElementById("session-id");
+        const messageTextarea = document.getElementById("message-textarea");
 
-            // 初始化 user-id 下拉框
-            const allUserIds = await fetch('/fetch_all_user_ids')
-                .then(response => response.json());
-
-            allUserIds.forEach(userId => {
-                const option = document.createElement('option');
-                option.value = userId;
-                option.textContent = userId;
-                userIdSelect.appendChild(option);
-            });
-
-            // 定义一个函数来更新 session-id 下拉框
-            const updateSessionIds = async (userId) => {
-                // 获取对应的 session-id
-                const sessionIds = await fetch(`/fetch_sessions_by_user_id?user_id=${userId}`)
-                    .then(response => response.json());
-
-                // 清空 session-id 下拉框
-                sessionIdSelect.innerHTML = '';
-
-                // 填充 session-id 下拉框
-                sessionIds.forEach(sessionId => {
-                    const option = document.createElement('option');
-                    option.value = sessionId;
-                    option.textContent = sessionId;
-                    sessionIdSelect.appendChild(option);
-                });
-            };
-
-            // 监听 user-id 下拉框的变化
-            userIdSelect.addEventListener('change', async function () {
-                const selectedUserId = userIdSelect.value;
-                await updateSessionIds(selectedUserId);
-            });
-
-            // 初始加载时，选择第一个用户并更新 session-id 下拉框
-            if (allUserIds.length > 0) {
-                userIdSelect.value = allUserIds[0];
-                await updateSessionIds(allUserIds[0]);
-            }
+        // 初始化 user-id 下拉框
+        const allUserIds = await fetch("/demo/fetch_all_user_ids").then(
+          (response) => response.json()
+        );
+        allUserIds.forEach((userId) => {
+          const option = document.createElement("option");
+          option.value = userId;
+          option.textContent = userId;
+          userIdSelect.appendChild(option);
         });
+
+        // 定义一个函数来更新 session-id 下拉框
+        const updateSessionIds = async (userId) => {
+          // 获取对应的 session-id
+          const sessionIds = await fetch(
+            `/demo/fetch_sessions_by_user_id?user_id=${userId}`
+          ).then((response) => response.json());
+          // 清空 session-id 下拉框
+          sessionIdSelect.innerHTML = "";
+          // 填充 session-id 下拉框
+          sessionIds.forEach((sessionId) => {
+            const option = document.createElement("option");
+            option.value = sessionId;
+            option.textContent = sessionId;
+            sessionIdSelect.appendChild(option);
+          });
+
+          // 如果有 session-id，显示第一个 session-id 的 message
+          if (sessionIds.length > 0) {
+            sessionIdSelect.value = sessionIds[0];
+            await updateMessage(sessionIds[0]);
+          }
+        };
+
+        // 定义一个函数来更新textarea的内容
+        const updateMessage = async (sessionId) => {
+          const message = await fetch(
+            `/demo/fetch_messages_by_session_id?session_id=${sessionId}`
+          ).then((response) => response.json());
+          messageTextarea.value = message;
+        };
+
+        // 监听 user-id 下拉框的变化
+        userIdSelect.addEventListener("change", async function () {
+          const selectedUserId = userIdSelect.value;
+          await updateSessionIds(selectedUserId);
+        });
+
+        // 监听 session-id 下拉框的变化
+        sessionIdSelect.addEventListener("change", async function () {
+          const selectedSessionId = sessionIdSelect.value;
+          await updateMessage(selectedSessionId);
+        });
+
+        // 初始加载时，选择第一个用户并更新 session-id 下拉框
+        if (allUserIds.length > 0) {
+          userIdSelect.value = allUserIds[0];
+          await updateSessionIds(allUserIds[0]);
+        }
+      });
     </script>
   </head>
   <body>
@@ -60,5 +80,8 @@
 
     <label for="session-id">Session ID:</label>
     <select id="session-id"></select>
+
+    <label for="message-area">Messages:</label>
+    <textarea id="message-area" readonly></textarea>
   </body>
 </html>
