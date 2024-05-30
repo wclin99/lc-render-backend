@@ -8,7 +8,7 @@
       document.addEventListener("DOMContentLoaded", async function () {
         const userIdSelect = document.getElementById("user-id");
         const sessionIdSelect = document.getElementById("session-id");
-        const messageTextarea = document.getElementById("message-textarea");
+        const messageTextarea = document.getElementById("message-area");
 
         // 初始化 user-id 下拉框
         const allUserIds = await fetch("/demo/fetch_all_user_ids").then(
