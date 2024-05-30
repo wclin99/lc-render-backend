@@ -96,7 +96,7 @@
             content: content
           };
 
-          try {
+          // try {
             const response = await fetch('/chat_history/post/', {
               method: 'POST',
               headers: {
@@ -117,10 +117,10 @@
               resultMessage.textContent = `Failed to send message: ${result.error || 'Unknown error'}`;
               console.error("Failed response: ", result);
             }
-          } catch (error) {
-            resultMessage.textContent = 'Error occurred while sending message!';
-            console.error("Error sending message: ", error);
-          }
+          // } catch (error) {
+          //   resultMessage.textContent = 'Error occurred while sending message!';
+          //   console.error("Error sending message: ", error);
+          // }
         });
 
         if (allUserIds.length > 0) {
