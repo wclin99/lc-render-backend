@@ -5,32 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fetch Data</title>
     <script>
-      document.addEventListener('DOMContentLoaded', async function () {
-        const userIdSelect = document.getElementById('user-id');
-        const sessionIdSelect = document.getElementById('session-id');
-        const messageTextarea = document.getElementById('message-textarea');
-        const refreshButton = document.getElementById('refresh-button');
-        const roleRadioGroup = document.getElementsByName('role');
-        const messageInput = document.getElementById('message-input');
-        const sendButton = document.getElementById('send-button');
-        const resultMessage = document.getElementById('result-message');
+      document.addEventListener("DOMContentLoaded", async function () {
+        const userIdSelect = document.getElementById("user-id");
+        const sessionIdSelect = document.getElementById("session-id");
+        const messageTextarea = document.getElementById("message-textarea");
+        const refreshButton = document.getElementById("refresh-button");
+        const roleRadioGroup = document.getElementsByName("role");
+        const messageInput = document.getElementById("message-input");
+        const sendButton = document.getElementById("send-button");
+        const resultMessage = document.getElementById("result-message");
 
         // 加载用户ID
-        const allUserIds = await fetch('/demo/fetch_all_user_ids')
-          .then(response => response.json());
-        allUserIds.forEach(userId => {
-          const option = document.createElement('option');
+        const allUserIds = await fetch("/demo/fetch_all_user_ids").then(
+          (response) => response.json()
+        );
+        allUserIds.forEach((userId) => {
+          const option = document.createElement("option");
           option.value = userId;
           option.textContent = userId;
           userIdSelect.appendChild(option);
         });
 
         const updateSessionIds = async (userId) => {
-          const sessionIds = await fetch(`/demo/fetch_sessions_by_user_id?user_id=${userId}`)
-            .then(response => response.json());
-          sessionIdSelect.innerHTML = '';
-          sessionIds.forEach(sessionId => {
-            const option = document.createElement('option');
+          const sessionIds = await fetch(
+            `/demo/fetch_sessions_by_user_id?user_id=${userId}`
+          ).then((response) => response.json());
+          sessionIdSelect.innerHTML = "";
+          sessionIds.forEach((sessionId) => {
+            const option = document.createElement("option");
             option.value = sessionId;
             option.textContent = sessionId;
             sessionIdSelect.appendChild(option);
@@ -44,20 +46,23 @@
 
         const updateMessage = async (sessionId) => {
           try {
-            const messages = await fetch(`/demo/fetch_messages_by_session_id?session_id=${sessionId}`)
-              .then(response => response.json());
+            const messages = await fetch(
+              `/demo/fetch_messages_by_session_id?session_id=${sessionId}`
+            ).then((response) => response.json());
 
-            console.log(messages);  // Debugging: 打印检查实际的返回数据
+            console.log(messages); // Debugging: 打印检查实际的返回数据
 
-            let messageText = messages.map(message => {
-              try {
-                let parsedMessage = JSON.parse(message);
-                return parsedMessage.type+": "+parsedMessage.data.content;
-              } catch (error) {
-                console.error("Error parsing message: ", message, error);
-                return '';
-              }
-            }).join('\n');
+            let messageText = messages
+              .map((message) => {
+                try {
+                  let parsedMessage = JSON.parse(message);
+                  return parsedMessage.type + ": " + parsedMessage.data.content;
+                } catch (error) {
+                  console.error("Error parsing message: ", message, error);
+                  return "";
+                }
+              })
+              .join("\n");
 
             messageTextarea.value = messageText;
           } catch (error) {
@@ -65,62 +70,75 @@
           }
         };
 
-        userIdSelect.addEventListener('change', async function () {
+        userIdSelect.addEventListener("change", async function () {
           const selectedUserId = userIdSelect.value;
           await updateSessionIds(selectedUserId);
         });
 
-        sessionIdSelect.addEventListener('change', async function () {
+        sessionIdSelect.addEventListener("change", async function () {
           const selectedSessionId = sessionIdSelect.value;
           await updateMessage(selectedSessionId);
         });
 
-        refreshButton.addEventListener('click', async function () {
+        refreshButton.addEventListener("click", async function () {
           const selectedSessionId = sessionIdSelect.value;
           await updateMessage(selectedSessionId);
         });
 
-        sendButton.addEventListener('click', async function () {
-          const selectedRole = [...roleRadioGroup].find(radio => radio.checked)?.value;
+        sendButton.addEventListener("click", async function () {
+          const selectedRole = [...roleRadioGroup].find(
+            (radio) => radio.checked
+          )?.value;
           const content = messageInput.value.trim();
           const sessionId = sessionIdSelect.value;
 
           if (!selectedRole || !content) {
-            resultMessage.textContent = 'Role and content are required!';
+            resultMessage.textContent = "Role and content are required!";
             return;
           }
 
           const payload = {
-            chat_session: sessionId,  // 添加 session_id
+            chat_session: sessionId, // 添加 session_id
             role: selectedRole,
-            content: content
+            content: content,
           };
 
-          // try {
-            const response = await fetch('/chat_history/post/', {
-              method: 'POST',
+          try {
+            const response = await fetch("/chat_history/post/", {
+              method: "POST",
               headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json",
               },
-              body: JSON.stringify(payload)
+              body: JSON.stringify(payload),
             });
 
-            const result = await response.json();
+            // 检查响应内容类型
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+              const textResponse = await response.text(); // 获取文本错误信息
+              throw new Error(textResponse); // 抛出错误，将由 catch 块处理
+            }
 
-            // 检查success和status_code
-            if (result.success) {
-              resultMessage.textContent = 'Message sent successfully!';
-              [...roleRadioGroup].forEach(radio => { radio.checked = false; });
-              messageInput.value = '';
-              await updateMessage(sessionIdSelect.value);  // 刷新消息
+            const result = await response.json(); // 解析 JSON
+
+            // 检查 success 和 status_code
+            if (result.success && result.status_code === 200) {
+              resultMessage.textContent = "Message sent successfully!";
+              [...roleRadioGroup].forEach((radio) => {
+                radio.checked = false;
+              });
+              messageInput.value = "";
+              await updateMessage(sessionIdSelect.value); // 刷新消息
             } else {
-              resultMessage.textContent = `Failed to send message: ${result.error || 'Unknown error'}`;
+              resultMessage.textContent = `Failed to send message: ${
+                result.error || "Unknown error"
+              }`;
               console.error("Failed response: ", result);
             }
-          // } catch (error) {
-          //   resultMessage.textContent = 'Error occurred while sending message!';
-          //   console.error("Error sending message: ", error);
-          // }
+          } catch (error) {
+            resultMessage.textContent = `Error occurred while sending message: ${error.message}`;
+            console.error("Error sending message: ", error);
+          }
         });
 
         if (allUserIds.length > 0) {
@@ -146,9 +164,18 @@
     <h2>Add a Message</h2>
     <div>
       Role:<br />
-      <input type="radio" name="role" value="system" id="role-system" /><label for="role-system">System</label><br />
-      <input type="radio" name="role" value="ai" id="role-ai" /><label for="role-ai">AI</label><br />
-      <input type="radio" name="role" value="human" id="role-human" /><label for="role-human">Human</label><br />
+      <input type="radio" name="role" value="system" id="role-system" /><label
+        for="role-system"
+        >System</label
+      ><br />
+      <input type="radio" name="role" value="ai" id="role-ai" /><label
+        for="role-ai"
+        >AI</label
+      ><br />
+      <input type="radio" name="role" value="human" id="role-human" /><label
+        for="role-human"
+        >Human</label
+      ><br />
     </div>
     <br />
     <label for="message-input">Content:</label>
