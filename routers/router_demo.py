@@ -41,5 +41,4 @@ def fetch_messages_by_session_id(session_id: str, session: Session = Depends(DbE
   
     statement = select(Chat_history_new.message).where(Chat_history_new.session_id == session_id)
     result = session.exec(statement).all()
-    messages = [row for row in result]
     return result

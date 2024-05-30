@@ -55,7 +55,7 @@
             .map((message) => {
               try {
                 let parsedMessage = JSON.parse(message);
-                return parsedMessage.data.content;
+                return parsedMessage.type+": "+parsedMessage.data.content;
               } catch (error) {
                 console.error("Error parsing message: ", message, error);
                 return "";
@@ -101,6 +101,6 @@
     <label for="message-area">Messages:</label>
     <textarea id="message-area" readonly></textarea>
     <br>
-    
+
   </body>
 </html>
