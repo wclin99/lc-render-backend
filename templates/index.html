@@ -5,80 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fetch Data</title>
     <script>
-      document.addEventListener("DOMContentLoaded", async function () {
-        const userIdSelect = document.getElementById("user-id");
-        const sessionIdSelect = document.getElementById("session-id");
-        const messageTextarea = document.getElementById("message-area");
+      document.addEventListener('DOMContentLoaded', async function () {
+        const userIdSelect = document.getElementById('user-id');
+        const sessionIdSelect = document.getElementById('session-id');
+        const messageTextarea = document.getElementById('message-textarea');
+        const refreshButton = document.getElementById('refresh-button');
+        const roleRadioGroup = document.getElementsByName('role');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const resultMessage = document.getElementById('result-message');
 
-        // 初始化 user-id 下拉框
-        const allUserIds = await fetch("/demo/fetch_all_user_ids").then(
-          (response) => response.json()
-        );
-        allUserIds.forEach((userId) => {
-          const option = document.createElement("option");
+        // 加载用户ID
+        const allUserIds = await fetch('/demo/fetch_all_user_ids')
+          .then(response => response.json());
+        allUserIds.forEach(userId => {
+          const option = document.createElement('option');
           option.value = userId;
           option.textContent = userId;
           userIdSelect.appendChild(option);
         });
 
-        // 定义一个函数来更新 session-id 下拉框
         const updateSessionIds = async (userId) => {
-          // 获取对应的 session-id
-          const sessionIds = await fetch(
-            `/demo/fetch_sessions_by_user_id?user_id=${userId}`
-          ).then((response) => response.json());
-          // 清空 session-id 下拉框
-          sessionIdSelect.innerHTML = "";
-          // 填充 session-id 下拉框
-          sessionIds.forEach((sessionId) => {
-            const option = document.createElement("option");
+          const sessionIds = await fetch(`/demo/fetch_sessions_by_user_id?user_id=${userId}`)
+            .then(response => response.json());
+          sessionIdSelect.innerHTML = '';
+          sessionIds.forEach(sessionId => {
+            const option = document.createElement('option');
             option.value = sessionId;
             option.textContent = sessionId;
             sessionIdSelect.appendChild(option);
           });
 
-          // 如果有 session-id，显示第一个 session-id 的 message
           if (sessionIds.length > 0) {
             sessionIdSelect.value = sessionIds[0];
             await updateMessage(sessionIds[0]);
           }
         };
 
-        // 定义一个函数来更新 message area
         const updateMessage = async (sessionId) => {
-          const messages = await fetch(
-            `/demo/fetch_messages_by_session_id?session_id=${sessionId}`
-          ).then((response) => response.json());
+          try {
+            const messages = await fetch(`/demo/fetch_messages_by_session_id?session_id=${sessionId}`)
+              .then(response => response.json());
 
-          // 解析每个消息并提取内容
-          let messageText = messages
-            .map((message) => {
+            console.log(messages);  // Debugging: 打印检查实际的返回数据
+
+            let messageText = messages.map(message => {
               try {
                 let parsedMessage = JSON.parse(message);
-                return parsedMessage.type+": "+parsedMessage.data.content;
+                return parsedMessage.data.content;
               } catch (error) {
                 console.error("Error parsing message: ", message, error);
-                return "";
+                return '';
               }
-            })
-            .join("\n");
+            }).join('\n');
 
-          messageTextarea.value = messageText;
+            messageTextarea.value = messageText;
+          } catch (error) {
+            console.error("Failed to fetch or process messages:", error);
+          }
         };
 
-        // 监听 user-id 下拉框的变化
-        userIdSelect.addEventListener("change", async function () {
+        userIdSelect.addEventListener('change', async function () {
           const selectedUserId = userIdSelect.value;
           await updateSessionIds(selectedUserId);
         });
 
-        // 监听 session-id 下拉框的变化
-        sessionIdSelect.addEventListener("change", async function () {
+        sessionIdSelect.addEventListener('change', async function () {
           const selectedSessionId = sessionIdSelect.value;
           await updateMessage(selectedSessionId);
         });
 
-        // 初始加载时，选择第一个用户并更新 session-id 下拉框
+        refreshButton.addEventListener('click', async function () {
+          const selectedSessionId = sessionIdSelect.value;
+          await updateMessage(selectedSessionId);
+        });
+
+        sendButton.addEventListener('click', async function () {
+          const selectedRole = [...roleRadioGroup].find(radio => radio.checked)?.value;
+          const content = messageInput.value.trim();
+          const sessionId = sessionIdSelect.value;
+
+          if (!selectedRole || !content) {
+            resultMessage.textContent = 'Role and content are required!';
+            return;
+          }
+
+          const payload = {
+            chat_session: sessionId,  // 添加 session_id
+            role: selectedRole,
+            content: content
+          };
+
+          try {
+            const response = await fetch('/chat_history/post/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            }).then(response => response.json());
+
+            if (response.success) {
+              resultMessage.textContent = 'Message sent successfully!';
+              messageTextarea.value = '';
+              [...roleRadioGroup].forEach(radio => { radio.checked = false; });
+              messageInput.value = '';
+              await updateMessage(sessionIdSelect.value);  // 刷新消息
+            } else {
+              resultMessage.textContent = 'Failed to send message!';
+            }
+          } catch (error) {
+            resultMessage.textContent = 'Error occurred while sending message!';
+            console.error("Error sending message: ", error);
+          }
+        });
+
         if (allUserIds.length > 0) {
           userIdSelect.value = allUserIds[0];
           await updateSessionIds(allUserIds[0]);
@@ -88,18 +129,29 @@
   </head>
   <body>
     <h1>Fetch Data</h1>
-    
-
     <label for="user-id">User ID:</label>
     <select id="user-id"></select>
-    
-
     <label for="session-id">Session ID:</label>
     <select id="session-id"></select>
-    
-    <label for="message-area">Messages:</label>
-    <textarea id="message-area" readonly></textarea>
-    
+    <br />
+    <label for="message-textarea">Messages:</label>
+    <textarea id="message-textarea" rows="8" cols="80" readonly></textarea>
+    <br />
+    <button id="refresh-button">Refresh Messages</button>
+    <br /><br />
 
+    <h2>Add a Message</h2>
+    <div>
+      Role:<br />
+      <input type="radio" name="role" value="system" id="role-system" /><label for="role-system">System</label><br />
+      <input type="radio" name="role" value="ai" id="role-ai" /><label for="role-ai">AI</label><br />
+      <input type="radio" name="role" value="human" id="role-human" /><label for="role-human">Human</label><br />
+    </div>
+    <br />
+    <label for="message-input">Content:</label>
+    <input type="text" id="message-input" /><br /><br />
+    <button id="send-button">Send Message</button>
+    <br />
+    <p id="result-message"></p>
   </body>
 </html>
