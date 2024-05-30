@@ -152,30 +152,30 @@ class ChatHistory:
 
         try:
 
-            print({"add_chat_messages": chat_session_id})
+            # print({"add_chat_messages": chat_session_id})
 
-            if not cls.__has_instance(chat_session_id):
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="Chat session not found",
-                )
+            # if not cls.__has_instance(chat_session_id):
+            #     raise HTTPException(
+            #         status_code=status.HTTP_404_NOT_FOUND,
+            #         detail="Chat session not found",
+            #     )
 
-            cls._instance.add_messages(messages)  # 添加消息
+            # cls._instance.add_messages(messages)  # 添加消息
 
-            # 查询表中所有创建时间为空的记录
-            query_statement = select(Chat_history_new).where(
-                Chat_history_new.created_at == None
-            )
-            # 获取所有时间为空的记录
-            results = session.exec(query_statement).all()
+            # # 查询表中所有创建时间为空的记录
+            # query_statement = select(Chat_history_new).where(
+            #     Chat_history_new.created_at == None
+            # )
+            # # 获取所有时间为空的记录
+            # results = session.exec(query_statement).all()
 
-            for result in results:
-                # 使用sqlmodel，为这些记录的created_at更新为当前时间datetime.now()
-                result.created_at = datetime.now()
+            # for result in results:
+            #     # 使用sqlmodel，为这些记录的created_at更新为当前时间datetime.now()
+            #     result.created_at = datetime.now()
 
-            session.commit()
+            # session.commit()
 
-            response_data = results
+            response_data = 6
             response_model = ResponseModel(
                 success=True, status_code=status.HTTP_200_OK, data=response_data
             )
