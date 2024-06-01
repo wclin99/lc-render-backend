@@ -1,9 +1,10 @@
 from datetime import datetime
-from typing import Union, Sequence
+from typing import Any, Dict, List, Union, Sequence
 from langchain_postgres import PostgresChatMessageHistory
 from sqlmodel import Session, select
-import uuid
+
 from lib.db import Chat_history_new as ChatHistoryTable
+import json
 
 from sqlalchemy.exc import SQLAlchemyError
 from fastapi import HTTPException, status
@@ -104,17 +105,32 @@ class ChatHistory:
                     detail="Chat session not found",
                 )
 
-            # results = cls._instance.get_messages()
+            # results = cls._instance.get_messages() 这句不行
             # 执行查询并获取结果
-            # results = session.exec(
-            #     select(Chat_history_new.message).where(
-            #         Chat_history_new.session_id == cls._chat_session_id
-            #     )
-            # ).all()
+            messages = session.exec(
+                select(Chat_history_new.message).where(
+                    Chat_history_new.session_id == cls._chat_session_id
+                )
+            ).all()
 
-            response_data = "ok"
+            # 解析消息并提取content和type
+            parsed_messages = [json.loads(res) for res in messages]
+
+            # 解析消息并构建响应数据
+            response_data: List[Dict[str, Any]] = []
+
+            for pm in parsed_messages:
+                content = pm['data']['content']
+                role = pm['type']
+                response_data.append({
+                    "content": content,
+                    "role": role
+                })
+
+          
+
             response_model = ResponseModel(
-                success=True, status_code=status.HTTP_200_OK, data=response_data
+                success=True, status_code=status.HTTP_200_OK, data={"messages":response_data}
             )
 
         except HTTPException as http_exception:
@@ -131,6 +147,14 @@ class ChatHistory:
                 success=False,
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 error=str(e),
+            )
+
+        except json.JSONDecodeError as e:
+            # 捕获JSON解析错误
+            response_model = ResponseModel(
+                success=False,
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                error="Error decoding JSON: " + str(e),
             )
 
         # 返回响应
@@ -175,7 +199,12 @@ class ChatHistory:
 
             session.commit()
 
-            response_data = 6
+            # 确保response_data是一个字典类型
+            response_data = {
+                "messages": [message.content for message in messages],
+                "roles": [message.type for message in messages],
+                "session_id": chat_session_id,
+            }
             response_model = ResponseModel(
                 success=True, status_code=status.HTTP_200_OK, data=response_data
             )

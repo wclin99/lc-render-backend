@@ -12,6 +12,7 @@ from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
 from lib.db import User_chat_session
 from lib.model import ResponseModel, ApiDocTags, ChatRole
 from routers import router_chat_history, router_chat_session,router_demo
+from fastapi.testclient import TestClient
 
 
 # 定义一个异步上下文管理器，用于在 FastAPI 应用的生命周期内执行数据库初始化
@@ -58,6 +59,10 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],  # 允许的 HTTP 方法
     allow_headers=["*"],  # 允许的 HTTP 头部
 )
+
+
+
+
 
 
 @app.get("/")

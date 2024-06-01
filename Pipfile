@@ -17,6 +17,8 @@ langchain-core = "*"
 psycopg2-binary = "*"
 psycopg = {extras = ["binary"], version = "*"}
 langchain-cli = "*"
+httpx = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.9"

@@ -1,4 +1,6 @@
-from typing import Annotated, Union, Optional
+from typing import Annotated, Union, Optional,Dict
+from sqlalchemy import JSON, Column
+from sqlalchemy.dialects.postgresql import JSONB
 
 from sqlmodel import Field, Session, SQLModel, create_engine, select, DateTime, Uuid
 from datetime import datetime
@@ -28,7 +30,8 @@ class Chat_history_new(SQLModel, table=True):
     session_id: str
 
     # 聊天消息内容，以JSONB格式存储，可以包含丰富的信息
-    message: str
+    message: Dict = Field(default_factory=dict, sa_column=Column(JSON))
+
 
     # 消息创建时间，使用DateTime类型以确保时间和数据库的一致性和查询效率
     # 这里需要是 Optional[datetime] 而不是 datetime
@@ -37,6 +40,9 @@ class Chat_history_new(SQLModel, table=True):
     # 因此这里只能 Optional[datetime] ，然后在其他代码添加时间
     created_at: Optional[datetime] = Field(default=datetime.now())
 
+    # Needed for Column(JSON)
+    class Config:
+        arbitrary_types_allowed = True
 
 class User_chat_session(SQLModel, table=True):
     """
