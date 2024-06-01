@@ -1,7 +1,9 @@
 from datetime import datetime
 from typing import Any, Dict, List, Union, Sequence
 from langchain_postgres import PostgresChatMessageHistory
+from pydantic import BaseModel
 from sqlmodel import Session, select
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 
 from lib.db import Chat_history_new as ChatHistoryTable
 import json
@@ -14,6 +16,14 @@ import threading
 from langchain_core.messages import BaseMessage
 from psycopg2 import errors as pg_errors
 
+from lib.model import ChatRole
+
+
+
+class SimpleMessage(BaseModel):
+    role:ChatRole
+    content:str
+    
 
 class ChatHistory:
     """
@@ -29,6 +39,10 @@ class ChatHistory:
 
     # 存储当前聊天会话的ID
     _chat_session_id = None
+
+    _messages: List[SimpleMessage] = []
+
+    _max_history_length = 50
 
     @classmethod
     def __init_ch(cls, chat_session_id: str) -> PostgresChatMessageHistory:
@@ -47,6 +61,7 @@ class ChatHistory:
 
         # 使用try-except来处理数据库连接异常
         try:
+            cls._messages.clear()
             cls._chat_session_id = chat_session_id  # 存储会话ID
             cls._instance = PostgresChatMessageHistory(
                 ChatHistoryTable.__name__.lower(),
@@ -88,77 +103,54 @@ class ChatHistory:
             return bool(cls._instance)
 
     @classmethod
-    def get_chat_message(
+    def get_history_instance(
+        cls, *, chat_session_id: Union[str, None] = None
+    ) -> PostgresChatMessageHistory:
+
+        if not cls.__has_instance(chat_session_id):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Chat session not found",
+            )
+        return cls._instance
+
+    @classmethod
+    def get_chat_messages(
         cls, *, chat_session_id: Union[str, None] = None, session: Session
-    ) -> ResponseModel:
+    ) -> list[Dict[str, Any]]:
         """
         获取聊天历史消息。
 
         返回:
             聊天历史消息。
         """
-        try:
 
-            if not cls.__has_instance(chat_session_id):
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="Chat session not found",
-                )
-
-            # results = cls._instance.get_messages() 这句不行
-            # 执行查询并获取结果
-            messages = session.exec(
-                select(Chat_history_new.message).where(
-                    Chat_history_new.session_id == cls._chat_session_id
-                )
-            ).all()
-
-            # 解析消息并提取content和type
-            parsed_messages = [json.loads(res) for res in messages]
-
-            # 解析消息并构建响应数据
-            response_data: List[Dict[str, Any]] = []
-
-            for pm in parsed_messages:
-                content = pm['data']['content']
-                role = pm['type']
-                response_data.append({
-                    "content": content,
-                    "role": role
-                })
-
-          
-
-            response_model = ResponseModel(
-                success=True, status_code=status.HTTP_200_OK, data={"messages":response_data}
+        if not cls.__has_instance(chat_session_id):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Chat session not found",
             )
 
-        except HTTPException as http_exception:
-            # 捕获HTTP异常，构造失败响应数据
-            response_model = ResponseModel(
-                success=False,
-                status_code=http_exception.status_code,
-                error=http_exception.detail,
+        # results = cls._instance.get_messages() 这句不行
+        # 执行查询并获取结果
+        messages = session.exec(
+            select(Chat_history_new.message).where(
+                Chat_history_new.session_id == cls._chat_session_id
             )
+        ).all()
 
-        except SQLAlchemyError as e:
-            # 捕获数据库操作异常，构造失败响应数据
-            response_model = ResponseModel(
-                success=False,
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                error=str(e),
-            )
+        # 解析消息并提取content和type
+        parsed_messages = [json.loads(res) for res in messages]
 
-        except json.JSONDecodeError as e:
-            # 捕获JSON解析错误
-            response_model = ResponseModel(
-                success=False,
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                error="Error decoding JSON: " + str(e),
-            )
+        cls._messages.clear()
 
-        # 返回响应
-        return response_model
+        for pm in parsed_messages:
+            content = pm["data"]["content"]
+            role = pm["type"]
+
+            cls._messages.append(SimpleMessage(role=role,content=content))
+
+        return cls._messages
 
     @classmethod
     def add_chat_messages(
@@ -166,7 +158,7 @@ class ChatHistory:
         messages: Sequence[BaseMessage],
         session: Session,
         chat_session_id: Union[str, None] = None,
-    ) -> ResponseModel:
+    ) -> dict[str, Any]:
         """
         添加消息到聊天历史记录。
 
@@ -174,56 +166,42 @@ class ChatHistory:
             messages (Sequence[BaseMessage]): 要添加的消息序列。
         """
 
-        try:
-
-            print({"add_chat_messages": chat_session_id})
-
-            if not cls.__has_instance(chat_session_id):
-                raise HTTPException(
-                    status_code=status.HTTP_404_NOT_FOUND,
-                    detail="Chat session not found",
-                )
-
-            cls._instance.add_messages(messages)  # 添加消息
-
-            # 查询表中所有创建时间为空的记录
-            query_statement = select(Chat_history_new).where(
-                Chat_history_new.created_at == None
-            )
-            # 获取所有时间为空的记录
-            results = session.exec(query_statement).all()
-
-            for result in results:
-                # 使用sqlmodel，为这些记录的created_at更新为当前时间datetime.now()
-                result.created_at = datetime.now()
-
-            session.commit()
-
-            # 确保response_data是一个字典类型
-            response_data = {
-                "messages": [message.content for message in messages],
-                "roles": [message.type for message in messages],
-                "session_id": chat_session_id,
-            }
-            response_model = ResponseModel(
-                success=True, status_code=status.HTTP_200_OK, data=response_data
+        if not cls.__has_instance(chat_session_id):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Chat session not found",
             )
 
-        except HTTPException as http_exception:
-            # 捕获HTTP异常，构造失败响应数据
-            response_model = ResponseModel(
-                success=False,
-                status_code=http_exception.status_code,
-                error=http_exception.detail,
-            )
+        cls._instance.add_messages(messages)  # 添加消息
 
-        except SQLAlchemyError as e:
-            # 捕获数据库操作异常，构造失败响应数据
-            response_model = ResponseModel(
-                success=False,
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                error=str(e),
-            )
+        # 查询表中所有创建时间为空的记录
+        query_statement = select(Chat_history_new).where(
+            Chat_history_new.created_at == None
+        )
+        # 获取所有时间为空的记录
+        results = session.exec(query_statement).all()
 
-        # 返回响应
-        return response_model
+        for result in results:
+            # 使用sqlmodel，为这些记录的created_at更新为当前时间datetime.now()
+            result.created_at = datetime.now()
+
+        session.commit()
+
+        # 确保 return是一个字典类型
+        return {
+            "messages": [message.content for message in messages],
+            "roles": [message.type for message in messages],
+            "session_id": chat_session_id,
+        }
+
+    @classmethod
+    def push_message(cls, *,role: ChatRole, content: str):
+        cls._messages.append(SimpleMessage(role=role,content=content))
+
+    @classmethod
+    def get_sliced_messages(cls):
+        if len(cls._messages) <= cls._max_history_length:
+            return cls._messages
+        return cls._messages[-cls._max_history_length]
+       
+

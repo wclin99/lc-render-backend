@@ -12,6 +12,7 @@ psycopg2 = "*"
 fastapi = {extras = ["all"], version = "*"}
 langchain-postgres = "*"
 langchain-core = "*"
+dashscope = "*"
 
 [dev-packages]
 psycopg2-binary = "*"

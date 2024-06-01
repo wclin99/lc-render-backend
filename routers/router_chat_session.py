@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import Body, Depends, Query
 from sqlmodel import Session
 from lib.chat.chat_session import delete_chat_session
-from lib.db import DbEngine, Todo
+from lib.db import DbEngine
 from lib.chat import create_chat_session, get_all_chat_session
 from lib.model import ResponseModel
 from fastapi import APIRouter

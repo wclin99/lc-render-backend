@@ -9,12 +9,19 @@ class LoadEnvConfigs(BaseSettings):
     model_config = SettingsConfigDict(env_file="../../../.env")
 
 
+
+
+
+
 class AppConfigs(LoadEnvConfigs):
     # 环境变量
     app_name: str = "Awesome API"
     admin_email: str="0"
     items_per_user: int = 50
 
+
+class ApiConfigs(LoadEnvConfigs):
+    dashscope_api_key: str = "0"
 
 class DatabaseConfigs(LoadEnvConfigs):
     # 环境变量
@@ -44,4 +51,7 @@ class DatabaseConfigs(LoadEnvConfigs):
 
 app_configs = AppConfigs()
 
+api_configs = ApiConfigs()
+
 db_configs = DatabaseConfigs()
+

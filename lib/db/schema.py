@@ -1,8 +1,7 @@
-from typing import Annotated, Union, Optional,Dict
+from typing import Optional,Dict
 from sqlalchemy import JSON, Column
-from sqlalchemy.dialects.postgresql import JSONB
 
-from sqlmodel import Field, Session, SQLModel, create_engine, select, DateTime, Uuid
+from sqlmodel import Field, SQLModel
 from datetime import datetime
 
 

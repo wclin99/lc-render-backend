@@ -5,14 +5,17 @@ from contextlib import asynccontextmanager
 from typing import Annotated, List, Union, Optional
 from fastapi import FastAPI, Depends, Query, Request, Body, status
 from fastapi.middleware.cors import CORSMiddleware
+from lib.chat.chat_history import ChatHistory
 from lib.db import DbEngine, Todo
-from lib.config import AppConfigs, DatabaseConfigs, app_configs, db_configs
+from lib.config import app_configs, db_configs, api_configs
 from langchain_postgres import PostgresChatMessageHistory
 from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
 from lib.db import User_chat_session
 from lib.model import ResponseModel, ApiDocTags, ChatRole
-from routers import router_chat_history, router_chat_session,router_demo
+from routers import router_chat_history, router_chat_session, router_demo
 from fastapi.testclient import TestClient
+from lib.chat.chat import chatWithHistory
+from fastapi.responses import StreamingResponse
 
 
 # 定义一个异步上下文管理器，用于在 FastAPI 应用的生命周期内执行数据库初始化
@@ -61,10 +64,6 @@ app.add_middleware(
 )
 
 
-
-
-
-
 @app.get("/")
 async def read_root():
     # return {"branch": "development"}
@@ -73,19 +72,20 @@ async def read_root():
 
 # 使用 lru_cache 装饰器缓存 get_configs 函数的返回结果
 # 函数用于获取配置信息
-@lru_cache
-def get_configs():
-    """
-    获取配置对象的实例。
+# @lru_cache
+# def get_configs():
+#     """
+#     获取配置对象的实例。
 
-    Returns:
-        Configs: 配置信息的实例。
-    """
-    return AppConfigs()
+#     Returns:
+#         Configs: 配置信息的实例。
+#     """
+#     return AppConfigs()
 
 
 @app.get("/app/info/", tags=[ApiDocTags.app])
-async def info(settings: Annotated[AppConfigs, Depends(get_configs)]):
+async def info():
+    # settings: Annotated[AppConfigs, Depends(get_configs)]
     """
     提供应用信息的接口。
 
@@ -104,7 +104,6 @@ async def info(settings: Annotated[AppConfigs, Depends(get_configs)]):
         # "database_url_dev": app_configs.database_url_dev,  # 示例，实际应用中可能需要根据环境变量动态获取
         "db_url": db_configs.get_database_url("dev"),
     }
-
 
 
 @app.get("/test/")
@@ -128,6 +127,30 @@ def create_chat_history_table():
     )
 
     return {"done"}
+
+
+@app.get("/test2/")
+def chat(
+    chat_session_id: str,
+    chat_input: str,
+    session: Session = Depends(DbEngine.get_session),
+):
+
+    # 5b9d15f2-d163-42cb-9570-f1b985ff9995
+
+    async def generate():
+        for chunk in chatWithHistory(
+            chat_session_id=chat_session_id, chat_input=chat_input, session=session
+        ):
+            yield chunk.content.encode()  # 将内容转为字节，因为StreamingResponse需要字节流
+
+    headers = {
+        "Content-Type": "text/plain",
+    }
+    return StreamingResponse(generate(), headers=headers, media_type="text/plain")
+    # return chatWithHistory(
+    #     chat_session_id=chat_session_id, chat_input=chat_input, session=session
+    # )
 
 
 if __name__ == "__main__":

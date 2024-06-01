@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f77494a696d54fd69dc670fac7cee9dfffdc9e886adc88decaafe5ef3eb00633"
+            "sha256": "075d36aab84b97f54ed9c774316f234e6955c5b7dde38567830406c77795f9a0"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -258,6 +258,14 @@
                 "sha256:bc3a1efa0b297242dcd0757e2e83d358bcd18bda77735e493aa89a634e74c9bf"
             ],
             "version": "==0.4.6"
+        },
+        "dashscope": {
+            "hashes": [
+                "sha256:bacfb6b7c2ce273d2f1a75c7a2ecc8142452079dd5efb2bfb77e670742debc62"
+            ],
+            "index": "pypi",
+            "markers": "python_full_version >= '3.8.0'",
+            "version": "==1.19.2"
         },
         "dataclasses-json": {
             "hashes": [

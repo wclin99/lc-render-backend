@@ -14,6 +14,9 @@
         const messageInput = document.getElementById("message-input");
         const sendButton = document.getElementById("send-button");
         const resultMessage = document.getElementById("result-message");
+        const sendHumanMessageButton = document.getElementById("send-message");
+        const inputTextarea = document.getElementById("input-textarea");
+        const outputTextarea = document.getElementById("output-textarea");
 
         // 加载用户ID
         const allUserIds = await fetch("/demo/fetch_all_user_ids").then(
@@ -145,6 +148,71 @@
           userIdSelect.value = allUserIds[0];
           await updateSessionIds(allUserIds[0]);
         }
+
+        sendHumanMessageButton.addEventListener("click", async function () {
+          const inputMsgContent = inputTextarea.value.trim(); // 获取输入框的值
+          const sessionId = "5b9d15f2-d163-42cb-9570-f1b985ff9995"; // 你的session ID
+
+          if (!inputMsgContent) return; // 如果输入为空，则不发送请求
+
+          try {
+            const response = await fetch(
+              `/test2/?chat_session_id=${sessionId}&chat_input=${inputMsgContent}`
+            );
+
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+
+            outputTextarea.value = "";
+            let completeResponse = "";
+
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+              const chunk = decoder.decode(value, { stream: true });
+
+              for (const char of Array.from(chunk)) {
+                outputTextarea.value += char;
+                completeResponse += char;
+                await new Promise((resolve) => setTimeout(resolve, 10)); // 控制每个字符之间的等待时间
+              }
+            }
+
+            // 将完整的响应post到数据库
+            const payload = {
+              chat_session: sessionId, // 添加 session_id
+              role: "ai",
+              content: completeResponse,
+            };
+
+            const postResponse = await fetch("/chat_history/post/", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            });
+
+            if (!postResponse.ok) {
+              throw new Error("Failed to save response");
+            }
+
+            const result = await postResponse.json();
+
+            if (!result.success || result.status_code !== 200) {
+              throw new Error(result.error || "Unknown error");
+            }
+
+            console.log("Message sent successfully!");
+          } catch (error) {
+            console.error("Error:", error);
+            outputTextarea.value = "Error fetching response";
+          }
+        });
       });
     </script>
   </head>
@@ -183,5 +251,25 @@
     <button id="send-button">Send Message</button>
     <br />
     <p id="result-message"></p>
+    <br />
+    <br />
+
+    <label for="input-textarea">Human input:</label>
+    <textarea
+      id="input-textarea"
+      rows="8"
+      cols="80"
+      placeholder="Enter your message here..."
+    ></textarea>
+    <button id="send-message">Send Message</button>
+    <br />
+    <label for="output-textarea">AI output:</label>
+    <textarea
+      id="output-textarea"
+      rows="8"
+      cols="80"
+      readonly
+      placeholder="AI response will appear here..."
+    ></textarea>
   </body>
 </html>
