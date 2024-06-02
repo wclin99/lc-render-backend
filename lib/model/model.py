@@ -18,3 +18,9 @@ class ResponseModel(BaseModel):
     status_code: int
     error: Optional[str] = None
     data: Optional[dict] = None
+
+class Environments(str, Enum):
+    dev = 'dev'
+    prev='preview'
+    test='test'
+    main='main'

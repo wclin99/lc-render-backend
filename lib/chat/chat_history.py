@@ -19,11 +19,10 @@ from psycopg2 import errors as pg_errors
 from lib.model import ChatRole
 
 
-
 class SimpleMessage(BaseModel):
-    role:ChatRole
-    content:str
-    
+    role: ChatRole
+    content: str
+
 
 class ChatHistory:
     """
@@ -32,20 +31,18 @@ class ChatHistory:
     """
 
     # 存储ChatHistory的实例
-    _instance: PostgresChatMessageHistory = None
+    _instance: Union["ChatHistory", None] = None
 
     # 用于确保线程安全地初始化单例
     _lock = threading.Lock()
 
-    # 存储当前聊天会话的ID
-    _chat_session_id = None
-
-    _messages: List[SimpleMessage] = []
-
-    _max_history_length = 50
-
-    @classmethod
-    def __init_ch(cls, chat_session_id: str) -> PostgresChatMessageHistory:
+    def __init__(
+        self,
+        *,
+        chat_session_id: str,
+        history_len: Union[int, None] = None,
+        session: Session
+    ):
         """
         初始化ChatHistory单例。
 
@@ -61,21 +58,21 @@ class ChatHistory:
 
         # 使用try-except来处理数据库连接异常
         try:
-            cls._messages.clear()
-            cls._chat_session_id = chat_session_id  # 存储会话ID
-            cls._instance = PostgresChatMessageHistory(
+            self._messages: List[Dict[str, Any]] = []
+            self._db_session: Session = session
+            self._chat_session_id: str = chat_session_id  # 存储会话ID
+            self._recent_history_length: int = history_len if history_len else 50
+            self._postgres_agent = PostgresChatMessageHistory(
                 ChatHistoryTable.__name__.lower(),
-                cls._chat_session_id,
+                self._chat_session_id,
                 sync_connection=DbEngine.get_psycopg_conn(),
             )
         except pg_errors.OperationalError as e:
             # 处理数据库连接异常
             raise ValueError("Failed to connect to the database.") from e
 
-        return cls._instance
-
     @classmethod
-    def __has_instance(cls, chat_session_id: Union[str, None] = None) -> bool:
+    def get_instance(cls, chat_session_id: str, session: Session) -> "ChatHistory":
         """
         判断ChatHistory的实例是否已创建。如果实例不存在，则通过init方法初始化。
 
@@ -87,37 +84,21 @@ class ChatHistory:
         """
         with cls._lock:  # 确保线程安全地获取或初始化实例
             # 检查当前是否有实例存在
-            if cls._instance is None:
-                # 如果chat_session_id为空，则直接返回False
+            if (
+                cls._instance is not None
+                and cls._instance._chat_session_id == chat_session_id
+            ):
 
-                if chat_session_id is None:
-                    return False
+                return cls._instance
 
-                # 初始化实例
-                cls._instance = cls.__init_ch(chat_session_id)
+            else:
 
-            # 如果传入的chat_session_id与当前实例的chat_session_id不一致，重新初始化实例
-            if chat_session_id is not cls._chat_session_id:
-                cls._instance = cls.__init_ch(chat_session_id)
+                cls._instance = ChatHistory(
+                    chat_session_id=chat_session_id, session=session
+                )
+                return cls._instance
 
-            return bool(cls._instance)
-
-    @classmethod
-    def get_history_instance(
-        cls, *, chat_session_id: Union[str, None] = None
-    ) -> PostgresChatMessageHistory:
-
-        if not cls.__has_instance(chat_session_id):
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Chat session not found",
-            )
-        return cls._instance
-
-    @classmethod
-    def get_chat_messages(
-        cls, *, chat_session_id: Union[str, None] = None, session: Session
-    ) -> list[Dict[str, Any]]:
+    def get_chat_messages_from_db(self) -> List[Dict[str, Any]]:
         """
         获取聊天历史消息。
 
@@ -125,40 +106,31 @@ class ChatHistory:
             聊天历史消息。
         """
 
-        if not cls.__has_instance(chat_session_id):
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Chat session not found",
-            )
-
         # results = cls._instance.get_messages() 这句不行
         # 执行查询并获取结果
-        messages = session.exec(
+        messages = self._db_session.exec(
             select(Chat_history_new.message).where(
-                Chat_history_new.session_id == cls._chat_session_id
+                Chat_history_new.session_id == self._chat_session_id
             )
         ).all()
 
         # 解析消息并提取content和type
         parsed_messages = [json.loads(res) for res in messages]
 
-        cls._messages.clear()
+        self._messages.clear()
 
         for pm in parsed_messages:
             content = pm["data"]["content"]
             role = pm["type"]
 
-            cls._messages.append(SimpleMessage(role=role,content=content))
+            self._messages.append(SimpleMessage(role=role, content=content))
 
-        return cls._messages
+        return self._messages
 
-    @classmethod
-    def add_chat_messages(
-        cls,
+    def add_chat_messages_to_db(
+        self,
         messages: Sequence[BaseMessage],
-        session: Session,
-        chat_session_id: Union[str, None] = None,
-    ) -> dict[str, Any]:
+    ) :
         """
         添加消息到聊天历史记录。
 
@@ -166,42 +138,29 @@ class ChatHistory:
             messages (Sequence[BaseMessage]): 要添加的消息序列。
         """
 
-        if not cls.__has_instance(chat_session_id):
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Chat session not found",
-            )
+        print(f"Before adding to DB: {messages}, type: {type(messages)}")
 
-        cls._instance.add_messages(messages)  # 添加消息
 
-        # 查询表中所有创建时间为空的记录
-        query_statement = select(Chat_history_new).where(
-            Chat_history_new.created_at == None
-        )
-        # 获取所有时间为空的记录
-        results = session.exec(query_statement).all()
+        for msg in messages:
+            self._db_session.add(ChatHistoryTable(
+                session_id=self._chat_session_id,
+                message={"type": msg.type, "data": msg.dict()},
+                created_at=datetime.now()
+            ))
+         
+        self._db_session.commit()
 
-        for result in results:
-            # 使用sqlmodel，为这些记录的created_at更新为当前时间datetime.now()
-            result.created_at = datetime.now()
+        return {"mesages":[{"type": msg.type, "data": msg.dict()} for msg in messages]}
 
-        session.commit()
+    # todo
+    def add_message_to_instance_storage(self, *, role: ChatRole, content: str):
+        self._messages.append(SimpleMessage(role=role, content=content))
 
-        # 确保 return是一个字典类型
-        return {
-            "messages": [message.content for message in messages],
-            "roles": [message.type for message in messages],
-            "session_id": chat_session_id,
-        }
-
-    @classmethod
-    def push_message(cls, *,role: ChatRole, content: str):
-        cls._messages.append(SimpleMessage(role=role,content=content))
-
+    # todo
     @classmethod
     def get_sliced_messages(cls):
-        if len(cls._messages) <= cls._max_history_length:
+        if len(cls._messages) <= cls._recent_history_length:
             return cls._messages
-        return cls._messages[-cls._max_history_length]
-       
+        return cls._messages[-cls._recent_history_length]
+
 

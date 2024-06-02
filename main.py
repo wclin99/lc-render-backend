@@ -11,12 +11,14 @@ from lib.config import app_configs, db_configs, api_configs
 from langchain_postgres import PostgresChatMessageHistory
 from langchain_core.messages import SystemMessage, AIMessage, HumanMessage
 from lib.db import User_chat_session
-from lib.model import ResponseModel, ApiDocTags, ChatRole
+from lib.model import ResponseModel, ApiDocTags, ChatRole,Environments
 from routers import router_chat_history, router_chat_session, router_demo
 from fastapi.testclient import TestClient
 from lib.chat.chat import chatWithHistory
 from fastapi.responses import StreamingResponse
 
+
+useEnv=Environments.main
 
 # 定义一个异步上下文管理器，用于在 FastAPI 应用的生命周期内执行数据库初始化
 @asynccontextmanager
@@ -31,7 +33,7 @@ async def lifespan(app: FastAPI):
     - 该函数使用 yield 语句分隔了初始化和清理操作，yield 之前的部分在应用启动时执行，之后的部分在应用停止时执行。
     """
     print("Creating tables..")
-    DbEngine.init_db()
+    DbEngine.init_db(conn_str=db_configs.get_database_url(useEnv))
     yield
 
 
@@ -67,7 +69,9 @@ app.add_middleware(
 @app.get("/")
 async def read_root():
     # return {"branch": "development"}
-    return {"branch": "development", "session_id": DbEngine.get_session_id()}
+    return {"repo branch": "development", 
+            "database branch": useEnv,
+            "session_id": DbEngine.get_session_id()}
 
 
 # 使用 lru_cache 装饰器缓存 get_configs 函数的返回结果
@@ -102,7 +106,8 @@ async def info():
         "admin_email": app_configs.admin_email,
         "items_per_user": app_configs.items_per_user,
         # "database_url_dev": app_configs.database_url_dev,  # 示例，实际应用中可能需要根据环境变量动态获取
-        "db_url": db_configs.get_database_url("dev"),
+        "db_branch": useEnv,
+        "db_conn_str": db_configs.get_database_url(useEnv),
     }
 
 

@@ -21,7 +21,9 @@ def chatWithHistory(*, chat_session_id: str, chat_input: str, session: Session):
 
     if not ChatHistory.get_sliced_messages():
         print("get_sliced_messages---empty!!!")
-        ChatHistory.get_chat_messages(chat_session_id=chat_session_id, session=session)
+        ChatHistory.get_chat_messages_from_db(
+            chat_session_id=chat_session_id, session=session
+        )
 
     print("get_sliced_messages---not empty~~")
     for msg in ChatHistory.get_sliced_messages():
@@ -34,9 +36,9 @@ def chatWithHistory(*, chat_session_id: str, chat_input: str, session: Session):
 
     message_history.append((ChatRole.human, "{question}"))
 
-    ChatHistory.push_message(role=ChatRole.human, content=chat_input)
+    ChatHistory.add_message_to_instance_storage(role=ChatRole.human, content=chat_input)
 
-    ChatHistory.add_chat_messages(
+    ChatHistory.add_chat_messages_to_db(
         [HumanMessage(content=chat_input)],
         session=session,
         chat_session_id=chat_session_id,

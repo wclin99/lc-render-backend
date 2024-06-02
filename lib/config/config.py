@@ -3,14 +3,11 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from starlette.config import Config as StarletteConfig
 from starlette.datastructures import Secret
 from typing import Union, Literal
+from lib.model import Environments
 
 
 class LoadEnvConfigs(BaseSettings):
     model_config = SettingsConfigDict(env_file="../../../.env")
-
-
-
-
 
 
 class AppConfigs(LoadEnvConfigs):
@@ -31,14 +28,14 @@ class DatabaseConfigs(LoadEnvConfigs):
     database_url_main: str = "0"
 
     def get_database_url(
-        self, environment: Union[Literal["dev", "preview", "test", "main"], None] = None
+        self, environment: Union[Environments, None] = None
     ) -> str:
 
         db_url_env = {
-            "dev": self.database_url_dev,
+            Environments.dev: self.database_url_dev,
             # "preview": cls.database_url_dev,
             # "test": cls.database_url_dev,
-            # "main": cls.database_url_dev,
+            Environments.main: self.database_url_main,
         }
 
         if environment and environment in db_url_env:

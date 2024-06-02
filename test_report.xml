@@ -1,1 +1,552 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="4" time="7.031" timestamp="2024-06-01T19:41:19.953283" hostname="DESKTOP-PG6NE4S"><testcase classname="test.test_router_chat_session.TestChatHistory" name="test_post_chat_history[5cc22949-e0f2-40c3-ac0a-889315a195a0-system-Posted by pytest...]" time="3.629" /><testcase classname="test.test_router_chat_session.TestChatHistory" name="test_post_chat_history[5cc22949-e0f2-40c3-ac0a-889315a195a0-ai-Posted by pytest...]" time="0.800" /><testcase classname="test.test_router_chat_session.TestChatHistory" name="test_post_chat_history[5cc22949-e0f2-40c3-ac0a-889315a195a0-human-Posted by pytest...]" time="0.795" /><testcase classname="test.test_router_chat_session.TestChatHistory" name="test_get_chat_history" time="0.340" /></testsuite></testsuites>
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="5" time="2.973" timestamp="2024-06-02T23:23:33.120357" hostname="DESKTOP-PG6NE4S"><testcase classname="test.test_router_chat_session.TestChatHistory" name="test_post_chat_history[5cc22949-e0f2-40c3-ac0a-889315a195a0-system-Posted by pytest...]" time="0.029"><failure message="sqlalchemy.exc.ArgumentError: Expected string or URL object, got None">self = &lt;test.test_router_chat_session.TestChatHistory object at 0x000002E55DEF06A0&gt;, chat_session = '5cc22949-e0f2-40c3-ac0a-889315a195a0', role = &lt;ChatRole.system: 'system'&gt;
+content = 'Posted by pytest...'
+
+    @pytest.mark.parametrize(
+        "chat_session, role, content",
+        [
+            ("5cc22949-e0f2-40c3-ac0a-889315a195a0", ChatRole.system, "Posted by pytest..."),
+            ("5cc22949-e0f2-40c3-ac0a-889315a195a0", ChatRole.ai, "Posted by pytest..."),
+            ("5cc22949-e0f2-40c3-ac0a-889315a195a0", ChatRole.human, "Posted by pytest..."),
+        ],
+    )
+    def test_post_chat_history(self, chat_session, role, content):
+&gt;       response = client.post(
+            "/chat_history/post/",
+            json={
+                "chat_session": chat_session,
+                "role": role,
+                "content": content,
+            },
+        )
+
+test\test_router_chat_session.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:633: in post
+    return super().post(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:1145: in post
+    return self.request(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\anyio\from_thread.py:287: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Python39\lib\concurrent\futures\_base.py:446: in result
+    return self.__get_result()
+C:\Python39\lib\concurrent\futures\_base.py:391: in __get_result
+    raise self._exception
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\anyio\from_thread.py:218: in _call_func
+    retval = await retval_or_awaitable
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\dependencies\utils.py:596: in solve_dependencies
+    solved = await solve_generator(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\dependencies\utils.py:521: in solve_generator
+    return await stack.enter_async_context(cm)
+C:\Python39\lib\contextlib.py:575: in enter_async_context
+    result = await _cm_type.__aenter__(cm)
+C:\Python39\lib\contextlib.py:181: in __aenter__
+    return await self.gen.__anext__()
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\concurrency.py:35: in contextmanager_in_threadpool
+    raise e
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;contextlib._GeneratorContextManager object at 0x000002E55DFB3C40&gt;, typ = &lt;class 'sqlalchemy.exc.ArgumentError'&gt;, value = ArgumentError('Expected string or URL object, got None')
+traceback = None
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                raise RuntimeError("generator didn't stop")
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+&gt;               self.gen.throw(typ, value, traceback)
+E               sqlalchemy.exc.ArgumentError: Expected string or URL object, got None
+
+C:\Python39\lib\contextlib.py:137: ArgumentError</failure></testcase><testcase classname="test.test_router_chat_session.TestChatHistory" name="test_post_chat_history[5cc22949-e0f2-40c3-ac0a-889315a195a0-ai-Posted by pytest...]" time="0.003"><failure message="sqlalchemy.exc.ArgumentError: Expected string or URL object, got None">self = &lt;test.test_router_chat_session.TestChatHistory object at 0x000002E55DEF06D0&gt;, chat_session = '5cc22949-e0f2-40c3-ac0a-889315a195a0', role = &lt;ChatRole.ai: 'ai'&gt;
+content = 'Posted by pytest...'
+
+    @pytest.mark.parametrize(
+        "chat_session, role, content",
+        [
+            ("5cc22949-e0f2-40c3-ac0a-889315a195a0", ChatRole.system, "Posted by pytest..."),
+            ("5cc22949-e0f2-40c3-ac0a-889315a195a0", ChatRole.ai, "Posted by pytest..."),
+            ("5cc22949-e0f2-40c3-ac0a-889315a195a0", ChatRole.human, "Posted by pytest..."),
+        ],
+    )
+    def test_post_chat_history(self, chat_session, role, content):
+&gt;       response = client.post(
+            "/chat_history/post/",
+            json={
+                "chat_session": chat_session,
+                "role": role,
+                "content": content,
+            },
+        )
+
+test\test_router_chat_session.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:633: in post
+    return super().post(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:1145: in post
+    return self.request(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\anyio\from_thread.py:287: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Python39\lib\concurrent\futures\_base.py:446: in result
+    return self.__get_result()
+C:\Python39\lib\concurrent\futures\_base.py:391: in __get_result
+    raise self._exception
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\anyio\from_thread.py:218: in _call_func
+    retval = await retval_or_awaitable
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\dependencies\utils.py:596: in solve_dependencies
+    solved = await solve_generator(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\dependencies\utils.py:521: in solve_generator
+    return await stack.enter_async_context(cm)
+C:\Python39\lib\contextlib.py:575: in enter_async_context
+    result = await _cm_type.__aenter__(cm)
+C:\Python39\lib\contextlib.py:181: in __aenter__
+    return await self.gen.__anext__()
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\concurrency.py:35: in contextmanager_in_threadpool
+    raise e
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;contextlib._GeneratorContextManager object at 0x000002E55E725A60&gt;, typ = &lt;class 'sqlalchemy.exc.ArgumentError'&gt;, value = ArgumentError('Expected string or URL object, got None')
+traceback = None
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                raise RuntimeError("generator didn't stop")
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+&gt;               self.gen.throw(typ, value, traceback)
+E               sqlalchemy.exc.ArgumentError: Expected string or URL object, got None
+
+C:\Python39\lib\contextlib.py:137: ArgumentError</failure></testcase><testcase classname="test.test_router_chat_session.TestChatHistory" name="test_post_chat_history[5cc22949-e0f2-40c3-ac0a-889315a195a0-human-Posted by pytest...]" time="0.003"><failure message="sqlalchemy.exc.ArgumentError: Expected string or URL object, got None">self = &lt;test.test_router_chat_session.TestChatHistory object at 0x000002E55DEF0A60&gt;, chat_session = '5cc22949-e0f2-40c3-ac0a-889315a195a0', role = &lt;ChatRole.human: 'human'&gt;
+content = 'Posted by pytest...'
+
+    @pytest.mark.parametrize(
+        "chat_session, role, content",
+        [
+            ("5cc22949-e0f2-40c3-ac0a-889315a195a0", ChatRole.system, "Posted by pytest..."),
+            ("5cc22949-e0f2-40c3-ac0a-889315a195a0", ChatRole.ai, "Posted by pytest..."),
+            ("5cc22949-e0f2-40c3-ac0a-889315a195a0", ChatRole.human, "Posted by pytest..."),
+        ],
+    )
+    def test_post_chat_history(self, chat_session, role, content):
+&gt;       response = client.post(
+            "/chat_history/post/",
+            json={
+                "chat_session": chat_session,
+                "role": role,
+                "content": content,
+            },
+        )
+
+test\test_router_chat_session.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:633: in post
+    return super().post(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:1145: in post
+    return self.request(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\anyio\from_thread.py:287: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Python39\lib\concurrent\futures\_base.py:446: in result
+    return self.__get_result()
+C:\Python39\lib\concurrent\futures\_base.py:391: in __get_result
+    raise self._exception
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\anyio\from_thread.py:218: in _call_func
+    retval = await retval_or_awaitable
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\dependencies\utils.py:596: in solve_dependencies
+    solved = await solve_generator(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\dependencies\utils.py:521: in solve_generator
+    return await stack.enter_async_context(cm)
+C:\Python39\lib\contextlib.py:575: in enter_async_context
+    result = await _cm_type.__aenter__(cm)
+C:\Python39\lib\contextlib.py:181: in __aenter__
+    return await self.gen.__anext__()
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\concurrency.py:35: in contextmanager_in_threadpool
+    raise e
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;contextlib._GeneratorContextManager object at 0x000002E55E946490&gt;, typ = &lt;class 'sqlalchemy.exc.ArgumentError'&gt;, value = ArgumentError('Expected string or URL object, got None')
+traceback = None
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                raise RuntimeError("generator didn't stop")
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+&gt;               self.gen.throw(typ, value, traceback)
+E               sqlalchemy.exc.ArgumentError: Expected string or URL object, got None
+
+C:\Python39\lib\contextlib.py:137: ArgumentError</failure></testcase><testcase classname="test.test_router_chat_session.TestChatHistory" name="test_get_chat_history[5cc22949-e0f2-40c3-ac0a-889315a195a0]" time="0.004"><failure message="sqlalchemy.exc.ArgumentError: Expected string or URL object, got None">self = &lt;test.test_router_chat_session.TestChatHistory object at 0x000002E55DEECCA0&gt;, chat_session = '5cc22949-e0f2-40c3-ac0a-889315a195a0'
+
+    @pytest.mark.parametrize(
+        "chat_session",
+        ["5cc22949-e0f2-40c3-ac0a-889315a195a0", "another_test_session"],
+    )
+    def test_get_chat_history(self, chat_session):
+&gt;       response = client.get(f"/chat_history/get/?chat_session={chat_session}")
+
+test\test_router_chat_session.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:548: in get
+    return super().get(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:1054: in get
+    return self.request(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\anyio\from_thread.py:287: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Python39\lib\concurrent\futures\_base.py:446: in result
+    return self.__get_result()
+C:\Python39\lib\concurrent\futures\_base.py:391: in __get_result
+    raise self._exception
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\anyio\from_thread.py:218: in _call_func
+    retval = await retval_or_awaitable
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\dependencies\utils.py:596: in solve_dependencies
+    solved = await solve_generator(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\dependencies\utils.py:521: in solve_generator
+    return await stack.enter_async_context(cm)
+C:\Python39\lib\contextlib.py:575: in enter_async_context
+    result = await _cm_type.__aenter__(cm)
+C:\Python39\lib\contextlib.py:181: in __aenter__
+    return await self.gen.__anext__()
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\concurrency.py:35: in contextmanager_in_threadpool
+    raise e
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;contextlib._GeneratorContextManager object at 0x000002E55E56A820&gt;, typ = &lt;class 'sqlalchemy.exc.ArgumentError'&gt;, value = ArgumentError('Expected string or URL object, got None')
+traceback = None
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                raise RuntimeError("generator didn't stop")
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+&gt;               self.gen.throw(typ, value, traceback)
+E               sqlalchemy.exc.ArgumentError: Expected string or URL object, got None
+
+C:\Python39\lib\contextlib.py:137: ArgumentError</failure></testcase><testcase classname="test.test_router_chat_session.TestChatHistory" name="test_get_chat_history[another_test_session]" time="0.003"><failure message="sqlalchemy.exc.ArgumentError: Expected string or URL object, got None">self = &lt;test.test_router_chat_session.TestChatHistory object at 0x000002E55DEECAF0&gt;, chat_session = 'another_test_session'
+
+    @pytest.mark.parametrize(
+        "chat_session",
+        ["5cc22949-e0f2-40c3-ac0a-889315a195a0", "another_test_session"],
+    )
+    def test_get_chat_history(self, chat_session):
+&gt;       response = client.get(f"/chat_history/get/?chat_session={chat_session}")
+
+test\test_router_chat_session.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:548: in get
+    return super().get(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:1054: in get
+    return self.request(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\anyio\from_thread.py:287: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Python39\lib\concurrent\futures\_base.py:446: in result
+    return self.__get_result()
+C:\Python39\lib\concurrent\futures\_base.py:391: in __get_result
+    raise self._exception
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\anyio\from_thread.py:218: in _call_func
+    retval = await retval_or_awaitable
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\dependencies\utils.py:596: in solve_dependencies
+    solved = await solve_generator(
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\dependencies\utils.py:521: in solve_generator
+    return await stack.enter_async_context(cm)
+C:\Python39\lib\contextlib.py:575: in enter_async_context
+    result = await _cm_type.__aenter__(cm)
+C:\Python39\lib\contextlib.py:181: in __aenter__
+    return await self.gen.__anext__()
+PIPENV_VENV_IN_PROJECT\lc-render-backend-BehqWtBA\lib\site-packages\fastapi\concurrency.py:35: in contextmanager_in_threadpool
+    raise e
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;contextlib._GeneratorContextManager object at 0x000002E55E392070&gt;, typ = &lt;class 'sqlalchemy.exc.ArgumentError'&gt;, value = ArgumentError('Expected string or URL object, got None')
+traceback = None
+
+    def __exit__(self, typ, value, traceback):
+        if typ is None:
+            try:
+                next(self.gen)
+            except StopIteration:
+                return False
+            else:
+                raise RuntimeError("generator didn't stop")
+        else:
+            if value is None:
+                # Need to force instantiation so we can reliably
+                # tell if we get the same exception back
+                value = typ()
+            try:
+&gt;               self.gen.throw(typ, value, traceback)
+E               sqlalchemy.exc.ArgumentError: Expected string or URL object, got None
+
+C:\Python39\lib\contextlib.py:137: ArgumentError</failure></testcase></testsuite></testsuites>

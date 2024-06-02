@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from typing import Annotated
+from typing import Annotated, List
 from fastapi import Depends, Query, Body
 from sqlmodel import Session
 from lib.db import DbEngine
@@ -16,7 +16,7 @@ router = APIRouter()
 
 
 @router.post("/post/", response_model=ResponseModel)
-def post_chat_history(
+def post_chat_history_to_db(
     chat_session: Annotated[
         str, Body(examples=["5cc22949-e0f2-40c3-ac0a-889315a195a0"])
     ],
@@ -34,12 +34,9 @@ def post_chat_history(
         if message_class is None:
             raise ValueError(f"Invalid role: {role}")
 
-        message = message_class(content=content)
-
-        response_data = ChatHistory.add_chat_messages(
-            [message],
-            session,
-            chat_session,
+              
+        response_data = ChatHistory.get_instance(chat_session,session).add_chat_messages_to_db(
+            [message_class(content=content)]
         )
 
         response_model = ResponseModel(
@@ -67,7 +64,7 @@ def post_chat_history(
 
 
 @router.get("/get/", response_model=ResponseModel)
-def get_chat_history(
+def get_chat_history_from_db(
     chat_session: Annotated[
         str,
         Query(
@@ -80,9 +77,9 @@ def get_chat_history(
 ):
 
     try:
-        message_list = ChatHistory.get_chat_messages(
-            session=session, chat_session_id=chat_session
-        )
+        message_list = ChatHistory.get_instance(
+            chat_session, session
+        ).get_chat_messages_from_db()
 
         response_model = ResponseModel(
             success=True,
