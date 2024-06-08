@@ -28,8 +28,6 @@ from fastapi.testclient import TestClient
 from lib.chat.chat import chatWithAnyDocument, chatWithDocument, chatWithHistory
 from fastapi.responses import StreamingResponse
 from langchain_community.document_loaders import WebBaseLoader
-from pinecone import Pinecone, ServerlessSpec
-from langchain_pinecone import PineconeVectorStore
 from langchain_core.output_parsers import StrOutputParser
 from lib.chat import model
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -178,132 +176,132 @@ def chat(
     # )
 
 
-@app.get("/test3/")
-def test_web_loader():
-    # Load, chunk and index the contents of the blog.
-    loader = WebBaseLoader(
-        web_paths=("https://lilianweng.github.io/posts/2023-06-23-agent/",),
-        bs_kwargs=dict(
-            parse_only=bs4.SoupStrainer(
-                class_=("post-content", "post-title", "post-header")
-            )
-        ),
-    )
-    docs = loader.load()
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-    splits = text_splitter.split_documents(docs)
-    # vectorstore = Chroma.from_documents(documents=splits, embedding=OpenAIEmbeddings())
-    pc = Pinecone(api_key=api_configs.pinecone_api_key)
-    index_name = "ux-prototype"
-    existing_indexes = [index_info["name"] for index_info in pc.list_indexes()]
-    if index_name not in existing_indexes:
-        pc.create_index(
-            index_name,
-            dimension=1536,
-            metric="cosine",
-            spec=ServerlessSpec(cloud="aws", region="us-east-1"),
-        )
-        while not pc.describe_index(index_name).status["ready"]:
-            time.sleep(1)
-    index = pc.Index(index_name)
-    vectorstore = PineconeVectorStore.from_documents(
-        documents=docs, embedding=OpenAIEmbeddings(), index_name=index_name
-    )
+# @app.get("/test3/")
+# def test_web_loader():
+#     # Load, chunk and index the contents of the blog.
+#     loader = WebBaseLoader(
+#         web_paths=("https://lilianweng.github.io/posts/2023-06-23-agent/",),
+#         bs_kwargs=dict(
+#             parse_only=bs4.SoupStrainer(
+#                 class_=("post-content", "post-title", "post-header")
+#             )
+#         ),
+#     )
+#     docs = loader.load()
+#     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+#     splits = text_splitter.split_documents(docs)
+#     # vectorstore = Chroma.from_documents(documents=splits, embedding=OpenAIEmbeddings())
+#     pc = Pinecone(api_key=api_configs.pinecone_api_key)
+#     index_name = "ux-prototype"
+#     existing_indexes = [index_info["name"] for index_info in pc.list_indexes()]
+#     if index_name not in existing_indexes:
+#         pc.create_index(
+#             index_name,
+#             dimension=1536,
+#             metric="cosine",
+#             spec=ServerlessSpec(cloud="aws", region="us-east-1"),
+#         )
+#         while not pc.describe_index(index_name).status["ready"]:
+#             time.sleep(1)
+#     index = pc.Index(index_name)
+#     vectorstore = PineconeVectorStore.from_documents(
+#         documents=docs, embedding=OpenAIEmbeddings(), index_name=index_name
+#     )
 
-    # Retrieve and generate using the relevant snippets of the blog.
-    retriever = vectorstore.as_retriever()
-    prompt = hub.pull("rlm/rag-prompt")
-    # You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
-    # Question: {question}
-    # Context: {context}
-    # Answer:
-    llm = model
-    rag_chain = (
-        {"context": retriever | format_docs, "question": RunnablePassthrough()}
-        | prompt
-        | llm
-        | StrOutputParser()
-    )
+#     # Retrieve and generate using the relevant snippets of the blog.
+#     retriever = vectorstore.as_retriever()
+#     prompt = hub.pull("rlm/rag-prompt")
+#     # You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question. If you don't know the answer, just say that you don't know. Use three sentences maximum and keep the answer concise.
+#     # Question: {question}
+#     # Context: {context}
+#     # Answer:
+#     llm = model
+#     rag_chain = (
+#         {"context": retriever | format_docs, "question": RunnablePassthrough()}
+#         | prompt
+#         | llm
+#         | StrOutputParser()
+#     )
 
-    return rag_chain.invoke("What is Task Decomposition?")
-
-
-def format_docs(docs):
-    return "\n\n".join(doc.page_content for doc in docs)
+#     return rag_chain.invoke("What is Task Decomposition?")
 
 
-@app.get("/test4/")
-def test_web_loader2():
-    markdown_document = "# 产品介绍\n\n欢迎踏入奇思妙想的世界，探索**奇迹向量5000**——一项技术幻想的飞跃，承诺在绝对无用的同时，以它奇幻的功能让你目眩神迷。无论你是技术狂热者还是寻觅乐趣的旅人，**奇迹向量5000**定会让你在惊喜与困惑中找到平衡。让我们一起揭开这款现代胡言乱语奇迹的虚构规格、设置流程以及故障排除小贴士的神秘面纱。\n\n## 产品概览\n\n**奇迹向量5000**满载着超越逻辑与物理的特性，每一项设计都旨在听起来令人印象深刻，同时保持一抹荒诞不经的趣味：\n\n- **超量子跃迁引擎**：作为**奇迹向量5000**的核心，此引擎基于超量子跃迁原理运作，一种既神秘又无意义的现象。它利用不可能性力量，在多维空间内无缝运行。\n\n- **超立方体潜能矩阵**：这一组件将无限可能压缩至单一超立方体状态，使设备能够以0%的准确率预测结果，确保每次使用都是全新的探险。\n\n- **以太波动电容器**：从虚构的以太中汲取能量，该电容器通过挖掘无限想象能量场的无尽储备，提供源源不断的动力。\n\n- **多维度全息界面**：通过其全息界面与**奇迹向量5000**互动，该界面在三加半维度上投射控制和信息，创造一个既未来感十足又令人费解的用户体验。\n\n- **神经狂欢同步器**：这项先进功能直接连接用户的脑波，将你最深邃的想法转化为可触摸的行动——尽管结果总是充满奇趣且难以预料。\n\n- **时空扭曲场**：利用**奇迹向量5000**的时空扭曲场操控时间本身，让你可以体验即将发生或重新经历处于时间流动中的瞬间。\n\n## 应用场景\n\n尽管**奇迹向量5000**本质上是一个虚构的乐趣装置，让我们想象一些它理论上可以应用的场景：\n\n- **时空旅行冒险**：利用时空扭曲场访问历史的关键时刻或窥探未来。虽然实际的时间操控不可能，但这一想法本身就激发了无限的叙事可能。\n\n- **跨维度游戏体验**：通过多维度全息界面沉浸于超脱现实的游戏体验中。想象一下，游戏通过神经狂欢同步器与你的思想相连，创造出独一无二、不断变化的环境。\n\n- **无限创意激发**：利用超立方体潜能矩阵进行头脑风暴会议。通过将无限可能压缩至超立方体状态，理论上能帮助解锁前所未有的创意想法。\n\n- **能源探索**：探索从以太中提取无限能量的概念。虽然纯属虚构，但从以太中汲取能量的设想或许能启发能源研究的新思维。\n\n## 上手指南\n\n启动你的**奇迹向量5000**既简单又荒谬地复杂。遵循以下步骤释放新设备的全部潜能：\n\n1. **开箱设备**：从反重力包装中取出**奇迹向量5000**，注意轻拿轻放，以免干扰其组件的微妙平衡。\n\n2. **启动超量子跃迁引擎**：找到标有“QFE启动”的透明杆并轻轻拉动。你应该能看到空气中有轻微的闪烁，表明超量子跃迁正在生效。\n\n3. **校准超立方体潜能矩阵**：转动标有“无限A”和“无限B”的旋钮，直至矩阵稳定。当显示屏显示一个稳定的“∞”时，说明已校准正确。\n\n## 故障排查\n\n即便是设计得如此奇妙的**奇迹向量5000**也可能遇到问题。这里有一些常见问题及其解决方案：\n\n- **问题**：超量子跃迁引擎无法启动。\n    - **解决方案**：确保反重力包装已完全移除，并检查是否有任何不可能性碎片阻碍了引擎。"
-    headers_to_split_on = [("#", "Header 1"), ("##", "Header 2")]
+# def format_docs(docs):
+#     return "\n\n".join(doc.page_content for doc in docs)
 
-    markdown_splitter = MarkdownHeaderTextSplitter(
-        headers_to_split_on=headers_to_split_on, strip_headers=False
-    )
-    md_header_splits = markdown_splitter.split_text(markdown_document)
 
-    embeddings = DashScopeEmbeddings(
-        model="text-embedding-v2", dashscope_api_key=api_configs.dashscope_api_key
-    )
-    pc = Pinecone(api_key=api_configs.pinecone_api_key)
-    index_name = "ux-prototype"
-    existing_indexes = [index_info["name"] for index_info in pc.list_indexes()]
-    if index_name not in existing_indexes:
-        pc.create_index(
-            index_name,
-            dimension=1536,
-            metric="cosine",
-            spec=ServerlessSpec(cloud="aws", region="us-east-1"),
-        )
-        while not pc.describe_index(index_name).status["ready"]:
-            time.sleep(1)
-    index = pc.Index(index_name)
-    namespace = "wondervector5000-zh"
+# @app.get("/test4/")
+# def test_web_loader2():
+#     markdown_document = "# 产品介绍\n\n欢迎踏入奇思妙想的世界，探索**奇迹向量5000**——一项技术幻想的飞跃，承诺在绝对无用的同时，以它奇幻的功能让你目眩神迷。无论你是技术狂热者还是寻觅乐趣的旅人，**奇迹向量5000**定会让你在惊喜与困惑中找到平衡。让我们一起揭开这款现代胡言乱语奇迹的虚构规格、设置流程以及故障排除小贴士的神秘面纱。\n\n## 产品概览\n\n**奇迹向量5000**满载着超越逻辑与物理的特性，每一项设计都旨在听起来令人印象深刻，同时保持一抹荒诞不经的趣味：\n\n- **超量子跃迁引擎**：作为**奇迹向量5000**的核心，此引擎基于超量子跃迁原理运作，一种既神秘又无意义的现象。它利用不可能性力量，在多维空间内无缝运行。\n\n- **超立方体潜能矩阵**：这一组件将无限可能压缩至单一超立方体状态，使设备能够以0%的准确率预测结果，确保每次使用都是全新的探险。\n\n- **以太波动电容器**：从虚构的以太中汲取能量，该电容器通过挖掘无限想象能量场的无尽储备，提供源源不断的动力。\n\n- **多维度全息界面**：通过其全息界面与**奇迹向量5000**互动，该界面在三加半维度上投射控制和信息，创造一个既未来感十足又令人费解的用户体验。\n\n- **神经狂欢同步器**：这项先进功能直接连接用户的脑波，将你最深邃的想法转化为可触摸的行动——尽管结果总是充满奇趣且难以预料。\n\n- **时空扭曲场**：利用**奇迹向量5000**的时空扭曲场操控时间本身，让你可以体验即将发生或重新经历处于时间流动中的瞬间。\n\n## 应用场景\n\n尽管**奇迹向量5000**本质上是一个虚构的乐趣装置，让我们想象一些它理论上可以应用的场景：\n\n- **时空旅行冒险**：利用时空扭曲场访问历史的关键时刻或窥探未来。虽然实际的时间操控不可能，但这一想法本身就激发了无限的叙事可能。\n\n- **跨维度游戏体验**：通过多维度全息界面沉浸于超脱现实的游戏体验中。想象一下，游戏通过神经狂欢同步器与你的思想相连，创造出独一无二、不断变化的环境。\n\n- **无限创意激发**：利用超立方体潜能矩阵进行头脑风暴会议。通过将无限可能压缩至超立方体状态，理论上能帮助解锁前所未有的创意想法。\n\n- **能源探索**：探索从以太中提取无限能量的概念。虽然纯属虚构，但从以太中汲取能量的设想或许能启发能源研究的新思维。\n\n## 上手指南\n\n启动你的**奇迹向量5000**既简单又荒谬地复杂。遵循以下步骤释放新设备的全部潜能：\n\n1. **开箱设备**：从反重力包装中取出**奇迹向量5000**，注意轻拿轻放，以免干扰其组件的微妙平衡。\n\n2. **启动超量子跃迁引擎**：找到标有“QFE启动”的透明杆并轻轻拉动。你应该能看到空气中有轻微的闪烁，表明超量子跃迁正在生效。\n\n3. **校准超立方体潜能矩阵**：转动标有“无限A”和“无限B”的旋钮，直至矩阵稳定。当显示屏显示一个稳定的“∞”时，说明已校准正确。\n\n## 故障排查\n\n即便是设计得如此奇妙的**奇迹向量5000**也可能遇到问题。这里有一些常见问题及其解决方案：\n\n- **问题**：超量子跃迁引擎无法启动。\n    - **解决方案**：确保反重力包装已完全移除，并检查是否有任何不可能性碎片阻碍了引擎。"
+#     headers_to_split_on = [("#", "Header 1"), ("##", "Header 2")]
 
-    docsearch = PineconeVectorStore.from_documents(
-        documents=md_header_splits,
-        index_name=index_name,
-        embedding=embeddings,
-        namespace=namespace,
-    )
+#     markdown_splitter = MarkdownHeaderTextSplitter(
+#         headers_to_split_on=headers_to_split_on, strip_headers=False
+#     )
+#     md_header_splits = markdown_splitter.split_text(markdown_document)
 
-    collection_name = namespace
+#     embeddings = DashScopeEmbeddings(
+#         model="text-embedding-v2", dashscope_api_key=api_configs.dashscope_api_key
+#     )
+#     pc = Pinecone(api_key=api_configs.pinecone_api_key)
+#     index_name = "ux-prototype"
+#     existing_indexes = [index_info["name"] for index_info in pc.list_indexes()]
+#     if index_name not in existing_indexes:
+#         pc.create_index(
+#             index_name,
+#             dimension=1536,
+#             metric="cosine",
+#             spec=ServerlessSpec(cloud="aws", region="us-east-1"),
+#         )
+#         while not pc.describe_index(index_name).status["ready"]:
+#             time.sleep(1)
+#     index = pc.Index(index_name)
+#     namespace = "wondervector5000-zh"
 
-    vectorstore = PGVector.from_documents(
-        embedding=embeddings,
-        documents=md_header_splits,
-        connection=db_configs.get_database_url(useEnv),
-        collection_name=collection_name,
-        use_jsonb=True,
-    )
+#     docsearch = PineconeVectorStore.from_documents(
+#         documents=md_header_splits,
+#         index_name=index_name,
+#         embedding=embeddings,
+#         namespace=namespace,
+#     )
 
-    time.sleep(1)
+#     collection_name = namespace
 
-    for ids in index.list(namespace=namespace):
-        query = index.query(
-            id=ids[0],
-            namespace=namespace,
-            top_k=1,
-            include_values=True,
-            include_metadata=True,
-        )
-        print(query)
+#     vectorstore = PGVector.from_documents(
+#         embedding=embeddings,
+#         documents=md_header_splits,
+#         connection=db_configs.get_database_url(useEnv),
+#         collection_name=collection_name,
+#         use_jsonb=True,
+#     )
 
-    llm = model
+#     time.sleep(1)
 
-    # retriever = docsearch.as_retriever()
-    retriever = vectorstore.as_retriever()
+#     for ids in index.list(namespace=namespace):
+#         query = index.query(
+#             id=ids[0],
+#             namespace=namespace,
+#             top_k=1,
+#             include_values=True,
+#             include_metadata=True,
+#         )
+#         print(query)
 
-    prompt = hub.pull("rlm/rag-prompt")
+#     llm = model
 
-    rag_chain = (
-        {"context": retriever | format_docs, "question": RunnablePassthrough()}
-        | prompt
-        | llm
-        | StrOutputParser()
-    )
-    query1 = "启动奇迹向量5000的前三个步骤是什么？"
-    return rag_chain.invoke(query1)
+#     # retriever = docsearch.as_retriever()
+#     retriever = vectorstore.as_retriever()
+
+#     prompt = hub.pull("rlm/rag-prompt")
+
+#     rag_chain = (
+#         {"context": retriever | format_docs, "question": RunnablePassthrough()}
+#         | prompt
+#         | llm
+#         | StrOutputParser()
+#     )
+#     query1 = "启动奇迹向量5000的前三个步骤是什么？"
+#     return rag_chain.invoke(query1)
 
 
 @app.post("/test5/")
