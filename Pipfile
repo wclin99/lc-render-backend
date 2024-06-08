@@ -13,6 +13,17 @@ fastapi = {extras = ["all"], version = "*"}
 langchain-postgres = "*"
 langchain-core = "*"
 dashscope = "*"
+bs4 = "*"
+langchainhub = "*"
+pypdf = "*"
+unstructured = "*"
+python-pptx = "*"
+markdown = "*"
+networkx = "*"
+pandas = "*"
+openpyxl = "*"
+python-docx = "*"
+oss2 = "*"
 
 [dev-packages]
 psycopg2-binary = "*"
@@ -21,6 +32,8 @@ langchain-cli = "*"
 httpx = "*"
 pytest = "*"
 pytest-env = "*"
+pytest-html = "*"
+pytest-sugar = "*"
 
 [requires]
 python_version = "3.9"

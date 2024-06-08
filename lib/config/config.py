@@ -19,11 +19,12 @@ class AppConfigs(LoadEnvConfigs):
 
 class ApiConfigs(LoadEnvConfigs):
     dashscope_api_key: str = "0"
+    pinecone_api_key: str = "0"
 
 class DatabaseConfigs(LoadEnvConfigs):
     # 环境变量
     database_url_dev: str = "0"
-    database_url_test: str = "0"
+    database_url_testing: str = "0"
     database_url_preview: str = "0"
     database_url_main: str = "0"
 
@@ -34,7 +35,7 @@ class DatabaseConfigs(LoadEnvConfigs):
         db_url_env = {
             Environments.dev: self.database_url_dev,
             # "preview": cls.database_url_dev,
-            # "test": cls.database_url_dev,
+            Environments.test: self.database_url_testing,
             Environments.main: self.database_url_main,
         }
 

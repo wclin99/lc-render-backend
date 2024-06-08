@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title id="head-title">test_report.html</title>
+      <link href="assets\style.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+    <h1 id="title">test_report.html</h1>
+    <p>Report generated on 05-Jun-2024 at 21:38:39 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+        v4.1.1</p>
+    <div id="environment-header">
+      <h2>Environment</h2>
+    </div>
+    <table id="environment"></table>
+    <!-- TEMPLATES -->
+      <template id="template_environment_row">
+      <tr>
+        <td></td>
+        <td></td>
+      </tr>
+    </template>
+    <template id="template_results-table__body--empty">
+      <tbody class="results-table-row">
+        <tr id="not-found-message">
+          <td colspan="4">No results found. Check the filters.</th>
+        </tr>
+    </template>
+    <template id="template_results-table__tbody">
+      <tbody class="results-table-row">
+        <tr class="collapsible">
+        </tr>
+        <tr class="extras-row">
+          <td class="extra" colspan="4">
+            <div class="extraHTML"></div>
+            <div class="media">
+              <div class="media-container">
+                  <div class="media-container__nav--left"><</div>
+                  <div class="media-container__viewport">
+                    <img src="" />
+                    <video controls>
+                      <source src="" type="video/mp4">
+                    </video>
+                  </div>
+                  <div class="media-container__nav--right">></div>
+                </div>
+                <div class="media__name"></div>
+                <div class="media__counter"></div>
+            </div>
+            <div class="logwrapper">
+              <div class="logexpander"></div>
+              <div class="log"></div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </template>
+    <!-- END TEMPLATES -->
+    <div class="summary">
+      <div class="summary__data">
+        <h2>Summary</h2>
+        <div class="additional-summary prefix">
+        </div>
+        <p class="run-count">3 tests took 00:00:04.</p>
+        <p class="filter">(Un)check the boxes to filter the results.</p>
+        <div class="summary__reload">
+          <div class="summary__reload__button hidden" onclick="location.reload()">
+            <div>There are still tests running. <br />Reload this page to get the latest results!</div>
+          </div>
+        </div>
+        <div class="summary__spacer"></div>
+        <div class="controls">
+          <div class="filters">
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="failed" />
+            <span class="failed">2 Failed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="passed" />
+            <span class="passed">1 Passed,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="skipped" disabled/>
+            <span class="skipped">0 Skipped,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xfailed" disabled/>
+            <span class="xfailed">0 Expected failures,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="xpassed" disabled/>
+            <span class="xpassed">0 Unexpected passes,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="error" disabled/>
+            <span class="error">0 Errors,</span>
+            <input checked="true" class="filter" name="filter_checkbox" type="checkbox" data-test-result="rerun" disabled/>
+            <span class="rerun">0 Reruns</span>
+          </div>
+          <div class="collapse">
+            <button id="show_all_details">Show all details</button>&nbsp;/&nbsp;<button id="hide_all_details">Hide all details</button>
+          </div>
+        </div>
+      </div>
+      <div class="additional-summary summary">
+      </div>
+      <div class="additional-summary postfix">
+      </div>
+    </div>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable" data-column-type="result">Result</th>
+          <th class="sortable" data-column-type="testId">Test</th>
+          <th class="sortable" data-column-type="duration">Duration</th>
+          <th>Links</th>
+        </tr>
+      </thead>
+    </table>
+  </body>
+  <footer>
+    <div id="data-container" data-jsonblob="{&#34;environment&#34;: {&#34;Python&#34;: &#34;3.9.13&#34;, &#34;Platform&#34;: &#34;Windows-10-10.0.19045-SP0&#34;, &#34;Packages&#34;: {&#34;pytest&#34;: &#34;8.2.1&#34;, &#34;pluggy&#34;: &#34;1.5.0&#34;}, &#34;Plugins&#34;: {&#34;anyio&#34;: &#34;4.4.0&#34;, &#34;env&#34;: &#34;1.1.3&#34;, &#34;html&#34;: &#34;4.1.1&#34;, &#34;metadata&#34;: &#34;3.1.1&#34;, &#34;sugar&#34;: &#34;1.0.0&#34;}}, &#34;tests&#34;: {&#34;test/test_chat_history.py::TestChatHistory::test_get_chat_history[5cc22949-e0f2-40c3-ac0a-889315a195a0]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;test/test_chat_history.py::TestChatHistory::test_get_chat_history[5cc22949-e0f2-40c3-ac0a-889315a195a0]&#34;, &#34;duration&#34;: &#34;00:00:04&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_chat_history.py::TestChatHistory::test_get_chat_history[5cc22949-e0f2-40c3-ac0a-889315a195a0]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;00:00:04&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;self = &amp;lt;lib.chat.chat_history.ChatHistory object at 0x0000024F9E8FC790&amp;gt;\n\n    def __init__(\n        self,\n        *,\n        chat_session_id: str,\n        history_len: Union[int, None] = None,\n        session: Session\n    ):\n        &amp;quot;&amp;quot;&amp;quot;\n        \u521d\u59cb\u5316ChatHistory\u5355\u4f8b\u3002\n    \n        \u53c2\u6570:\n            chat_session_id (str): \u804a\u5929\u4f1a\u8bdd\u7684\u552f\u4e00\u6807\u8bc6\u7b26\u3002\n    \n        \u8fd4\u56de:\n            PostgresChatMessageHistory: \u521d\u59cb\u5316\u540e\u7684ChatHistory\u5b9e\u4f8b\u3002\n        &amp;quot;&amp;quot;&amp;quot;\n        # \u9a8c\u8bc1chat_session_id\u662f\u5426\u4e3a\u5b57\u7b26\u4e32\u7c7b\u578b\n        if not isinstance(chat_session_id, str):\n            raise ValueError(&amp;quot;chat_session_id must be a string&amp;quot;)\n    \n        # \u4f7f\u7528try-except\u6765\u5904\u7406\u6570\u636e\u5e93\u8fde\u63a5\u5f02\u5e38\n        try:\n            self._messages: List[Dict[str, Any]] = []\n            self._db_session: Session = session\n            self._chat_session_id: str = chat_session_id  # \u5b58\u50a8\u4f1a\u8bddID\n            self._recent_history_length: int = history_len if history_len else 50\n            self._postgres_agent = PostgresChatMessageHistory(\n                ChatHistoryTable.__name__.lower(),\n                self._chat_session_id,\n&amp;gt;               sync_connection=DbEngine.get_psycopg_conn(),\n            )\n\nlib\\chat\\chat_history.py:68: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ncls = &amp;lt;class &amp;#x27;lib.db.engine.DbEngine&amp;#x27;&amp;gt;\n\n    @classmethod\n    def get_psycopg_conn(cls) :\n        &amp;quot;&amp;quot;&amp;quot;\n        \u83b7\u53d6Psycopg2\u6570\u636e\u5e93\u8fde\u63a5\u3002\n    \n        \u8fd4\u56de\u503c:\n            PsycopgConnection: Psycopg2\u7684\u6570\u636e\u5e93\u8fde\u63a5\u5bf9\u8c61\u3002\n        &amp;quot;&amp;quot;&amp;quot;\n        if cls._psycopg_conn is None:\n&amp;gt;           cls._psycopg_conn = psycopg2.connect(cls.get_connection_id())  # \u83b7\u53d6\u5e76\u521b\u5efa\u6570\u636e\u5e93\u8fde\u63a5\n\nlib\\db\\engine.py:65: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ndsn = &amp;#x27;&amp;#x27;, connection_factory = None, cursor_factory = None, kwargs = {}, kwasync = {}\n\n    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):\n        &amp;quot;&amp;quot;&amp;quot;\n        Create a new database connection.\n    \n        The connection parameters can be specified as a string:\n    \n            conn = psycopg2.connect(&amp;quot;dbname=test user=postgres password=secret&amp;quot;)\n    \n        or using a set of keyword arguments:\n    \n            conn = psycopg2.connect(database=&amp;quot;test&amp;quot;, user=&amp;quot;postgres&amp;quot;, password=&amp;quot;secret&amp;quot;)\n    \n        Or as a mix of both. The basic connection parameters are:\n    \n        - *dbname*: the database name\n        - *database*: the database name (only as keyword argument)\n        - *user*: user name used to authenticate\n        - *password*: password used to authenticate\n        - *host*: database host address (defaults to UNIX socket if not provided)\n        - *port*: connection port number (defaults to 5432 if not provided)\n    \n        Using the *connection_factory* parameter a different class or connections\n        factory can be specified. It should be a callable object taking a dsn\n        argument.\n    \n        Using the *cursor_factory* parameter, a new default cursor factory will be\n        used by cursor().\n    \n        Using *async*=True an asynchronous connection will be created. *async_* is\n        a valid alias (for Python versions where ``async`` is a keyword).\n    \n        Any other keyword parameter will be passed to the underlying client\n        library: the list of supported parameters depends on the library version.\n    \n        &amp;quot;&amp;quot;&amp;quot;\n        kwasync = {}\n        if &amp;#x27;async&amp;#x27; in kwargs:\n            kwasync[&amp;#x27;async&amp;#x27;] = kwargs.pop(&amp;#x27;async&amp;#x27;)\n        if &amp;#x27;async_&amp;#x27; in kwargs:\n            kwasync[&amp;#x27;async_&amp;#x27;] = kwargs.pop(&amp;#x27;async_&amp;#x27;)\n    \n        dsn = _ext.make_dsn(dsn, **kwargs)\n&amp;gt;       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)\nE       psycopg2.OperationalError: connection to server at &amp;quot;localhost&amp;quot; (::1), port 5432 failed: Connection refused (0x0000274D/10061)\nE       \tIs the server running on that host and accepting TCP/IP connections?\nE       connection to server at &amp;quot;localhost&amp;quot; (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)\nE       \tIs the server running on that host and accepting TCP/IP connections?\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\psycopg2\\__init__.py:122: OperationalError\n\nThe above exception was the direct cause of the following exception:\n\nself = &amp;lt;test.test_chat_history.TestChatHistory object at 0x0000024F9E854E80&amp;gt;, chat_session = &amp;#x27;5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;\n\n    @pytest.mark.parametrize(\n        &amp;quot;chat_session&amp;quot;,\n        [&amp;quot;5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;quot;, &amp;quot;another_test_session&amp;quot;],\n    )\n    def test_get_chat_history(self, chat_session):\n&amp;gt;       response = client.get(f&amp;quot;/chat_history/get/?chat_session={chat_session}&amp;quot;)\n\ntest\\test_chat_history.py:66: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.testclient.TestClient object at 0x0000024F849DB550&amp;gt;, url = &amp;#x27;/chat_history/get/?chat_session=5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;\n\n    def get(  # type: ignore[override]\n        self,\n        url: httpx._types.URLTypes,\n        *,\n        params: httpx._types.QueryParamTypes | None = None,\n        headers: httpx._types.HeaderTypes | None = None,\n        cookies: httpx._types.CookieTypes | None = None,\n        auth: httpx._types.AuthTypes\n        | httpx._client.UseClientDefault = httpx._client.USE_CLIENT_DEFAULT,\n        follow_redirects: bool | None = None,\n        allow_redirects: bool | None = None,\n        timeout: httpx._types.TimeoutTypes\n        | httpx._client.UseClientDefault = httpx._client.USE_CLIENT_DEFAULT,\n        extensions: dict[str, typing.Any] | None = None,\n    ) -&amp;gt; httpx.Response:\n        redirect = self._choose_redirect_arg(follow_redirects, allow_redirects)\n&amp;gt;       return super().get(\n            url,\n            params=params,\n            headers=headers,\n            cookies=cookies,\n            auth=auth,\n            follow_redirects=redirect,\n            timeout=timeout,\n            extensions=extensions,\n        )\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\testclient.py:548: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.testclient.TestClient object at 0x0000024F849DB550&amp;gt;, url = &amp;#x27;/chat_history/get/?chat_session=5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;\n\n    def get(\n        self,\n        url: URLTypes,\n        *,\n        params: QueryParamTypes | None = None,\n        headers: HeaderTypes | None = None,\n        cookies: CookieTypes | None = None,\n        auth: AuthTypes | UseClientDefault = USE_CLIENT_DEFAULT,\n        follow_redirects: bool | UseClientDefault = USE_CLIENT_DEFAULT,\n        timeout: TimeoutTypes | UseClientDefault = USE_CLIENT_DEFAULT,\n        extensions: RequestExtensions | None = None,\n    ) -&amp;gt; Response:\n        &amp;quot;&amp;quot;&amp;quot;\n        Send a `GET` request.\n    \n        **Parameters**: See `httpx.request`.\n        &amp;quot;&amp;quot;&amp;quot;\n&amp;gt;       return self.request(\n            &amp;quot;GET&amp;quot;,\n            url,\n            params=params,\n            headers=headers,\n            cookies=cookies,\n            auth=auth,\n            follow_redirects=follow_redirects,\n            timeout=timeout,\n            extensions=extensions,\n        )\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\httpx\\_client.py:1054: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.testclient.TestClient object at 0x0000024F849DB550&amp;gt;, method = &amp;#x27;GET&amp;#x27;, url = URL(&amp;#x27;http://testserver/chat_history/get/?chat_session=5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;)\n\n    def request(  # type: ignore[override]\n        self,\n        method: str,\n        url: httpx._types.URLTypes,\n        *,\n        content: httpx._types.RequestContent | None = None,\n        data: _RequestData | None = None,\n        files: httpx._types.RequestFiles | None = None,\n        json: typing.Any = None,\n        params: httpx._types.QueryParamTypes | None = None,\n        headers: httpx._types.HeaderTypes | None = None,\n        cookies: httpx._types.CookieTypes | None = None,\n        auth: httpx._types.AuthTypes\n        | httpx._client.UseClientDefault = httpx._client.USE_CLIENT_DEFAULT,\n        follow_redirects: bool | None = None,\n        allow_redirects: bool | None = None,\n        timeout: httpx._types.TimeoutTypes\n        | httpx._client.UseClientDefault = httpx._client.USE_CLIENT_DEFAULT,\n        extensions: dict[str, typing.Any] | None = None,\n    ) -&amp;gt; httpx.Response:\n        url = self._merge_url(url)\n        redirect = self._choose_redirect_arg(follow_redirects, allow_redirects)\n&amp;gt;       return super().request(\n            method,\n            url,\n            content=content,\n            data=data,\n            files=files,\n            json=json,\n            params=params,\n            headers=headers,\n            cookies=cookies,\n            auth=auth,\n            follow_redirects=redirect,\n            timeout=timeout,\n            extensions=extensions,\n        )\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\testclient.py:516: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.testclient.TestClient object at 0x0000024F849DB550&amp;gt;, method = &amp;#x27;GET&amp;#x27;, url = URL(&amp;#x27;http://testserver/chat_history/get/?chat_session=5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;)\n\n    def request(\n        self,\n        method: str,\n        url: URLTypes,\n        *,\n        content: RequestContent | None = None,\n        data: RequestData | None = None,\n        files: RequestFiles | None = None,\n        json: typing.Any | None = None,\n        params: QueryParamTypes | None = None,\n        headers: HeaderTypes | None = None,\n        cookies: CookieTypes | None = None,\n        auth: AuthTypes | UseClientDefault | None = USE_CLIENT_DEFAULT,\n        follow_redirects: bool | UseClientDefault = USE_CLIENT_DEFAULT,\n        timeout: TimeoutTypes | UseClientDefault = USE_CLIENT_DEFAULT,\n        extensions: RequestExtensions | None = None,\n    ) -&amp;gt; Response:\n        &amp;quot;&amp;quot;&amp;quot;\n        Build and send a request.\n    \n        Equivalent to:\n    \n        ```python\n        request = client.build_request(...)\n        response = client.send(request, ...)\n        ```\n    \n        See `Client.build_request()`, `Client.send()` and\n        [Merging of configuration][0] for how the various parameters\n        are merged with client-level configuration.\n    \n        [0]: /advanced/#merging-of-configuration\n        &amp;quot;&amp;quot;&amp;quot;\n        if cookies is not None:\n            message = (\n                &amp;quot;Setting per-request cookies=&amp;lt;...&amp;gt; is being deprecated, because &amp;quot;\n                &amp;quot;the expected behaviour on cookie persistence is ambiguous. Set &amp;quot;\n                &amp;quot;cookies directly on the client instance instead.&amp;quot;\n            )\n            warnings.warn(message, DeprecationWarning)\n    \n        request = self.build_request(\n            method=method,\n            url=url,\n            content=content,\n            data=data,\n            files=files,\n            json=json,\n            params=params,\n            headers=headers,\n            cookies=cookies,\n            timeout=timeout,\n            extensions=extensions,\n        )\n&amp;gt;       return self.send(request, auth=auth, follow_redirects=follow_redirects)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\httpx\\_client.py:827: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.testclient.TestClient object at 0x0000024F849DB550&amp;gt;, request = &amp;lt;Request(&amp;#x27;GET&amp;#x27;, &amp;#x27;http://testserver/chat_history/get/?chat_session=5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;)&amp;gt;\n\n    def send(\n        self,\n        request: Request,\n        *,\n        stream: bool = False,\n        auth: AuthTypes | UseClientDefault | None = USE_CLIENT_DEFAULT,\n        follow_redirects: bool | UseClientDefault = USE_CLIENT_DEFAULT,\n    ) -&amp;gt; Response:\n        &amp;quot;&amp;quot;&amp;quot;\n        Send a request.\n    \n        The request is sent as-is, unmodified.\n    \n        Typically you&amp;#x27;ll want to build one with `Client.build_request()`\n        so that any client-level configuration is merged into the request,\n        but passing an explicit `httpx.Request()` is supported as well.\n    \n        See also: [Request instances][0]\n    \n        [0]: /advanced/#request-instances\n        &amp;quot;&amp;quot;&amp;quot;\n        if self._state == ClientState.CLOSED:\n            raise RuntimeError(&amp;quot;Cannot send a request, as the client has been closed.&amp;quot;)\n    \n        self._state = ClientState.OPENED\n        follow_redirects = (\n            self.follow_redirects\n            if isinstance(follow_redirects, UseClientDefault)\n            else follow_redirects\n        )\n    \n        auth = self._build_request_auth(request, auth)\n    \n&amp;gt;       response = self._send_handling_auth(\n            request,\n            auth=auth,\n            follow_redirects=follow_redirects,\n            history=[],\n        )\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\httpx\\_client.py:914: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.testclient.TestClient object at 0x0000024F849DB550&amp;gt;, request = &amp;lt;Request(&amp;#x27;GET&amp;#x27;, &amp;#x27;http://testserver/chat_history/get/?chat_session=5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;)&amp;gt;\nauth = &amp;lt;httpx.Auth object at 0x0000024F9E8668B0&amp;gt;, follow_redirects = True, history = []\n\n    def _send_handling_auth(\n        self,\n        request: Request,\n        auth: Auth,\n        follow_redirects: bool,\n        history: list[Response],\n    ) -&amp;gt; Response:\n        auth_flow = auth.sync_auth_flow(request)\n        try:\n            request = next(auth_flow)\n    \n            while True:\n&amp;gt;               response = self._send_handling_redirects(\n                    request,\n                    follow_redirects=follow_redirects,\n                    history=history,\n                )\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\httpx\\_client.py:942: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.testclient.TestClient object at 0x0000024F849DB550&amp;gt;, request = &amp;lt;Request(&amp;#x27;GET&amp;#x27;, &amp;#x27;http://testserver/chat_history/get/?chat_session=5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;)&amp;gt;\nfollow_redirects = True, history = []\n\n    def _send_handling_redirects(\n        self,\n        request: Request,\n        follow_redirects: bool,\n        history: list[Response],\n    ) -&amp;gt; Response:\n        while True:\n            if len(history) &amp;gt; self.max_redirects:\n                raise TooManyRedirects(\n                    &amp;quot;Exceeded maximum allowed redirects.&amp;quot;, request=request\n                )\n    \n            for hook in self._event_hooks[&amp;quot;request&amp;quot;]:\n                hook(request)\n    \n&amp;gt;           response = self._send_single_request(request)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\httpx\\_client.py:979: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.testclient.TestClient object at 0x0000024F849DB550&amp;gt;, request = &amp;lt;Request(&amp;#x27;GET&amp;#x27;, &amp;#x27;http://testserver/chat_history/get/?chat_session=5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;)&amp;gt;\n\n    def _send_single_request(self, request: Request) -&amp;gt; Response:\n        &amp;quot;&amp;quot;&amp;quot;\n        Sends a single request, without handling any redirections.\n        &amp;quot;&amp;quot;&amp;quot;\n        transport = self._transport_for_url(request.url)\n        timer = Timer()\n        timer.sync_start()\n    \n        if not isinstance(request.stream, SyncByteStream):\n            raise RuntimeError(\n                &amp;quot;Attempted to send an async request with a sync Client instance.&amp;quot;\n            )\n    \n        with request_context(request=request):\n&amp;gt;           response = transport.handle_request(request)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\httpx\\_client.py:1015: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.testclient._TestClientTransport object at 0x0000024F8281D1C0&amp;gt;, request = &amp;lt;Request(&amp;#x27;GET&amp;#x27;, &amp;#x27;http://testserver/chat_history/get/?chat_session=5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;)&amp;gt;\n\n    def handle_request(self, request: httpx.Request) -&amp;gt; httpx.Response:\n        scheme = request.url.scheme\n        netloc = request.url.netloc.decode(encoding=&amp;quot;ascii&amp;quot;)\n        path = request.url.path\n        raw_path = request.url.raw_path\n        query = request.url.query.decode(encoding=&amp;quot;ascii&amp;quot;)\n    \n        default_port = {&amp;quot;http&amp;quot;: 80, &amp;quot;ws&amp;quot;: 80, &amp;quot;https&amp;quot;: 443, &amp;quot;wss&amp;quot;: 443}[scheme]\n    \n        if &amp;quot;:&amp;quot; in netloc:\n            host, port_string = netloc.split(&amp;quot;:&amp;quot;, 1)\n            port = int(port_string)\n        else:\n            host = netloc\n            port = default_port\n    \n        # Include the &amp;#x27;host&amp;#x27; header.\n        if &amp;quot;host&amp;quot; in request.headers:\n            headers: list[tuple[bytes, bytes]] = []\n        elif port == default_port:  # pragma: no cover\n            headers = [(b&amp;quot;host&amp;quot;, host.encode())]\n        else:  # pragma: no cover\n            headers = [(b&amp;quot;host&amp;quot;, (f&amp;quot;{host}:{port}&amp;quot;).encode())]\n    \n        # Include other request headers.\n        headers += [\n            (key.lower().encode(), value.encode())\n            for key, value in request.headers.multi_items()\n        ]\n    \n        scope: dict[str, typing.Any]\n    \n        if scheme in {&amp;quot;ws&amp;quot;, &amp;quot;wss&amp;quot;}:\n            subprotocol = request.headers.get(&amp;quot;sec-websocket-protocol&amp;quot;, None)\n            if subprotocol is None:\n                subprotocols: typing.Sequence[str] = []\n            else:\n                subprotocols = [value.strip() for value in subprotocol.split(&amp;quot;,&amp;quot;)]\n            scope = {\n                &amp;quot;type&amp;quot;: &amp;quot;websocket&amp;quot;,\n                &amp;quot;path&amp;quot;: unquote(path),\n                &amp;quot;raw_path&amp;quot;: raw_path,\n                &amp;quot;root_path&amp;quot;: self.root_path,\n                &amp;quot;scheme&amp;quot;: scheme,\n                &amp;quot;query_string&amp;quot;: query.encode(),\n                &amp;quot;headers&amp;quot;: headers,\n                &amp;quot;client&amp;quot;: [&amp;quot;testclient&amp;quot;, 50000],\n                &amp;quot;server&amp;quot;: [host, port],\n                &amp;quot;subprotocols&amp;quot;: subprotocols,\n                &amp;quot;state&amp;quot;: self.app_state.copy(),\n                &amp;quot;extensions&amp;quot;: {&amp;quot;websocket.http.response&amp;quot;: {}},\n            }\n            session = WebSocketTestSession(self.app, scope, self.portal_factory)\n            raise _Upgrade(session)\n    \n        scope = {\n            &amp;quot;type&amp;quot;: &amp;quot;http&amp;quot;,\n            &amp;quot;http_version&amp;quot;: &amp;quot;1.1&amp;quot;,\n            &amp;quot;method&amp;quot;: request.method,\n            &amp;quot;path&amp;quot;: unquote(path),\n            &amp;quot;raw_path&amp;quot;: raw_path,\n            &amp;quot;root_path&amp;quot;: self.root_path,\n            &amp;quot;scheme&amp;quot;: scheme,\n            &amp;quot;query_string&amp;quot;: query.encode(),\n            &amp;quot;headers&amp;quot;: headers,\n            &amp;quot;client&amp;quot;: [&amp;quot;testclient&amp;quot;, 50000],\n            &amp;quot;server&amp;quot;: [host, port],\n            &amp;quot;extensions&amp;quot;: {&amp;quot;http.response.debug&amp;quot;: {}},\n            &amp;quot;state&amp;quot;: self.app_state.copy(),\n        }\n    \n        request_complete = False\n        response_started = False\n        response_complete: anyio.Event\n        raw_kwargs: dict[str, typing.Any] = {&amp;quot;stream&amp;quot;: io.BytesIO()}\n        template = None\n        context = None\n    \n        async def receive() -&amp;gt; Message:\n            nonlocal request_complete\n    \n            if request_complete:\n                if not response_complete.is_set():\n                    await response_complete.wait()\n                return {&amp;quot;type&amp;quot;: &amp;quot;http.disconnect&amp;quot;}\n    \n            body = request.read()\n            if isinstance(body, str):\n                body_bytes: bytes = body.encode(&amp;quot;utf-8&amp;quot;)  # pragma: no cover\n            elif body is None:\n                body_bytes = b&amp;quot;&amp;quot;  # pragma: no cover\n            elif isinstance(body, GeneratorType):\n                try:  # pragma: no cover\n                    chunk = body.send(None)\n                    if isinstance(chunk, str):\n                        chunk = chunk.encode(&amp;quot;utf-8&amp;quot;)\n                    return {&amp;quot;type&amp;quot;: &amp;quot;http.request&amp;quot;, &amp;quot;body&amp;quot;: chunk, &amp;quot;more_body&amp;quot;: True}\n                except StopIteration:  # pragma: no cover\n                    request_complete = True\n                    return {&amp;quot;type&amp;quot;: &amp;quot;http.request&amp;quot;, &amp;quot;body&amp;quot;: b&amp;quot;&amp;quot;}\n            else:\n                body_bytes = body\n    \n            request_complete = True\n            return {&amp;quot;type&amp;quot;: &amp;quot;http.request&amp;quot;, &amp;quot;body&amp;quot;: body_bytes}\n    \n        async def send(message: Message) -&amp;gt; None:\n            nonlocal raw_kwargs, response_started, template, context\n    \n            if message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.start&amp;quot;:\n                assert (\n                    not response_started\n                ), &amp;#x27;Received multiple &amp;quot;http.response.start&amp;quot; messages.&amp;#x27;\n                raw_kwargs[&amp;quot;status_code&amp;quot;] = message[&amp;quot;status&amp;quot;]\n                raw_kwargs[&amp;quot;headers&amp;quot;] = [\n                    (key.decode(), value.decode())\n                    for key, value in message.get(&amp;quot;headers&amp;quot;, [])\n                ]\n                response_started = True\n            elif message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.body&amp;quot;:\n                assert (\n                    response_started\n                ), &amp;#x27;Received &amp;quot;http.response.body&amp;quot; without &amp;quot;http.response.start&amp;quot;.&amp;#x27;\n                assert (\n                    not response_complete.is_set()\n                ), &amp;#x27;Received &amp;quot;http.response.body&amp;quot; after response completed.&amp;#x27;\n                body = message.get(&amp;quot;body&amp;quot;, b&amp;quot;&amp;quot;)\n                more_body = message.get(&amp;quot;more_body&amp;quot;, False)\n                if request.method != &amp;quot;HEAD&amp;quot;:\n                    raw_kwargs[&amp;quot;stream&amp;quot;].write(body)\n                if not more_body:\n                    raw_kwargs[&amp;quot;stream&amp;quot;].seek(0)\n                    response_complete.set()\n            elif message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.debug&amp;quot;:\n                template = message[&amp;quot;info&amp;quot;][&amp;quot;template&amp;quot;]\n                context = message[&amp;quot;info&amp;quot;][&amp;quot;context&amp;quot;]\n    \n        try:\n            with self.portal_factory() as portal:\n                response_complete = portal.call(anyio.Event)\n                portal.call(self.app, scope, receive, send)\n        except BaseException as exc:\n            if self.raise_server_exceptions:\n&amp;gt;               raise exc\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\testclient.py:398: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.testclient._TestClientTransport object at 0x0000024F8281D1C0&amp;gt;, request = &amp;lt;Request(&amp;#x27;GET&amp;#x27;, &amp;#x27;http://testserver/chat_history/get/?chat_session=5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;)&amp;gt;\n\n    def handle_request(self, request: httpx.Request) -&amp;gt; httpx.Response:\n        scheme = request.url.scheme\n        netloc = request.url.netloc.decode(encoding=&amp;quot;ascii&amp;quot;)\n        path = request.url.path\n        raw_path = request.url.raw_path\n        query = request.url.query.decode(encoding=&amp;quot;ascii&amp;quot;)\n    \n        default_port = {&amp;quot;http&amp;quot;: 80, &amp;quot;ws&amp;quot;: 80, &amp;quot;https&amp;quot;: 443, &amp;quot;wss&amp;quot;: 443}[scheme]\n    \n        if &amp;quot;:&amp;quot; in netloc:\n            host, port_string = netloc.split(&amp;quot;:&amp;quot;, 1)\n            port = int(port_string)\n        else:\n            host = netloc\n            port = default_port\n    \n        # Include the &amp;#x27;host&amp;#x27; header.\n        if &amp;quot;host&amp;quot; in request.headers:\n            headers: list[tuple[bytes, bytes]] = []\n        elif port == default_port:  # pragma: no cover\n            headers = [(b&amp;quot;host&amp;quot;, host.encode())]\n        else:  # pragma: no cover\n            headers = [(b&amp;quot;host&amp;quot;, (f&amp;quot;{host}:{port}&amp;quot;).encode())]\n    \n        # Include other request headers.\n        headers += [\n            (key.lower().encode(), value.encode())\n            for key, value in request.headers.multi_items()\n        ]\n    \n        scope: dict[str, typing.Any]\n    \n        if scheme in {&amp;quot;ws&amp;quot;, &amp;quot;wss&amp;quot;}:\n            subprotocol = request.headers.get(&amp;quot;sec-websocket-protocol&amp;quot;, None)\n            if subprotocol is None:\n                subprotocols: typing.Sequence[str] = []\n            else:\n                subprotocols = [value.strip() for value in subprotocol.split(&amp;quot;,&amp;quot;)]\n            scope = {\n                &amp;quot;type&amp;quot;: &amp;quot;websocket&amp;quot;,\n                &amp;quot;path&amp;quot;: unquote(path),\n                &amp;quot;raw_path&amp;quot;: raw_path,\n                &amp;quot;root_path&amp;quot;: self.root_path,\n                &amp;quot;scheme&amp;quot;: scheme,\n                &amp;quot;query_string&amp;quot;: query.encode(),\n                &amp;quot;headers&amp;quot;: headers,\n                &amp;quot;client&amp;quot;: [&amp;quot;testclient&amp;quot;, 50000],\n                &amp;quot;server&amp;quot;: [host, port],\n                &amp;quot;subprotocols&amp;quot;: subprotocols,\n                &amp;quot;state&amp;quot;: self.app_state.copy(),\n                &amp;quot;extensions&amp;quot;: {&amp;quot;websocket.http.response&amp;quot;: {}},\n            }\n            session = WebSocketTestSession(self.app, scope, self.portal_factory)\n            raise _Upgrade(session)\n    \n        scope = {\n            &amp;quot;type&amp;quot;: &amp;quot;http&amp;quot;,\n            &amp;quot;http_version&amp;quot;: &amp;quot;1.1&amp;quot;,\n            &amp;quot;method&amp;quot;: request.method,\n            &amp;quot;path&amp;quot;: unquote(path),\n            &amp;quot;raw_path&amp;quot;: raw_path,\n            &amp;quot;root_path&amp;quot;: self.root_path,\n            &amp;quot;scheme&amp;quot;: scheme,\n            &amp;quot;query_string&amp;quot;: query.encode(),\n            &amp;quot;headers&amp;quot;: headers,\n            &amp;quot;client&amp;quot;: [&amp;quot;testclient&amp;quot;, 50000],\n            &amp;quot;server&amp;quot;: [host, port],\n            &amp;quot;extensions&amp;quot;: {&amp;quot;http.response.debug&amp;quot;: {}},\n            &amp;quot;state&amp;quot;: self.app_state.copy(),\n        }\n    \n        request_complete = False\n        response_started = False\n        response_complete: anyio.Event\n        raw_kwargs: dict[str, typing.Any] = {&amp;quot;stream&amp;quot;: io.BytesIO()}\n        template = None\n        context = None\n    \n        async def receive() -&amp;gt; Message:\n            nonlocal request_complete\n    \n            if request_complete:\n                if not response_complete.is_set():\n                    await response_complete.wait()\n                return {&amp;quot;type&amp;quot;: &amp;quot;http.disconnect&amp;quot;}\n    \n            body = request.read()\n            if isinstance(body, str):\n                body_bytes: bytes = body.encode(&amp;quot;utf-8&amp;quot;)  # pragma: no cover\n            elif body is None:\n                body_bytes = b&amp;quot;&amp;quot;  # pragma: no cover\n            elif isinstance(body, GeneratorType):\n                try:  # pragma: no cover\n                    chunk = body.send(None)\n                    if isinstance(chunk, str):\n                        chunk = chunk.encode(&amp;quot;utf-8&amp;quot;)\n                    return {&amp;quot;type&amp;quot;: &amp;quot;http.request&amp;quot;, &amp;quot;body&amp;quot;: chunk, &amp;quot;more_body&amp;quot;: True}\n                except StopIteration:  # pragma: no cover\n                    request_complete = True\n                    return {&amp;quot;type&amp;quot;: &amp;quot;http.request&amp;quot;, &amp;quot;body&amp;quot;: b&amp;quot;&amp;quot;}\n            else:\n                body_bytes = body\n    \n            request_complete = True\n            return {&amp;quot;type&amp;quot;: &amp;quot;http.request&amp;quot;, &amp;quot;body&amp;quot;: body_bytes}\n    \n        async def send(message: Message) -&amp;gt; None:\n            nonlocal raw_kwargs, response_started, template, context\n    \n            if message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.start&amp;quot;:\n                assert (\n                    not response_started\n                ), &amp;#x27;Received multiple &amp;quot;http.response.start&amp;quot; messages.&amp;#x27;\n                raw_kwargs[&amp;quot;status_code&amp;quot;] = message[&amp;quot;status&amp;quot;]\n                raw_kwargs[&amp;quot;headers&amp;quot;] = [\n                    (key.decode(), value.decode())\n                    for key, value in message.get(&amp;quot;headers&amp;quot;, [])\n                ]\n                response_started = True\n            elif message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.body&amp;quot;:\n                assert (\n                    response_started\n                ), &amp;#x27;Received &amp;quot;http.response.body&amp;quot; without &amp;quot;http.response.start&amp;quot;.&amp;#x27;\n                assert (\n                    not response_complete.is_set()\n                ), &amp;#x27;Received &amp;quot;http.response.body&amp;quot; after response completed.&amp;#x27;\n                body = message.get(&amp;quot;body&amp;quot;, b&amp;quot;&amp;quot;)\n                more_body = message.get(&amp;quot;more_body&amp;quot;, False)\n                if request.method != &amp;quot;HEAD&amp;quot;:\n                    raw_kwargs[&amp;quot;stream&amp;quot;].write(body)\n                if not more_body:\n                    raw_kwargs[&amp;quot;stream&amp;quot;].seek(0)\n                    response_complete.set()\n            elif message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.debug&amp;quot;:\n                template = message[&amp;quot;info&amp;quot;][&amp;quot;template&amp;quot;]\n                context = message[&amp;quot;info&amp;quot;][&amp;quot;context&amp;quot;]\n    \n        try:\n            with self.portal_factory() as portal:\n                response_complete = portal.call(anyio.Event)\n&amp;gt;               portal.call(self.app, scope, receive, send)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\testclient.py:395: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;anyio._backends._asyncio.BlockingPortal object at 0x0000024F9E8ACBE0&amp;gt;, func = &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;\nargs = ({&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;fu...ls&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.send at 0x0000024F9CCEE280&amp;gt;)\n\n    def call(\n        self,\n        func: Callable[[Unpack[PosArgsT]], Awaitable[T_Retval] | T_Retval],\n        *args: Unpack[PosArgsT],\n    ) -&amp;gt; T_Retval:\n        &amp;quot;&amp;quot;&amp;quot;\n        Call the given function in the event loop thread.\n    \n        If the callable returns a coroutine object, it is awaited on.\n    \n        :param func: any callable\n        :raises RuntimeError: if the portal is not running or if this method is called\n            from within the event loop thread\n    \n        &amp;quot;&amp;quot;&amp;quot;\n&amp;gt;       return cast(T_Retval, self.start_task_soon(func, *args).result())\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\anyio\\from_thread.py:287: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = None, timeout = None\n\n    def result(self, timeout=None):\n        &amp;quot;&amp;quot;&amp;quot;Return the result of the call that the future represents.\n    \n        Args:\n            timeout: The number of seconds to wait for the result if the future\n                isn&amp;#x27;t done. If None, then there is no limit on the wait time.\n    \n        Returns:\n            The result of the call that the future represents.\n    \n        Raises:\n            CancelledError: If the future was cancelled.\n            TimeoutError: If the future didn&amp;#x27;t finish executing before the given\n                timeout.\n            Exception: If the call raised then that exception will be raised.\n        &amp;quot;&amp;quot;&amp;quot;\n        try:\n            with self._condition:\n                if self._state in [CANCELLED, CANCELLED_AND_NOTIFIED]:\n                    raise CancelledError()\n                elif self._state == FINISHED:\n                    return self.__get_result()\n    \n                self._condition.wait(timeout)\n    \n                if self._state in [CANCELLED, CANCELLED_AND_NOTIFIED]:\n                    raise CancelledError()\n                elif self._state == FINISHED:\n&amp;gt;                   return self.__get_result()\n\nC:\\Python39\\lib\\concurrent\\futures\\_base.py:446: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = None\n\n    def __get_result(self):\n        if self._exception:\n            try:\n&amp;gt;               raise self._exception\n\nC:\\Python39\\lib\\concurrent\\futures\\_base.py:391: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;anyio._backends._asyncio.BlockingPortal object at 0x0000024F9E8ACBE0&amp;gt;, func = &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;\nargs = ({&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;fu...ls&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.send at 0x0000024F9CCEE280&amp;gt;)\nkwargs = {}, future = &amp;lt;Future at 0x24f9e8acb80 state=finished raised ValueError&amp;gt;\n\n    async def _call_func(\n        self,\n        func: Callable[[Unpack[PosArgsT]], Awaitable[T_Retval] | T_Retval],\n        args: tuple[Unpack[PosArgsT]],\n        kwargs: dict[str, Any],\n        future: Future[T_Retval],\n    ) -&amp;gt; None:\n        def callback(f: Future[T_Retval]) -&amp;gt; None:\n            if f.cancelled() and self._event_loop_thread_id not in (\n                None,\n                threading.get_ident(),\n            ):\n                self.call(scope.cancel)\n    \n        try:\n            retval_or_awaitable = func(*args, **kwargs)\n            if isawaitable(retval_or_awaitable):\n                with CancelScope() as scope:\n                    if future.cancelled():\n                        scope.cancel()\n                    else:\n                        future.add_done_callback(callback)\n    \n&amp;gt;                   retval = await retval_or_awaitable\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\anyio\\from_thread.py:218: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.send at 0x0000024F9CCEE280&amp;gt;\n\n    async def __call__(self, scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        if self.root_path:\n            scope[&amp;quot;root_path&amp;quot;] = self.root_path\n&amp;gt;       await super().__call__(scope, receive, send)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\fastapi\\applications.py:1054: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.send at 0x0000024F9CCEE280&amp;gt;\n\n    async def __call__(self, scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        scope[&amp;quot;app&amp;quot;] = self\n        if self.middleware_stack is None:\n            self.middleware_stack = self.build_middleware_stack()\n&amp;gt;       await self.middleware_stack(scope, receive, send)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\applications.py:123: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.middleware.errors.ServerErrorMiddleware object at 0x0000024F9E8ACF10&amp;gt;\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.send at 0x0000024F9CCEE280&amp;gt;\n\n    async def __call__(self, scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        if scope[&amp;quot;type&amp;quot;] != &amp;quot;http&amp;quot;:\n            await self.app(scope, receive, send)\n            return\n    \n        response_started = False\n    \n        async def _send(message: Message) -&amp;gt; None:\n            nonlocal response_started, send\n    \n            if message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.start&amp;quot;:\n                response_started = True\n            await send(message)\n    \n        try:\n            await self.app(scope, receive, _send)\n        except Exception as exc:\n            request = Request(scope)\n            if self.debug:\n                # In debug mode, return traceback responses.\n                response = self.debug_response(request, exc)\n            elif self.handler is None:\n                # Use our default 500 error handler.\n                response = self.error_response(request, exc)\n            else:\n                # Use an installed 500 error handler.\n                if is_async_callable(self.handler):\n                    response = await self.handler(request, exc)\n                else:\n                    response = await run_in_threadpool(self.handler, request, exc)\n    \n            if not response_started:\n                await response(scope, receive, send)\n    \n            # We always continue to raise the exception.\n            # This allows servers to log the error, or allows test clients\n            # to optionally raise the error within the test case.\n&amp;gt;           raise exc\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\middleware\\errors.py:186: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.middleware.errors.ServerErrorMiddleware object at 0x0000024F9E8ACF10&amp;gt;\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.send at 0x0000024F9CCEE280&amp;gt;\n\n    async def __call__(self, scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        if scope[&amp;quot;type&amp;quot;] != &amp;quot;http&amp;quot;:\n            await self.app(scope, receive, send)\n            return\n    \n        response_started = False\n    \n        async def _send(message: Message) -&amp;gt; None:\n            nonlocal response_started, send\n    \n            if message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.start&amp;quot;:\n                response_started = True\n            await send(message)\n    \n        try:\n&amp;gt;           await self.app(scope, receive, _send)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\middleware\\errors.py:164: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.middleware.cors.CORSMiddleware object at 0x0000024F9E8ACF40&amp;gt;\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function ServerErrorMiddleware.__call__.&amp;lt;locals&amp;gt;._send at 0x0000024F9E88B550&amp;gt;\n\n    async def __call__(self, scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        if scope[&amp;quot;type&amp;quot;] != &amp;quot;http&amp;quot;:  # pragma: no cover\n            await self.app(scope, receive, send)\n            return\n    \n        method = scope[&amp;quot;method&amp;quot;]\n        headers = Headers(scope=scope)\n        origin = headers.get(&amp;quot;origin&amp;quot;)\n    \n        if origin is None:\n&amp;gt;           await self.app(scope, receive, send)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\middleware\\cors.py:85: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;starlette.middleware.exceptions.ExceptionMiddleware object at 0x0000024F9E8ACFD0&amp;gt;\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function ServerErrorMiddleware.__call__.&amp;lt;locals&amp;gt;._send at 0x0000024F9E88B550&amp;gt;\n\n    async def __call__(self, scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        if scope[&amp;quot;type&amp;quot;] not in (&amp;quot;http&amp;quot;, &amp;quot;websocket&amp;quot;):\n            await self.app(scope, receive, send)\n            return\n    \n        scope[&amp;quot;starlette.exception_handlers&amp;quot;] = (\n            self._exception_handlers,\n            self._status_handlers,\n        )\n    \n        conn: Request | WebSocket\n        if scope[&amp;quot;type&amp;quot;] == &amp;quot;http&amp;quot;:\n            conn = Request(scope, receive, send)\n        else:\n            conn = WebSocket(scope, receive, send)\n    \n&amp;gt;       await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\middleware\\exceptions.py:65: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function ServerErrorMiddleware.__call__.&amp;lt;locals&amp;gt;._send at 0x0000024F9E88B550&amp;gt;\n\n    async def wrapped_app(scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        response_started = False\n    \n        async def sender(message: Message) -&amp;gt; None:\n            nonlocal response_started\n    \n            if message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.start&amp;quot;:\n                response_started = True\n            await send(message)\n    \n        try:\n            await app(scope, receive, sender)\n        except Exception as exc:\n            handler = None\n    \n            if isinstance(exc, HTTPException):\n                handler = status_handlers.get(exc.status_code)\n    \n            if handler is None:\n                handler = _lookup_exception_handler(exception_handlers, exc)\n    \n            if handler is None:\n&amp;gt;               raise exc\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\_exception_handler.py:64: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function ServerErrorMiddleware.__call__.&amp;lt;locals&amp;gt;._send at 0x0000024F9E88B550&amp;gt;\n\n    async def wrapped_app(scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        response_started = False\n    \n        async def sender(message: Message) -&amp;gt; None:\n            nonlocal response_started\n    \n            if message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.start&amp;quot;:\n                response_started = True\n            await send(message)\n    \n        try:\n&amp;gt;           await app(scope, receive, sender)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\_exception_handler.py:53: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;fastapi.routing.APIRouter object at 0x0000024F82AE4100&amp;gt;\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function wrap_app_handling_exceptions.&amp;lt;locals&amp;gt;.wrapped_app.&amp;lt;locals&amp;gt;.sender at 0x0000024F9E88B5E0&amp;gt;\n\n    async def __call__(self, scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        &amp;quot;&amp;quot;&amp;quot;\n        The main entry point to the Router class.\n        &amp;quot;&amp;quot;&amp;quot;\n&amp;gt;       await self.middleware_stack(scope, receive, send)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\routing.py:756: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;fastapi.routing.APIRouter object at 0x0000024F82AE4100&amp;gt;\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function wrap_app_handling_exceptions.&amp;lt;locals&amp;gt;.wrapped_app.&amp;lt;locals&amp;gt;.sender at 0x0000024F9E88B5E0&amp;gt;\n\n    async def app(self, scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        assert scope[&amp;quot;type&amp;quot;] in (&amp;quot;http&amp;quot;, &amp;quot;websocket&amp;quot;, &amp;quot;lifespan&amp;quot;)\n    \n        if &amp;quot;router&amp;quot; not in scope:\n            scope[&amp;quot;router&amp;quot;] = self\n    \n        if scope[&amp;quot;type&amp;quot;] == &amp;quot;lifespan&amp;quot;:\n            await self.lifespan(scope, receive, send)\n            return\n    \n        partial = None\n    \n        for route in self.routes:\n            # Determine if any route matches the incoming scope,\n            # and hand over to the matching route if found.\n            match, child_scope = route.matches(scope)\n            if match == Match.FULL:\n                scope.update(child_scope)\n&amp;gt;               await route.handle(scope, receive, send)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\routing.py:776: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = APIRoute(path=&amp;#x27;/chat_history/get/&amp;#x27;, name=&amp;#x27;get_chat_history_from_db&amp;#x27;, methods=[&amp;#x27;GET&amp;#x27;])\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function wrap_app_handling_exceptions.&amp;lt;locals&amp;gt;.wrapped_app.&amp;lt;locals&amp;gt;.sender at 0x0000024F9E88B5E0&amp;gt;\n\n    async def handle(self, scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        if self.methods and scope[&amp;quot;method&amp;quot;] not in self.methods:\n            headers = {&amp;quot;Allow&amp;quot;: &amp;quot;, &amp;quot;.join(self.methods)}\n            if &amp;quot;app&amp;quot; in scope:\n                raise HTTPException(status_code=405, headers=headers)\n            else:\n                response = PlainTextResponse(\n                    &amp;quot;Method Not Allowed&amp;quot;, status_code=405, headers=headers\n                )\n            await response(scope, receive, send)\n        else:\n&amp;gt;           await self.app(scope, receive, send)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\routing.py:297: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function wrap_app_handling_exceptions.&amp;lt;locals&amp;gt;.wrapped_app.&amp;lt;locals&amp;gt;.sender at 0x0000024F9E88B5E0&amp;gt;\n\n    async def app(scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        request = Request(scope, receive, send)\n    \n        async def app(scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n            if is_async_callable(func):\n                response = await func(request)\n            else:\n                response = await run_in_threadpool(func, request)\n            await response(scope, receive, send)\n    \n&amp;gt;       await wrap_app_handling_exceptions(app, request)(scope, receive, send)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\routing.py:77: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function wrap_app_handling_exceptions.&amp;lt;locals&amp;gt;.wrapped_app.&amp;lt;locals&amp;gt;.sender at 0x0000024F9E88B5E0&amp;gt;\n\n    async def wrapped_app(scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        response_started = False\n    \n        async def sender(message: Message) -&amp;gt; None:\n            nonlocal response_started\n    \n            if message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.start&amp;quot;:\n                response_started = True\n            await send(message)\n    \n        try:\n            await app(scope, receive, sender)\n        except Exception as exc:\n            handler = None\n    \n            if isinstance(exc, HTTPException):\n                handler = status_handlers.get(exc.status_code)\n    \n            if handler is None:\n                handler = _lookup_exception_handler(exception_handlers, exc)\n    \n            if handler is None:\n&amp;gt;               raise exc\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\_exception_handler.py:64: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function wrap_app_handling_exceptions.&amp;lt;locals&amp;gt;.wrapped_app.&amp;lt;locals&amp;gt;.sender at 0x0000024F9E88B5E0&amp;gt;\n\n    async def wrapped_app(scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        response_started = False\n    \n        async def sender(message: Message) -&amp;gt; None:\n            nonlocal response_started\n    \n            if message[&amp;quot;type&amp;quot;] == &amp;quot;http.response.start&amp;quot;:\n                response_started = True\n            await send(message)\n    \n        try:\n&amp;gt;           await app(scope, receive, sender)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\_exception_handler.py:53: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nscope = {&amp;#x27;app&amp;#x27;: &amp;lt;fastapi.applications.FastAPI object at 0x0000024F84FE8F70&amp;gt;, &amp;#x27;client&amp;#x27;: [&amp;#x27;testclient&amp;#x27;, 50000], &amp;#x27;endpoint&amp;#x27;: &amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, &amp;#x27;extensions&amp;#x27;: {&amp;#x27;http.response.debug&amp;#x27;: {}}, ...}\nreceive = &amp;lt;function _TestClientTransport.handle_request.&amp;lt;locals&amp;gt;.receive at 0x0000024F827C1B80&amp;gt;, send = &amp;lt;function wrap_app_handling_exceptions.&amp;lt;locals&amp;gt;.wrapped_app.&amp;lt;locals&amp;gt;.sender at 0x0000024F9E88B700&amp;gt;\n\n    async def app(scope: Scope, receive: Receive, send: Send) -&amp;gt; None:\n        if is_async_callable(func):\n&amp;gt;           response = await func(request)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\routing.py:72: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nrequest = &amp;lt;starlette.requests.Request object at 0x0000024F9E8FC4C0&amp;gt;\n\n    async def app(request: Request) -&amp;gt; Response:\n        response: Union[Response, None] = None\n        async with AsyncExitStack() as file_stack:\n            try:\n                body: Any = None\n                if body_field:\n                    if is_body_form:\n                        body = await request.form()\n                        file_stack.push_async_callback(body.close)\n                    else:\n                        body_bytes = await request.body()\n                        if body_bytes:\n                            json_body: Any = Undefined\n                            content_type_value = request.headers.get(&amp;quot;content-type&amp;quot;)\n                            if not content_type_value:\n                                json_body = await request.json()\n                            else:\n                                message = email.message.Message()\n                                message[&amp;quot;content-type&amp;quot;] = content_type_value\n                                if message.get_content_maintype() == &amp;quot;application&amp;quot;:\n                                    subtype = message.get_content_subtype()\n                                    if subtype == &amp;quot;json&amp;quot; or subtype.endswith(&amp;quot;+json&amp;quot;):\n                                        json_body = await request.json()\n                            if json_body != Undefined:\n                                body = json_body\n                            else:\n                                body = body_bytes\n            except json.JSONDecodeError as e:\n                validation_error = RequestValidationError(\n                    [\n                        {\n                            &amp;quot;type&amp;quot;: &amp;quot;json_invalid&amp;quot;,\n                            &amp;quot;loc&amp;quot;: (&amp;quot;body&amp;quot;, e.pos),\n                            &amp;quot;msg&amp;quot;: &amp;quot;JSON decode error&amp;quot;,\n                            &amp;quot;input&amp;quot;: {},\n                            &amp;quot;ctx&amp;quot;: {&amp;quot;error&amp;quot;: e.msg},\n                        }\n                    ],\n                    body=e.doc,\n                )\n                raise validation_error from e\n            except HTTPException:\n                # If a middleware raises an HTTPException, it should be raised again\n                raise\n            except Exception as e:\n                http_error = HTTPException(\n                    status_code=400, detail=&amp;quot;There was an error parsing the body&amp;quot;\n                )\n                raise http_error from e\n            errors: List[Any] = []\n            async with AsyncExitStack() as async_exit_stack:\n                solved_result = await solve_dependencies(\n                    request=request,\n                    dependant=dependant,\n                    body=body,\n                    dependency_overrides_provider=dependency_overrides_provider,\n                    async_exit_stack=async_exit_stack,\n                )\n                values, errors, background_tasks, sub_response, _ = solved_result\n                if not errors:\n&amp;gt;                   raw_response = await run_endpoint_function(\n                        dependant=dependant, values=values, is_coroutine=is_coroutine\n                    )\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\fastapi\\routing.py:278: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\n    async def run_endpoint_function(\n        *, dependant: Dependant, values: Dict[str, Any], is_coroutine: bool\n    ) -&amp;gt; Any:\n        # Only called by get_request_handler. Has been split into its own function to\n        # facilitate profiling endpoints, since inner functions are harder to profile.\n        assert dependant.call is not None, &amp;quot;dependant.call must be a function&amp;quot;\n    \n        if is_coroutine:\n            return await dependant.call(**values)\n        else:\n&amp;gt;           return await run_in_threadpool(dependant.call, **values)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\fastapi\\routing.py:193: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nfunc = functools.partial(&amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, session=&amp;lt;sqlmodel.orm.session.Session object at 0x0000024F9E912E50&amp;gt;, chat_session=&amp;#x27;5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;)\nargs = (), kwargs = {&amp;#x27;chat_session&amp;#x27;: &amp;#x27;5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;, &amp;#x27;session&amp;#x27;: &amp;lt;sqlmodel.orm.session.Session object at 0x0000024F9E912E50&amp;gt;}\n\n    async def run_in_threadpool(\n        func: typing.Callable[P, T], *args: P.args, **kwargs: P.kwargs\n    ) -&amp;gt; T:\n        if kwargs:  # pragma: no cover\n            # run_sync doesn&amp;#x27;t accept &amp;#x27;kwargs&amp;#x27;, so bind them in here\n            func = functools.partial(func, **kwargs)\n&amp;gt;       return await anyio.to_thread.run_sync(func, *args)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\starlette\\concurrency.py:42: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nfunc = functools.partial(&amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, session=&amp;lt;sqlmodel.orm.session.Session object at 0x0000024F9E912E50&amp;gt;, chat_session=&amp;#x27;5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;)\nabandon_on_cancel = False, cancellable = None, limiter = None, args = ()\n\n    async def run_sync(\n        func: Callable[[Unpack[PosArgsT]], T_Retval],\n        *args: Unpack[PosArgsT],\n        abandon_on_cancel: bool = False,\n        cancellable: bool | None = None,\n        limiter: CapacityLimiter | None = None,\n    ) -&amp;gt; T_Retval:\n        &amp;quot;&amp;quot;&amp;quot;\n        Call the given function with the given arguments in a worker thread.\n    \n        If the ``cancellable`` option is enabled and the task waiting for its completion is\n        cancelled, the thread will still run its course but its return value (or any raised\n        exception) will be ignored.\n    \n        :param func: a callable\n        :param args: positional arguments for the callable\n        :param abandon_on_cancel: ``True`` to abandon the thread (leaving it to run\n            unchecked on own) if the host task is cancelled, ``False`` to ignore\n            cancellations in the host task until the operation has completed in the worker\n            thread\n        :param cancellable: deprecated alias of ``abandon_on_cancel``; will override\n            ``abandon_on_cancel`` if both parameters are passed\n        :param limiter: capacity limiter to use to limit the total amount of threads running\n            (if omitted, the default limiter is used)\n        :return: an awaitable that yields the return value of the function.\n    \n        &amp;quot;&amp;quot;&amp;quot;\n        if cancellable is not None:\n            abandon_on_cancel = cancellable\n            warn(\n                &amp;quot;The `cancellable=` keyword argument to `anyio.to_thread.run_sync` is &amp;quot;\n                &amp;quot;deprecated since AnyIO 4.1.0; use `abandon_on_cancel=` instead&amp;quot;,\n                DeprecationWarning,\n                stacklevel=2,\n            )\n    \n&amp;gt;       return await get_async_backend().run_sync_in_worker_thread(\n            func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter\n        )\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\anyio\\to_thread.py:56: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ncls = &amp;lt;class &amp;#x27;anyio._backends._asyncio.AsyncIOBackend&amp;#x27;&amp;gt;\nfunc = functools.partial(&amp;lt;function get_chat_history_from_db at 0x0000024F9CC42790&amp;gt;, session=&amp;lt;sqlmodel.orm.session.Session object at 0x0000024F9E912E50&amp;gt;, chat_session=&amp;#x27;5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;)\nargs = (), abandon_on_cancel = False, limiter = None\n\n    @classmethod\n    async def run_sync_in_worker_thread(\n        cls,\n        func: Callable[[Unpack[PosArgsT]], T_Retval],\n        args: tuple[Unpack[PosArgsT]],\n        abandon_on_cancel: bool = False,\n        limiter: abc.CapacityLimiter | None = None,\n    ) -&amp;gt; T_Retval:\n        await cls.checkpoint()\n    \n        # If this is the first run in this event loop thread, set up the necessary\n        # variables\n        try:\n            idle_workers = _threadpool_idle_workers.get()\n            workers = _threadpool_workers.get()\n        except LookupError:\n            idle_workers = deque()\n            workers = set()\n            _threadpool_idle_workers.set(idle_workers)\n            _threadpool_workers.set(workers)\n    \n        async with limiter or cls.current_default_thread_limiter():\n            with CancelScope(shield=not abandon_on_cancel) as scope:\n                future: asyncio.Future = asyncio.Future()\n                root_task = find_root_task()\n                if not idle_workers:\n                    worker = WorkerThread(root_task, workers, idle_workers)\n                    worker.start()\n                    workers.add(worker)\n                    root_task.add_done_callback(worker.stop)\n                else:\n                    worker = idle_workers.pop()\n    \n                    # Prune any other workers that have been idle for MAX_IDLE_TIME\n                    # seconds or longer\n                    now = cls.current_time()\n                    while idle_workers:\n                        if (\n                            now - idle_workers[0].idle_since\n                            &amp;lt; WorkerThread.MAX_IDLE_TIME\n                        ):\n                            break\n    \n                        expired_worker = idle_workers.popleft()\n                        expired_worker.root_task.remove_done_callback(\n                            expired_worker.stop\n                        )\n                        expired_worker.stop()\n    \n                context = copy_context()\n                context.run(sniffio.current_async_library_cvar.set, None)\n                if abandon_on_cancel or scope._parent_scope is None:\n                    worker_scope = scope\n                else:\n                    worker_scope = scope._parent_scope\n    \n                worker.queue.put_nowait((context, func, args, future, worker_scope))\n&amp;gt;               return await future\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\anyio\\_backends\\_asyncio.py:2177: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;WorkerThread(AnyIO worker thread, stopped 9628)&amp;gt;\n\n    def run(self) -&amp;gt; None:\n        with claim_worker_thread(AsyncIOBackend, self.loop):\n            while True:\n                item = self.queue.get()\n                if item is None:\n                    # Shutdown command received\n                    return\n    \n                context, func, args, future, cancel_scope = item\n                if not future.cancelled():\n                    result = None\n                    exception: BaseException | None = None\n                    threadlocals.current_cancel_scope = cancel_scope\n                    try:\n&amp;gt;                       result = context.run(func, *args)\n\nPIPENV_VENV_IN_PROJECT\\lc-render-backend-BehqWtBA\\lib\\site-packages\\anyio\\_backends\\_asyncio.py:859: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nchat_session = &amp;#x27;5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;, session = &amp;lt;sqlmodel.orm.session.Session object at 0x0000024F9E912E50&amp;gt;\n\n    @router.get(&amp;quot;/get/&amp;quot;, response_model=ResponseModel)\n    def get_chat_history_from_db(\n        chat_session: Annotated[\n            str,\n            Query(\n                pattern=&amp;quot;^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$&amp;quot;,\n                description=&amp;quot;uuid like: 5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;quot;,\n                examples=[&amp;quot;5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;quot;],\n            ),\n        ],\n        session: Session = Depends(DbEngine.get_session),\n    ):\n    \n        try:\n&amp;gt;           message_list = ChatHistory.get_instance(\n                chat_session, session\n            ).get_chat_messages_from_db()\n\nrouters\\router_chat_history.py:80: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\ncls = &amp;lt;class &amp;#x27;lib.chat.chat_history.ChatHistory&amp;#x27;&amp;gt;, chat_session_id = &amp;#x27;5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;#x27;, session = &amp;lt;sqlmodel.orm.session.Session object at 0x0000024F9E912E50&amp;gt;\n\n    @classmethod\n    def get_instance(cls, chat_session_id: str, session: Session) -&amp;gt; &amp;quot;ChatHistory&amp;quot;:\n        &amp;quot;&amp;quot;&amp;quot;\n        \u5224\u65adChatHistory\u7684\u5b9e\u4f8b\u662f\u5426\u5df2\u521b\u5efa\u3002\u5982\u679c\u5b9e\u4f8b\u4e0d\u5b58\u5728\uff0c\u5219\u901a\u8fc7init\u65b9\u6cd5\u521d\u59cb\u5316\u3002\n    \n        \u53c2\u6570:\n            chat_session_id (str): \u804a\u5929\u4f1a\u8bdd\u7684\u552f\u4e00\u6807\u8bc6\u7b26\u3002\u5982\u679c\u4e3aNone\uff0c\u5e76\u4e14\u5f53\u524d\u6ca1\u6709\u5b9e\u4f8b\u5b58\u5728\uff0c\u51fd\u6570\u5c06\u8fd4\u56deFalse\u3002\n    \n        \u8fd4\u56de:\n            bool: \u5982\u679c\u5b9e\u4f8b\u5b58\u5728\u8fd4\u56deTrue\uff0c\u5426\u5219\u8fd4\u56deFalse\u3002\n        &amp;quot;&amp;quot;&amp;quot;\n        with cls._lock:  # \u786e\u4fdd\u7ebf\u7a0b\u5b89\u5168\u5730\u83b7\u53d6\u6216\u521d\u59cb\u5316\u5b9e\u4f8b\n            # \u68c0\u67e5\u5f53\u524d\u662f\u5426\u6709\u5b9e\u4f8b\u5b58\u5728\n            if (\n                cls._instance is not None\n                and cls._instance._chat_session_id == chat_session_id\n            ):\n    \n                return cls._instance\n    \n            else:\n    \n&amp;gt;               cls._instance = ChatHistory(\n                    chat_session_id=chat_session_id, session=session\n                )\n\nlib\\chat\\chat_history.py:96: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = &amp;lt;lib.chat.chat_history.ChatHistory object at 0x0000024F9E8FC790&amp;gt;\n\n    def __init__(\n        self,\n        *,\n        chat_session_id: str,\n        history_len: Union[int, None] = None,\n        session: Session\n    ):\n        &amp;quot;&amp;quot;&amp;quot;\n        \u521d\u59cb\u5316ChatHistory\u5355\u4f8b\u3002\n    \n        \u53c2\u6570:\n            chat_session_id (str): \u804a\u5929\u4f1a\u8bdd\u7684\u552f\u4e00\u6807\u8bc6\u7b26\u3002\n    \n        \u8fd4\u56de:\n            PostgresChatMessageHistory: \u521d\u59cb\u5316\u540e\u7684ChatHistory\u5b9e\u4f8b\u3002\n        &amp;quot;&amp;quot;&amp;quot;\n        # \u9a8c\u8bc1chat_session_id\u662f\u5426\u4e3a\u5b57\u7b26\u4e32\u7c7b\u578b\n        if not isinstance(chat_session_id, str):\n            raise ValueError(&amp;quot;chat_session_id must be a string&amp;quot;)\n    \n        # \u4f7f\u7528try-except\u6765\u5904\u7406\u6570\u636e\u5e93\u8fde\u63a5\u5f02\u5e38\n        try:\n            self._messages: List[Dict[str, Any]] = []\n            self._db_session: Session = session\n            self._chat_session_id: str = chat_session_id  # \u5b58\u50a8\u4f1a\u8bddID\n            self._recent_history_length: int = history_len if history_len else 50\n            self._postgres_agent = PostgresChatMessageHistory(\n                ChatHistoryTable.__name__.lower(),\n                self._chat_session_id,\n                sync_connection=DbEngine.get_psycopg_conn(),\n            )\n        except pg_errors.OperationalError as e:\n            # \u5904\u7406\u6570\u636e\u5e93\u8fde\u63a5\u5f02\u5e38\n&amp;gt;           raise ValueError(&amp;quot;Failed to connect to the database.&amp;quot;) from e\nE           ValueError: Failed to connect to the database.\n\nlib\\chat\\chat_history.py:72: ValueError\n&#34;}], &#34;test/test_chat_history.py::TestChatHistory::test_get_chat_history[another_test_session]&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Failed&#34;, &#34;testId&#34;: &#34;test/test_chat_history.py::TestChatHistory::test_get_chat_history[another_test_session]&#34;, &#34;duration&#34;: &#34;4 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Failed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_chat_history.py::TestChatHistory::test_get_chat_history[another_test_session]&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;4 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;self = &amp;lt;test.test_chat_history.TestChatHistory object at 0x0000024F9E854EE0&amp;gt;, chat_session = &amp;#x27;another_test_session&amp;#x27;\n\n    @pytest.mark.parametrize(\n        &amp;quot;chat_session&amp;quot;,\n        [&amp;quot;5cc22949-e0f2-40c3-ac0a-889315a195a0&amp;quot;, &amp;quot;another_test_session&amp;quot;],\n    )\n    def test_get_chat_history(self, chat_session):\n        response = client.get(f&amp;quot;/chat_history/get/?chat_session={chat_session}&amp;quot;)\n&amp;gt;       assert response.status_code == 200\nE       assert 422 == 200\nE        +  where 422 = &amp;lt;Response [422 Unprocessable Entity]&amp;gt;.status_code\n\ntest\\test_chat_history.py:67: AssertionError\n&#34;}], &#34;test/test_read_env_var.py::test_read_env_var&#34;: [{&#34;extras&#34;: [], &#34;result&#34;: &#34;Passed&#34;, &#34;testId&#34;: &#34;test/test_read_env_var.py::test_read_env_var&#34;, &#34;duration&#34;: &#34;0 ms&#34;, &#34;resultsTableRow&#34;: [&#34;&lt;td class=\&#34;col-result\&#34;&gt;Passed&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-testId\&#34;&gt;test/test_read_env_var.py::test_read_env_var&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-duration\&#34;&gt;0 ms&lt;/td&gt;&#34;, &#34;&lt;td class=\&#34;col-links\&#34;&gt;&lt;/td&gt;&#34;], &#34;log&#34;: &#34;No log output captured.&#34;}]}, &#34;renderCollapsed&#34;: [&#34;passed&#34;], &#34;initialSort&#34;: &#34;result&#34;, &#34;title&#34;: &#34;test_report.html&#34;}"></div>
+    <script>
+      (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const { getCollapsedCategory, setCollapsedIds } = require('./storage.js')
+
+class DataManager {
+    setManager(data) {
+        const collapsedCategories = [...getCollapsedCategory(data.renderCollapsed)]
+        const collapsedIds = []
+        const tests = Object.values(data.tests).flat().map((test, index) => {
+            const collapsed = collapsedCategories.includes(test.result.toLowerCase())
+            const id = `test_${index}`
+            if (collapsed) {
+                collapsedIds.push(id)
+            }
+            return {
+                ...test,
+                id,
+                collapsed,
+            }
+        })
+        const dataBlob = { ...data, tests }
+        this.data = { ...dataBlob }
+        this.renderData = { ...dataBlob }
+        setCollapsedIds(collapsedIds)
+    }
+
+    get allData() {
+        return { ...this.data }
+    }
+
+    resetRender() {
+        this.renderData = { ...this.data }
+    }
+
+    setRender(data) {
+        this.renderData.tests = [...data]
+    }
+
+    toggleCollapsedItem(id) {
+        this.renderData.tests = this.renderData.tests.map((test) =>
+            test.id === id ? { ...test, collapsed: !test.collapsed } : test,
+        )
+    }
+
+    set allCollapsed(collapsed) {
+        this.renderData = { ...this.renderData, tests: [...this.renderData.tests.map((test) => (
+            { ...test, collapsed }
+        ))] }
+    }
+
+    get testSubset() {
+        return [...this.renderData.tests]
+    }
+
+    get environment() {
+        return this.renderData.environment
+    }
+
+    get initialSort() {
+        return this.data.initialSort
+    }
+}
+
+module.exports = {
+    manager: new DataManager(),
+}
+
+},{"./storage.js":8}],2:[function(require,module,exports){
+const mediaViewer = require('./mediaviewer.js')
+const templateEnvRow = document.getElementById('template_environment_row')
+const templateResult = document.getElementById('template_results-table__tbody')
+
+function htmlToElements(html) {
+    const temp = document.createElement('template')
+    temp.innerHTML = html
+    return temp.content.childNodes
+}
+
+const find = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return elem.querySelector(selector)
+}
+
+const findAll = (selector, elem) => {
+    if (!elem) {
+        elem = document
+    }
+    return [...elem.querySelectorAll(selector)]
+}
+
+const dom = {
+    getStaticRow: (key, value) => {
+        const envRow = templateEnvRow.content.cloneNode(true)
+        const isObj = typeof value === 'object' && value !== null
+        const values = isObj ? Object.keys(value).map((k) => `${k}: ${value[k]}`) : null
+
+        const valuesElement = htmlToElements(
+            values ? `<ul>${values.map((val) => `<li>${val}</li>`).join('')}<ul>` : `<div>${value}</div>`)[0]
+        const td = findAll('td', envRow)
+        td[0].textContent = key
+        td[1].appendChild(valuesElement)
+
+        return envRow
+    },
+    getResultTBody: ({ testId, id, log, extras, resultsTableRow, tableHtml, result, collapsed }) => {
+        const resultBody = templateResult.content.cloneNode(true)
+        resultBody.querySelector('tbody').classList.add(result.toLowerCase())
+        resultBody.querySelector('tbody').id = testId
+        resultBody.querySelector('.collapsible').dataset.id = id
+
+        resultsTableRow.forEach((html) => {
+            const t = document.createElement('template')
+            t.innerHTML = html
+            resultBody.querySelector('.collapsible').appendChild(t.content)
+        })
+
+        if (log) {
+            // Wrap lines starting with "E" with span.error to color those lines red
+            const wrappedLog = log.replace(/^E.*$/gm, (match) => `<span class="error">${match}</span>`)
+            resultBody.querySelector('.log').innerHTML = wrappedLog
+        } else {
+            resultBody.querySelector('.log').remove()
+        }
+
+        if (collapsed) {
+            resultBody.querySelector('.collapsible > td')?.classList.add('collapsed')
+            resultBody.querySelector('.extras-row').classList.add('hidden')
+        } else {
+            resultBody.querySelector('.collapsible > td')?.classList.remove('collapsed')
+        }
+
+        const media = []
+        extras?.forEach(({ name, format_type, content }) => {
+            if (['image', 'video'].includes(format_type)) {
+                media.push({ path: content, name, format_type })
+            }
+
+            if (format_type === 'html') {
+                resultBody.querySelector('.extraHTML').insertAdjacentHTML('beforeend', `<div>${content}</div>`)
+            }
+        })
+        mediaViewer.setup(resultBody, media)
+
+        // Add custom html from the pytest_html_results_table_html hook
+        tableHtml?.forEach((item) => {
+            resultBody.querySelector('td[class="extra"]').insertAdjacentHTML('beforeend', item)
+        })
+
+        return resultBody
+    },
+}
+
+module.exports = {
+    dom,
+    htmlToElements,
+    find,
+    findAll,
+}
+
+},{"./mediaviewer.js":6}],3:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const storageModule = require('./storage.js')
+
+const getFilteredSubSet = (filter) =>
+    manager.allData.tests.filter(({ result }) => filter.includes(result.toLowerCase()))
+
+const doInitFilter = () => {
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+}
+
+const doFilter = (type, show) => {
+    if (show) {
+        storageModule.showCategory(type)
+    } else {
+        storageModule.hideCategory(type)
+    }
+
+    const currentFilter = storageModule.getVisible()
+    const filteredSubset = getFilteredSubSet(currentFilter)
+    manager.setRender(filteredSubset)
+
+    const sortColumn = storageModule.getSort()
+    doSort(sortColumn, true)
+}
+
+module.exports = {
+    doFilter,
+    doInitFilter,
+}
+
+},{"./datamanager.js":1,"./sort.js":7,"./storage.js":8}],4:[function(require,module,exports){
+const { redraw, bindEvents, renderStatic } = require('./main.js')
+const { doInitFilter } = require('./filter.js')
+const { doInitSort } = require('./sort.js')
+const { manager } = require('./datamanager.js')
+const data = JSON.parse(document.getElementById('data-container').dataset.jsonblob)
+
+function init() {
+    manager.setManager(data)
+    doInitFilter()
+    doInitSort()
+    renderStatic()
+    redraw()
+    bindEvents()
+}
+
+init()
+
+},{"./datamanager.js":1,"./filter.js":3,"./main.js":5,"./sort.js":7}],5:[function(require,module,exports){
+const { dom, find, findAll } = require('./dom.js')
+const { manager } = require('./datamanager.js')
+const { doSort } = require('./sort.js')
+const { doFilter } = require('./filter.js')
+const {
+    getVisible,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    getSortDirection,
+    possibleFilters,
+} = require('./storage.js')
+
+const removeChildren = (node) => {
+    while (node.firstChild) {
+        node.removeChild(node.firstChild)
+    }
+}
+
+const renderStatic = () => {
+    const renderEnvironmentTable = () => {
+        const environment = manager.environment
+        const rows = Object.keys(environment).map((key) => dom.getStaticRow(key, environment[key]))
+        const table = document.getElementById('environment')
+        removeChildren(table)
+        rows.forEach((row) => table.appendChild(row))
+    }
+    renderEnvironmentTable()
+}
+
+const addItemToggleListener = (elem) => {
+    elem.addEventListener('click', ({ target }) => {
+        const id = target.parentElement.dataset.id
+        manager.toggleCollapsedItem(id)
+
+        const collapsedIds = getCollapsedIds()
+        if (collapsedIds.includes(id)) {
+            const updated = collapsedIds.filter((item) => item !== id)
+            setCollapsedIds(updated)
+        } else {
+            collapsedIds.push(id)
+            setCollapsedIds(collapsedIds)
+        }
+        redraw()
+    })
+}
+
+const renderContent = (tests) => {
+    const sortAttr = getSort(manager.initialSort)
+    const sortAsc = JSON.parse(getSortDirection())
+    const rows = tests.map(dom.getResultTBody)
+    const table = document.getElementById('results-table')
+    const tableHeader = document.getElementById('results-table-head')
+
+    const newTable = document.createElement('table')
+    newTable.id = 'results-table'
+
+    // remove all sorting classes and set the relevant
+    findAll('.sortable', tableHeader).forEach((elem) => elem.classList.remove('asc', 'desc'))
+    tableHeader.querySelector(`.sortable[data-column-type="${sortAttr}"]`)?.classList.add(sortAsc ? 'desc' : 'asc')
+    newTable.appendChild(tableHeader)
+
+    if (!rows.length) {
+        const emptyTable = document.getElementById('template_results-table__body--empty').content.cloneNode(true)
+        newTable.appendChild(emptyTable)
+    } else {
+        rows.forEach((row) => {
+            if (!!row) {
+                findAll('.collapsible td:not(.col-links', row).forEach(addItemToggleListener)
+                find('.logexpander', row).addEventListener('click',
+                    (evt) => evt.target.parentNode.classList.toggle('expanded'),
+                )
+                newTable.appendChild(row)
+            }
+        })
+    }
+
+    table.replaceWith(newTable)
+}
+
+const renderDerived = () => {
+    const currentFilter = getVisible()
+    possibleFilters.forEach((result) => {
+        const input = document.querySelector(`input[data-test-result="${result}"]`)
+        input.checked = currentFilter.includes(result)
+    })
+}
+
+const bindEvents = () => {
+    const filterColumn = (evt) => {
+        const { target: element } = evt
+        const { testResult } = element.dataset
+
+        doFilter(testResult, element.checked)
+        const collapsedIds = getCollapsedIds()
+        const updated = manager.renderData.tests.map((test) => {
+            return {
+                ...test,
+                collapsed: collapsedIds.includes(test.id),
+            }
+        })
+        manager.setRender(updated)
+        redraw()
+    }
+
+    const header = document.getElementById('environment-header')
+    header.addEventListener('click', () => {
+        const table = document.getElementById('environment')
+        table.classList.toggle('hidden')
+        header.classList.toggle('collapsed')
+    })
+
+    findAll('input[name="filter_checkbox"]').forEach((elem) => {
+        elem.addEventListener('click', filterColumn)
+    })
+
+    findAll('.sortable').forEach((elem) => {
+        elem.addEventListener('click', (evt) => {
+            const { target: element } = evt
+            const { columnType } = element.dataset
+            doSort(columnType)
+            redraw()
+        })
+    })
+
+    document.getElementById('show_all_details').addEventListener('click', () => {
+        manager.allCollapsed = false
+        setCollapsedIds([])
+        redraw()
+    })
+    document.getElementById('hide_all_details').addEventListener('click', () => {
+        manager.allCollapsed = true
+        const allIds = manager.renderData.tests.map((test) => test.id)
+        setCollapsedIds(allIds)
+        redraw()
+    })
+}
+
+const redraw = () => {
+    const { testSubset } = manager
+
+    renderContent(testSubset)
+    renderDerived()
+}
+
+module.exports = {
+    redraw,
+    bindEvents,
+    renderStatic,
+}
+
+},{"./datamanager.js":1,"./dom.js":2,"./filter.js":3,"./sort.js":7,"./storage.js":8}],6:[function(require,module,exports){
+class MediaViewer {
+    constructor(assets) {
+        this.assets = assets
+        this.index = 0
+    }
+
+    nextActive() {
+        this.index = this.index === this.assets.length - 1 ? 0 : this.index + 1
+        return [this.activeFile, this.index]
+    }
+
+    prevActive() {
+        this.index = this.index === 0 ? this.assets.length - 1 : this.index -1
+        return [this.activeFile, this.index]
+    }
+
+    get currentIndex() {
+        return this.index
+    }
+
+    get activeFile() {
+        return this.assets[this.index]
+    }
+}
+
+
+const setup = (resultBody, assets) => {
+    if (!assets.length) {
+        resultBody.querySelector('.media').classList.add('hidden')
+        return
+    }
+
+    const mediaViewer = new MediaViewer(assets)
+    const container = resultBody.querySelector('.media-container')
+    const leftArrow = resultBody.querySelector('.media-container__nav--left')
+    const rightArrow = resultBody.querySelector('.media-container__nav--right')
+    const mediaName = resultBody.querySelector('.media__name')
+    const counter = resultBody.querySelector('.media__counter')
+    const imageEl = resultBody.querySelector('img')
+    const sourceEl = resultBody.querySelector('source')
+    const videoEl = resultBody.querySelector('video')
+
+    const setImg = (media, index) => {
+        if (media?.format_type === 'image') {
+            imageEl.src = media.path
+
+            imageEl.classList.remove('hidden')
+            videoEl.classList.add('hidden')
+        } else if (media?.format_type === 'video') {
+            sourceEl.src = media.path
+
+            videoEl.classList.remove('hidden')
+            imageEl.classList.add('hidden')
+        }
+
+        mediaName.innerText = media?.name
+        counter.innerText = `${index + 1} / ${assets.length}`
+    }
+    setImg(mediaViewer.activeFile, mediaViewer.currentIndex)
+
+    const moveLeft = () => {
+        const [media, index] = mediaViewer.prevActive()
+        setImg(media, index)
+    }
+    const doRight = () => {
+        const [media, index] = mediaViewer.nextActive()
+        setImg(media, index)
+    }
+    const openImg = () => {
+        window.open(mediaViewer.activeFile.path, '_blank')
+    }
+    if (assets.length === 1) {
+        container.classList.add('media-container--fullscreen')
+    } else {
+        leftArrow.addEventListener('click', moveLeft)
+        rightArrow.addEventListener('click', doRight)
+    }
+    imageEl.addEventListener('click', openImg)
+}
+
+module.exports = {
+    setup,
+}
+
+},{}],7:[function(require,module,exports){
+const { manager } = require('./datamanager.js')
+const storageModule = require('./storage.js')
+
+const genericSort = (list, key, ascending, customOrder) => {
+    let sorted
+    if (customOrder) {
+        sorted = list.sort((a, b) => {
+            const aValue = a.result.toLowerCase()
+            const bValue = b.result.toLowerCase()
+
+            const aIndex = customOrder.findIndex((item) => item.toLowerCase() === aValue)
+            const bIndex = customOrder.findIndex((item) => item.toLowerCase() === bValue)
+
+            // Compare the indices to determine the sort order
+            return aIndex - bIndex
+        })
+    } else {
+        sorted = list.sort((a, b) => a[key] === b[key] ? 0 : a[key] > b[key] ? 1 : -1)
+    }
+
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const durationSort = (list, ascending) => {
+    const parseDuration = (duration) => {
+        if (duration.includes(':')) {
+            // If it's in the format "HH:mm:ss"
+            const [hours, minutes, seconds] = duration.split(':').map(Number)
+            return (hours * 3600 + minutes * 60 + seconds) * 1000
+        } else {
+            // If it's in the format "nnn ms"
+            return parseInt(duration)
+        }
+    }
+    const sorted = list.sort((a, b) => parseDuration(a['duration']) - parseDuration(b['duration']))
+    if (ascending) {
+        sorted.reverse()
+    }
+    return sorted
+}
+
+const doInitSort = () => {
+    const type = storageModule.getSort(manager.initialSort)
+    const ascending = storageModule.getSortDirection()
+    const list = manager.testSubset
+    const initialOrder = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed', 'Skipped', 'Passed']
+
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    if (type?.toLowerCase() === 'original') {
+        manager.setRender(list)
+    } else {
+        let sortedList
+        switch (type) {
+        case 'duration':
+            sortedList = durationSort(list, ascending)
+            break
+        case 'result':
+            sortedList = genericSort(list, type, ascending, initialOrder)
+            break
+        default:
+            sortedList = genericSort(list, type, ascending)
+            break
+        }
+        manager.setRender(sortedList)
+    }
+}
+
+const doSort = (type, skipDirection) => {
+    const newSortType = storageModule.getSort(manager.initialSort) !== type
+    const currentAsc = storageModule.getSortDirection()
+    let ascending
+    if (skipDirection) {
+        ascending = currentAsc
+    } else {
+        ascending = newSortType ? false : !currentAsc
+    }
+    storageModule.setSort(type)
+    storageModule.setSortDirection(ascending)
+
+    const list = manager.testSubset
+    const sortedList = type === 'duration' ? durationSort(list, ascending) : genericSort(list, type, ascending)
+    manager.setRender(sortedList)
+}
+
+module.exports = {
+    doInitSort,
+    doSort,
+}
+
+},{"./datamanager.js":1,"./storage.js":8}],8:[function(require,module,exports){
+const possibleFilters = [
+    'passed',
+    'skipped',
+    'failed',
+    'error',
+    'xfailed',
+    'xpassed',
+    'rerun',
+]
+
+const getVisible = () => {
+    const url = new URL(window.location.href)
+    const settings = new URLSearchParams(url.search).get('visible')
+    const lower = (item) => {
+        const lowerItem = item.toLowerCase()
+        if (possibleFilters.includes(lowerItem)) {
+            return lowerItem
+        }
+        return null
+    }
+    return settings === null ?
+        possibleFilters :
+        [...new Set(settings?.split(',').map(lower).filter((item) => item))]
+}
+
+const hideCategory = (categoryToHide) => {
+    const url = new URL(window.location.href)
+    const visibleParams = new URLSearchParams(url.search).get('visible')
+    const currentVisible = visibleParams ? visibleParams.split(',') : [...possibleFilters]
+    const settings = [...new Set(currentVisible)].filter((f) => f !== categoryToHide).join(',')
+
+    url.searchParams.set('visible', settings)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const showCategory = (categoryToShow) => {
+    if (typeof window === 'undefined') {
+        return
+    }
+    const url = new URL(window.location.href)
+    const currentVisible = new URLSearchParams(url.search).get('visible')?.split(',').filter(Boolean) ||
+        [...possibleFilters]
+    const settings = [...new Set([categoryToShow, ...currentVisible])]
+    const noFilter = possibleFilters.length === settings.length || !settings.length
+
+    noFilter ? url.searchParams.delete('visible') : url.searchParams.set('visible', settings.join(','))
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getSort = (initialSort) => {
+    const url = new URL(window.location.href)
+    let sort = new URLSearchParams(url.search).get('sort')
+    if (!sort) {
+        sort = initialSort || 'result'
+    }
+    return sort
+}
+
+const setSort = (type) => {
+    const url = new URL(window.location.href)
+    url.searchParams.set('sort', type)
+    window.history.pushState({}, null, unescape(url.href))
+}
+
+const getCollapsedCategory = (renderCollapsed) => {
+    let categories
+    if (typeof window !== 'undefined') {
+        const url = new URL(window.location.href)
+        const collapsedItems = new URLSearchParams(url.search).get('collapsed')
+        switch (true) {
+        case !renderCollapsed && collapsedItems === null:
+            categories = ['passed']
+            break
+        case collapsedItems?.length === 0 || /^["']{2}$/.test(collapsedItems):
+            categories = []
+            break
+        case /^all$/.test(collapsedItems) || collapsedItems === null && /^all$/.test(renderCollapsed):
+            categories = [...possibleFilters]
+            break
+        default:
+            categories = collapsedItems?.split(',').map((item) => item.toLowerCase()) || renderCollapsed
+            break
+        }
+    } else {
+        categories = []
+    }
+    return categories
+}
+
+const getSortDirection = () => JSON.parse(sessionStorage.getItem('sortAsc')) || false
+const setSortDirection = (ascending) => sessionStorage.setItem('sortAsc', ascending)
+
+const getCollapsedIds = () => JSON.parse(sessionStorage.getItem('collapsedIds')) || []
+const setCollapsedIds = (list) => sessionStorage.setItem('collapsedIds', JSON.stringify(list))
+
+module.exports = {
+    getVisible,
+    hideCategory,
+    showCategory,
+    getCollapsedIds,
+    setCollapsedIds,
+    getSort,
+    setSort,
+    getSortDirection,
+    setSortDirection,
+    getCollapsedCategory,
+    possibleFilters,
+}
+
+},{}]},{},[4]);
+    </script>
+  </footer>
+</html>
