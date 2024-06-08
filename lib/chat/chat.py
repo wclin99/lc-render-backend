@@ -1,13 +1,9 @@
-from calendar import c
 from datetime import datetime
 import os
 import tempfile
 import time
-from typing import Sequence, Type
+from typing import Type
 from fastapi import UploadFile
-from langchain_community.chat_message_histories import ChatMessageHistory
-from langchain_core.chat_history import BaseChatMessageHistory
-from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_postgres import PGVector
 from langchain_text_splitters import (
     MarkdownHeaderTextSplitter,
@@ -18,33 +14,32 @@ from langchain_core.documents import Document
 from sqlmodel import Session
 from langchain_community.embeddings import DashScopeEmbeddings
 from langchain import hub
-from sympy import print_glsl
 from lib.model import ChatRole
 from langchain_core.output_parsers import StrOutputParser
-from lib.config import app_configs, db_configs, api_configs
+from lib.config import api_configs
 
 from .chat_model import model
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.runnables import RunnablePassthrough, ConfigurableFieldSpec
-from .chat_history import ChatHistory, SimpleMessage
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from .chat_history import ChatHistory
 from langchain_community.document_loaders import (
     
-    WebBaseLoader,
+    # WebBaseLoader,
     TextLoader,
-    ArxivLoader,
-    AirtableLoader,
-    BiliBiliLoader,
-    DropboxLoader,
-    FigmaFileLoader,
-    GoogleDriveLoader,
-    ObsidianLoader,
+    # ArxivLoader,
+    # AirtableLoader,
+    # BiliBiliLoader,
+    # DropboxLoader,
+    # FigmaFileLoader,
+    # GoogleDriveLoader,
+    # ObsidianLoader,
     PyPDFLoader,
     UnstructuredExcelLoader,
     UnstructuredMarkdownLoader,
     UnstructuredPowerPointLoader,
     UnstructuredWordDocumentLoader,
-    YuqueLoader,
+    # YuqueLoader,
 )
 from langchain_community.document_loaders.base import BaseLoader
 
