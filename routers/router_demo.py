@@ -16,6 +16,13 @@ async def debug(request: Request):
     )
 
 
+@router.get("/show_log/")
+async def debug(request: Request):
+    return HTMLResponse(
+        content=open("templates/index2.html", "rb").read(), status_code=200
+    )
+
+
 
 
 @router.get("/fetch_all_user_ids/")

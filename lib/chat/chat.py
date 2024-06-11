@@ -1,4 +1,5 @@
 from datetime import datetime
+import logging
 import os
 import tempfile
 import time
@@ -10,6 +11,8 @@ from langchain_text_splitters import (
     RecursiveCharacterTextSplitter,
 )
 from langchain_core.documents import Document
+import oss2
+from oss2.credentials import EnvironmentVariableCredentialsProvider
 
 from sqlmodel import Session
 from langchain_community.embeddings import DashScopeEmbeddings
@@ -23,8 +26,8 @@ from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnablePassthrough
 from .chat_history import ChatHistory
+from lib.config import logger_config
 from langchain_community.document_loaders import (
-    
     # WebBaseLoader,
     TextLoader,
     # ArxivLoader,
@@ -150,29 +153,56 @@ def chatWithDocument(
 def chatWithAnyDocument(
     upload_file: UploadFile, namespace: str, db_connection_string: str, query: str
 ):
+    #  为文档生成主题词
+    collection_name = namespace + "-" + datetime.now().strftime("%Y%m%d%H%M%S")
+    logger_config.get_logger().info(f"Collection name: {collection_name}")
+
 
     file_name: str = upload_file.filename
     file_extension: str = os.path.splitext(file_name)[1].lower()
+
+    auth = oss2.ProviderAuth(EnvironmentVariableCredentialsProvider())
+    bucket = oss2.Bucket(
+        auth, api_configs.oss_region_endpoint, api_configs.oss_bucket_name
+    )
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=file_extension) as temp_file:
         temp_file.write(upload_file.file.read())
         temp_file_path = temp_file.name
 
+
+
+    oss_saved_path=str("rag/"+collection_name+file_extension)
+    # 必须以二进制的方式打开文件。
+    with open(temp_file_path, "rb") as fileobj:
+        # 填写Object完整路径。Object完整路径中不能包含Bucket名称。
+        bucket.put_object(oss_saved_path, fileobj)
+
+    logger_config.get_logger().info(f"File uploaded and saved in oss: {oss_saved_path}")
+
+
     # 使用临时文件路径初始化 PyPDFLoader
-    loader:BaseLoader = __create_loader(file_extension,temp_file_path)
+    loader: BaseLoader = __create_loader(file_extension, temp_file_path)
+
+    logger_config.get_logger().info("Loader created, loading documents...")
 
     # docs = loader.load_and_split()
     docs = loader.load()
 
+    logger_config.get_logger().info("Documents loaded.")
+
+    
     # 载入embedding模型
     embeddings = DashScopeEmbeddings(
         model="text-embedding-v2", dashscope_api_key=api_configs.dashscope_api_key
     )
 
-    #  为文档生成主题词
-    collection_name = namespace + "-" + datetime.now().strftime("%Y%m%d%H%M%S")
+    logger_config.get_logger().info("Embeddings model loaded.")
 
-    # 向量存储
+
+    logger_config.get_logger().info("Storing embedded documents to vectorstore...")
+
+    # 生成嵌入+向量存储
     vectorstore = PGVector.from_documents(
         embedding=embeddings,
         documents=docs,
@@ -181,18 +211,27 @@ def chatWithAnyDocument(
         use_jsonb=True,
     )
 
+    logger_config.get_logger().info("Documents stored in vectorstore.")
+
     time.sleep(1)
-    os.remove(temp_file_path)
+   
+
 
     # 载入chat model
     llm = model
 
+    logger_config.get_logger().info("Chat model loaded.")
+
     # 创建retriever
     retriever = vectorstore.as_retriever()
+
+    logger_config.get_logger().info("Retriever created.")
 
     # 载入prompt
     prompt = hub.pull("rlm/rag-prompt")
     # prompt要改
+
+    logger_config.get_logger().info("Prompt loaded.")
 
     rag_chain = (
         {"context": retriever | __format_docs, "question": RunnablePassthrough()}
@@ -200,8 +239,15 @@ def chatWithAnyDocument(
         | llm
         | StrOutputParser()
     )
+    logger_config.get_logger().info("RAG chain created, invoking query...")
 
-    return rag_chain.invoke(query)
+    result = rag_chain.invoke(query)
+
+    logger_config.get_logger().info("Query invoked, returning result.")
+
+    os.remove(temp_file_path)
+
+    return result
 
 
 def __splitDocument(upload_file: UploadFile):
@@ -265,15 +311,15 @@ def __format_docs(docs: list[Document]):
     return "\n\n".join(doc.page_content for doc in docs)
 
 
-def __create_loader(ext,file_path)-> Type[BaseLoader]:
+def __create_loader(ext, file_path) -> Type[BaseLoader]:
     loader_mapping = {
-        ".txt": lambda path: TextLoader(path,autodetect_encoding=True),
+        ".txt": lambda path: TextLoader(path, autodetect_encoding=True),
         # txt 测试通过：readme文件
         ".md": lambda path: UnstructuredMarkdownLoader(path, mode="elements"),
         # md 测试通过：md格式论文
         # ".doc":lambda path: UnstructuredWordDocumentLoader(path),
         # doc 未测试
-        ".docx":lambda path: UnstructuredWordDocumentLoader(path),
+        ".docx": lambda path: UnstructuredWordDocumentLoader(path),
         # docx 测试通过：驾驶舱开发需求
         # ".xls":lambda path: UnstructuredExcelLoader(path, mode="elements"),
         # xls 未测试
@@ -281,9 +327,9 @@ def __create_loader(ext,file_path)-> Type[BaseLoader]:
         # xlsx 测试通过：小论文实验数据
         # ".ppt":lambda path: UnstructuredPowerPointLoader(path),
         # ppt 格式不行 -- 需要 libreOffice
-        ".pptx":lambda path: UnstructuredPowerPointLoader(path),
+        ".pptx": lambda path: UnstructuredPowerPointLoader(path),
         # pptx 测试通过：艾德莱斯绸介绍
-        ".pdf":lambda path:PyPDFLoader(path)
+        ".pdf": lambda path: PyPDFLoader(path),
         # pdf 测试通过：脑电设备说明书
         # ... 其他文件类型的处理逻辑
     }
